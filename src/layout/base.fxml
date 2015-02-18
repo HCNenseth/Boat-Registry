@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Base">
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints vgrow="ALWAYS" />
+   </rowConstraints>
+   <children>
+      <MenuBar minWidth="-Infinity" prefHeight="29.0" prefWidth="801.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#fileChooser" text="Open" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+              <MenuItem mnemonicParsing="false" onAction="#close" text="Quit" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Boat">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#newBoat" text="New" />
+              </items>
+            </Menu>
+          <Menu mnemonicParsing="false" text="Member">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#newMember" text="New" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+        <tabs>
+          <Tab text="Boats">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView editable="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="294.0" prefWidth="350.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="Regnr" />
+                            <TableColumn prefWidth="75.0" text="Type" />
+                              <TableColumn prefWidth="75.0" text="Year" />
+                              <TableColumn prefWidth="75.0" text="Length" />
+                              <TableColumn prefWidth="75.0" text="Power" />
+                              <TableColumn prefWidth="75.0" text="Color" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Members">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView editable="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="294.0" prefWidth="350.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                           <columns>
+                              <TableColumn prefWidth="103.0" text="ID" />
+                              <TableColumn prefWidth="692.0" text="Name" />
+                              <TableColumn prefWidth="75.0" text="Boat(s)" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</GridPane>
