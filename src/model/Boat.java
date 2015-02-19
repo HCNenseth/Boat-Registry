@@ -4,9 +4,9 @@
 
 package model;
 
-import java.util.NoSuchElementException;
+import java.io.Serializable;
 
-public class Boat
+public class Boat implements Serializable
 {
     private String regnr;
     private String type;

@@ -6,7 +6,9 @@ package model;
 
 import storage.Deque;
 
-public class Member
+import java.io.Serializable;
+
+public class Member implements Serializable
 {
     private String name;
     private int id;
