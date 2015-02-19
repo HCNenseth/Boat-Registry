@@ -1,5 +1,6 @@
 package storage;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -7,13 +8,13 @@ import java.util.NoSuchElementException;
 /**
  * Created by alex on 2/17/15.
  */
-public class Deque<Item> implements Iterable<Item>
+public class Deque<Item> implements Iterable<Item>, Serializable
 {
     private Node first;
     private Node last;
     private int count;
 
-    private class Node
+    private class Node implements Serializable
     {
         Item item;
         Node next;
