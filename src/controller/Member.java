@@ -3,6 +3,8 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -15,5 +17,15 @@ public class Member implements Initializable
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
 
+    }
+
+    @FXML
+    private void orphanBoats(ActionEvent e)
+    {
+        try {
+            new view.OrphanBoats();
+        } catch (IOException ioe) {
+
+        }
     }
 }

@@ -42,9 +42,9 @@ public class Base implements Initializable
     private void newMember(ActionEvent e)
     {
         try {
-            new Member();
+            new view.Member();
         } catch (IOException ioe) {
-
+            System.out.printf(ioe.getMessage());
         }
     }
 
@@ -52,9 +52,9 @@ public class Base implements Initializable
     private void newBoat(ActionEvent e)
     {
         try {
-            new Boat();
+            new view.Boat();
         } catch (IOException ioe) {
-
+            System.out.printf(ioe.getMessage());
         }
     }
 }
