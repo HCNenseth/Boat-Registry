@@ -79,6 +79,27 @@ public class Deque<Item> implements Iterable<Item>
         return tmp.item;
     }
 
+    public Item get(int i)
+    {
+        if (isEmpty())
+            throw new NoSuchElementException("Empty list!");
+        if (i > size())
+            throw new NoSuchElementException("Out of bounds!");
+
+        if (i == 0)
+            return first.item;
+
+        Node tmp = first;
+        int c = 0;
+
+        while (tmp.next != null) {
+            if (c++ == i) { return tmp.item; }
+            tmp = tmp.next;
+        }
+
+        return null;
+    }
+
     public Iterator<Item> iterator() {
         return new ListIterator<Item>()
         {
