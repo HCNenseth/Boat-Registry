@@ -12,14 +12,20 @@ import java.io.IOException;
  */
 public class Boat extends Stage
 {
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 650;
+    private static final int WIDTH = 300;
+    private static final int HEIGHT = 400;
 
     public Boat() throws IOException
     {
         setTitle("New Boat");
         Parent root = FXMLLoader.load(getClass().getResource("../layout/boat.fxml"));
         setScene(new Scene(root, WIDTH, HEIGHT));
+
+        setMaxWidth(WIDTH);
+        setMaxHeight(HEIGHT);
+        setMinHeight(HEIGHT);
+        setMinWidth(WIDTH);
+
         show();
     }
 }

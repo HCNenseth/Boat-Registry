@@ -19,7 +19,14 @@ public class Main extends Application
     {
         Parent root = FXMLLoader.load(getClass().getResource("../layout/base.fxml"));
         primaryStage.setTitle("Boat Registry");
-        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        primaryStage.setScene(scene);
+
+        primaryStage.setMaxHeight(HEIGHT);
+        primaryStage.setMaxWidth(WIDTH);
+        primaryStage.setMinHeight(HEIGHT);
+        primaryStage.setMinWidth(WIDTH);
+
         primaryStage.show();
     }
 

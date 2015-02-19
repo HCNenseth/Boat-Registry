@@ -1,8 +1,10 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import view.Member;
@@ -15,9 +17,11 @@ import java.util.ResourceBundle;
 public class Base implements Initializable
 {
     @FXML
+    private GridPane root;
+
+    @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
-
     }
 
     @FXML
@@ -31,7 +35,7 @@ public class Base implements Initializable
     @FXML
     private void close(ActionEvent e)
     {
-        System.exit(0);
+        Platform.exit();
     }
 
     @FXML
