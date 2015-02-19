@@ -18,10 +18,9 @@ public class Member
         // Required parameters
         private String name;
 
-        public Builder name(String val)
+        public Builder(String val)
         {
             this.name = val;
-            return this;
         }
 
         public Member build()
@@ -37,6 +36,22 @@ public class Member
         boats = new Deque<Boat>();
     }
 
+    public void push(Boat b)
+    {
+        // Side effect ...
+        b.setMember(this);
+
+        boats.addLast(b);
+    }
+
+    public Boat pop()
+    {
+        return boats.removeFirst();
+    }
+
     public String getName() { return name; }
     public int getId() { return id; }
+
+    // OBS: this makes boats list mutable! (should return a copy)
+    public Deque<Boat> getBoats() { return boats; }
 }

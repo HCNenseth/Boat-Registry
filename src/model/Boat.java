@@ -4,6 +4,8 @@
 
 package model;
 
+import java.util.NoSuchElementException;
+
 public class Boat
 {
     private String regnr;
@@ -12,6 +14,7 @@ public class Boat
     private float length;
     private float power;
     private String color;
+    private Member member;
 
     public static class Builder
     {
@@ -23,6 +26,7 @@ public class Boat
         private float length = 20;
         private float power = 100;
         private String color = "Blue";
+        private Member member = null;
 
         public Builder(String regnr, String type)
         {
@@ -54,6 +58,15 @@ public class Boat
             return this;
         }
 
+        public Builder member(Member m)
+        {
+            if (m == null)
+                throw new NullPointerException("Member is null!");
+
+            this.member = m;
+            return this;
+        }
+
         public Boat build()
         {
             return new Boat(this);
@@ -69,6 +82,7 @@ public class Boat
         this.length = b.length;
         this.power = b.power;
         this.color = b.color;
+        this.member = b.member;
     }
 
     public String getRegnr() { return regnr; }
@@ -77,5 +91,10 @@ public class Boat
     public int getYear() { return year; }
     public float getLength() { return length; }
     public float getPower() { return power; }
+
+    public void setMember(Member member)
+    {
+        this.member = member;
+    }
 
 }
