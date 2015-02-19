@@ -36,4 +36,7 @@ public class Member
         id = ++memberCount;
         boats = new Deque<Boat>();
     }
+
+    public String getName() { return name; }
+    public int getId() { return id; }
 }

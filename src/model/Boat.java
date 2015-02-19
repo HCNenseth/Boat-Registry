@@ -70,4 +70,12 @@ public class Boat
         this.power = b.power;
         this.color = b.color;
     }
+
+    public String getRegnr() { return regnr; }
+    public String getType() { return type; }
+    public String getColor() { return color; }
+    public int getYear() { return year; }
+    public float getLength() { return length; }
+    public float getPower() { return power; }
+
 }
