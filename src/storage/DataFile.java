@@ -25,6 +25,7 @@ public class DataFile
                 new FileOutputStream(path)
         );
         handle.writeObject(d);
+        handle.close();
     }
 
     public Data read() throws IOException, ClassNotFoundException
@@ -33,6 +34,8 @@ public class DataFile
                 new FileInputStream(path)
         );
 
-        return (Data) handle.readObject();
+        Data tmp = (Data) handle.readObject();
+        handle.close();
+        return tmp;
     }
 }

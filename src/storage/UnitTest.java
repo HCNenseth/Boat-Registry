@@ -3,6 +3,10 @@ package storage;
 import model.Member;
 import model.Boat;
 import org.junit.Test;
+
+import java.io.File;
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 /**
@@ -99,5 +103,82 @@ public class UnitTest
             }
         }
 
+    }
+
+    private File tmpFile() throws IOException
+    {
+        return File.createTempFile("unittest", ".tmp");
+    }
+
+    /**
+     * Ugly ass unittest. NEEDS REFACTORING!!!
+     */
+    @Test
+    public void test_data()
+    {
+        // Populate data
+        for (String r : regNrs)
+            boats.addLast(new Boat.Builder(r, "Sailboat").build());
+
+        for (String n : names)
+            members.addLast(new Member.Builder(n).build());
+
+        // Save lists in wrapper class
+        Data d = new Data();
+        d.setBoats(boats);
+        d.setMembers(members);
+
+        // Create some relations.
+        int i = 0;
+        for (Member m : members) {
+            m.push(boats.get(i++));
+            m.push(boats.get(i++));
+        }
+
+        i = 0;
+        for (Member m : members) {
+            for (Boat b: m.getBoats()) {
+                assertTrue(b.getRegnr().equals(regNrs[i++]));
+            }
+        }
+
+        // Write to tmp file!
+        try {
+            File tmp = tmpFile();
+            DataFile f = new DataFile("testfile.tmp");
+            f.write(d);
+        } catch (IOException ioe) {
+            System.out.println("=> Something went wrong with writing to file!");
+            System.out.println(ioe);
+        }
+
+        // Read from tmp file
+        try {
+            File tmp = tmpFile();
+            DataFile f = new DataFile("testfile.tmp");
+            Data fileData = f.read();
+
+            // cleanup needed...
+            Deque<Boat> fileBoats = fileData.getBoats();
+            Deque<Member> fileMemebers = fileData.getMembers();
+
+
+            int j = 0;
+            // test boat for each member
+            for (Member m : fileMemebers) {
+                for (Boat b: m.getBoats()) {
+                    assertTrue(b.getRegnr().equals(regNrs[j++]));
+                }
+            }
+
+            j = 0;
+            for (Boat b : fileBoats) {
+                assertTrue(b.getRegnr().equals(regNrs[j++]));
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("=> Something went wrong with reading from file!");
+            System.out.println(e);
+        }
     }
 }

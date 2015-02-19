@@ -1,5 +1,8 @@
 package storage;
 
+import model.Boat;
+import model.Member;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.NoSuchElementException;
@@ -14,41 +17,29 @@ import java.util.NoSuchElementException;
  */
 public class Data implements Serializable
 {
-    private Node head;
-    private Node tail;
-    private int count;
+    private Deque<Boat> boats;
+    private Deque<Member> members;
 
-    private class Node
+    public Data() {}
+
+    public void setBoats(Deque<Boat> boats)
     {
-        Deque<?> list;
-        Node next;
+        this.boats = boats;
     }
 
-    public Data()
+    public void setMembers(Deque<Member> members)
     {
-
+        this.members = members;
     }
 
-    public boolean isEmpty()
+
+    public Deque<Boat> getBoats()
     {
-        return head == null;
+        return boats;
     }
 
-    public void push(Deque<?> list)
+    public Deque<Member> getMembers()
     {
-        if (list == null)
-            throw new NoSuchElementException("Null data!");
-
-        Node n = new Node();
-        n.list = list;
-
-        if (isEmpty()) {
-            head = tail = n;
-        } else {
-            n.next = head;
-            head = n;
-        }
-        count++;
+        return members;
     }
-
 }
