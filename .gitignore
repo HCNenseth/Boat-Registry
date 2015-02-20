@@ -4,4 +4,6 @@
 
 out
 
-testfile.tmp
+# Storage files
+*.tmp
+*.dat

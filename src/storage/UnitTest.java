@@ -4,7 +4,6 @@ import model.Member;
 import model.Boat;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -105,17 +104,14 @@ public class UnitTest
 
     }
 
-    private File tmpFile() throws IOException
-    {
-        return File.createTempFile("unittest", ".tmp");
-    }
-
     /**
      * Ugly ass unittest. NEEDS REFACTORING!!!
      */
     @Test
     public void test_data()
     {
+        String tmpfile = "testfile.dat";
+
         // Populate data
         for (String r : regNrs)
             boats.addLast(new Boat.Builder(r, "Sailboat").build());
@@ -124,9 +120,9 @@ public class UnitTest
             members.addLast(new Member.Builder(n).build());
 
         // Save lists in wrapper class
-        Data d = new Data();
-        d.setBoats(boats);
-        d.setMembers(members);
+        Deque<Deque> list = new Deque<Deque>(); // yo dawg!
+        list.addLast(members);
+        list.addLast(boats);
 
         // Create some relations.
         int i = 0;
@@ -144,9 +140,8 @@ public class UnitTest
 
         // Write to tmp file!
         try {
-            File tmp = tmpFile();
-            DataFile f = new DataFile("testfile.tmp");
-            f.write(d);
+            DequeStorage f = new DequeStorage(tmpfile);
+            f.write(list);
         } catch (IOException ioe) {
             System.out.println("=> Something went wrong with writing to file!");
             System.out.println(ioe);
@@ -154,18 +149,15 @@ public class UnitTest
 
         // Read from tmp file
         try {
-            File tmp = tmpFile();
-            DataFile f = new DataFile("testfile.tmp");
-            Data fileData = f.read();
+            DequeStorage f = new DequeStorage(tmpfile);
+            Deque<?> fileList = f.read();
 
-            // cleanup needed...
-            Deque<Boat> fileBoats = fileData.getBoats();
-            Deque<Member> fileMemebers = fileData.getMembers();
-
+            Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();
+            Deque<Boat> fileBoats = (Deque<Boat>) fileList.removeFirst();
 
             int j = 0;
             // test boat for each member
-            for (Member m : fileMemebers) {
+            for (Member m : fileMembers) {
                 for (Boat b: m.getBoats()) {
                     assertTrue(b.getRegnr().equals(regNrs[j++]));
                 }

@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.Member;
-import storage.Data;
 import storage.Deque;
 
 public class Main extends Application
@@ -34,10 +33,6 @@ public class Main extends Application
     public static void main(String[] args) {
         Deque<Boat> boats = new Deque<Boat>();
         Deque<Member> members = new Deque<Member>();
-
-        Data data = new Data();
-        data.setBoats(boats);
-        data.setMembers(members);
 
         launch(args);
     }
