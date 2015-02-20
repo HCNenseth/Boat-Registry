@@ -1,5 +1,6 @@
 package controller;
 
+import app.Main;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,8 @@ import javafx.stage.Window;
 
 import model.Member;
 import model.Boat;
+import storage.Deque;
+import storage.DequeStorage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -75,10 +78,23 @@ public class Base implements Initializable
         tableBoatsList = tableViewBoats.getItems();
         tableMemberList = tableViewMembers.getItems();
 
-        tableBoatsList.add(new Boat.Builder("123", "abc").build());
-        tableViewBoats.setItems(tableBoatsList);
+        /* NOT ITS FINAL FORM */
+        try {
+            DequeStorage f2 = new DequeStorage(Main.dataFile);
+            Deque<?> fileList = f2.read();
+            Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();
+            Deque<Boat> fileBoats = (Deque<Boat>) fileList.removeFirst();
 
-        tableMemberList.add(new Member.Builder("Tjobing").build());
+            for (Boat b : fileBoats)
+                tableBoatsList.add(b);
+            for (Member m : fileMembers)
+                tableMemberList.add(m);
+
+            tableMemberList.add(new Member.Builder("Tjobing").build());
+        } catch (IOException | ClassNotFoundException ioe) {
+        }
+
+        tableViewBoats.setItems(tableBoatsList);
         tableViewMembers.setItems(tableMemberList);
     }
 }
