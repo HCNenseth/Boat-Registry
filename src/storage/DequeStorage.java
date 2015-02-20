@@ -10,7 +10,7 @@ import java.io.*;
  * EXPERIMENTAL!
  *
  */
-class DequeStorage
+public class DequeStorage
 {
     private String path;
 
