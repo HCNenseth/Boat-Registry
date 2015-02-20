@@ -92,6 +92,9 @@ public class Boat implements Serializable
     public float getLength() { return length; }
     public float getPower() { return power; }
 
+    // Mutable data ...
+    public Member getMember() { return member; }
+
     public void setMember(Member member)
     {
         this.member = member;
