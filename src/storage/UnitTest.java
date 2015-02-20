@@ -99,6 +99,7 @@ public class UnitTest
         for (Member m : members) {
             for (Boat b: m.getBoats()) {
                 assertTrue(b.getRegnr().equals(regNrs[i++]));
+                assertTrue(b.getMember().equals(m));
             }
         }
 
@@ -160,9 +161,11 @@ public class UnitTest
             for (Member m : fileMembers) {
                 for (Boat b: m.getBoats()) {
                     assertTrue(b.getRegnr().equals(regNrs[j++]));
+                    assertTrue(b.getMember().equals(m));
                 }
             }
 
+            // test the orphan boats
             j = 0;
             for (Boat b : fileBoats) {
                 assertTrue(b.getRegnr().equals(regNrs[j++]));
