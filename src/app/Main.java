@@ -1,5 +1,6 @@
 package app;
 
+import javafx.scene.control.Label;
 import model.Boat;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,8 @@ public class Main extends Application
 {
     private static final int WIDTH = 800;
     private static final int HEIGHT = 650;
+
+    public static final String dataFile = "testfile.dat";
 
     @Override
     public void start(Stage primaryStage) throws Exception
