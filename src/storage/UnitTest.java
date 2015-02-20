@@ -91,7 +91,7 @@ public class UnitTest
      * Somewhat less ugly unittest.
      */
     @Test
-    public void test_data()
+    public void test_data() throws IOException, ClassNotFoundException
     {
         String tmpfile = "testfile.dat";
 
@@ -117,29 +117,18 @@ public class UnitTest
         relations_helper(members, boats);
 
         // Write to tmp file!
-        try {
-            DequeStorage f = new DequeStorage(tmpfile);
-            f.write(list);
-        } catch (IOException ioe) {
-            System.out.println("=> Something went wrong with writing to file!");
-            System.out.println(ioe);
-        }
+        DequeStorage f1 = new DequeStorage(tmpfile);
+        f1.write(list);
 
         // Read from tmp file
-        try {
-            DequeStorage f = new DequeStorage(tmpfile);
-            Deque<?> fileList = f.read();
+        DequeStorage f2 = new DequeStorage(tmpfile);
+        Deque<?> fileList = f2.read();
 
-            // Risky risky...
-            Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();
-            Deque<Boat> fileBoats = (Deque<Boat>) fileList.removeFirst();
+        // Risky risky...
+        Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();
+        Deque<Boat> fileBoats = (Deque<Boat>) fileList.removeFirst();
 
-            relations_helper(fileMembers, fileBoats);
-
-        } catch (IOException | ClassNotFoundException e) {
-            System.out.println("=> Something went wrong with reading from file!");
-            System.out.println(e);
-        }
+        relations_helper(fileMembers, fileBoats);
     }
 
     private void relations_helper(Deque<Member> members, Deque<Boat> boats)
