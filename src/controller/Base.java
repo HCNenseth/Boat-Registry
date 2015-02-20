@@ -1,14 +1,20 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import view.Member;
-import view.Boat;
+
+import model.Member;
+import model.Boat;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,11 +23,17 @@ import java.util.ResourceBundle;
 public class Base implements Initializable
 {
     @FXML
-    private GridPane root;
+    private TableView<Member> tableViewMembers = new TableView<>();
+    @FXML
+    private TableView<Boat> tableViewBoats = new TableView<>();
+
+    private ObservableList<Boat> tableBoatsList;
+    private ObservableList<Member> tableMemberList;
 
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
+        populateData();
     }
 
     @FXML
@@ -56,5 +68,17 @@ public class Base implements Initializable
         } catch (IOException ioe) {
             System.out.printf(ioe.getMessage());
         }
+    }
+
+    private void populateData()
+    {
+        tableBoatsList = tableViewBoats.getItems();
+        tableMemberList = tableViewMembers.getItems();
+
+        tableBoatsList.add(new Boat.Builder("123", "abc").build());
+        tableViewBoats.setItems(tableBoatsList);
+
+        tableMemberList.add(new Member.Builder("Tjobing").build());
+        tableViewMembers.setItems(tableMemberList);
     }
 }
