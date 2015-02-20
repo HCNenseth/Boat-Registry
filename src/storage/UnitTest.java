@@ -20,7 +20,12 @@ public class UnitTest
                                "B123", "B234", "B456",
                                "C123", "C234", "C456",
                                "D123", "D234", "D456",
-                               "E123", "E234", "E456"
+                               "E123", "E234", "E456",
+                               "F123", "F234", "F456",
+                               "G123", "G234", "G456",
+                               "H123", "E234", "H456",
+                               "I123", "I234", "I456",
+                               "J123", "J234", "J456"
                               };
 
     private String[] names = {"John", "Pete", "Steve",
@@ -31,18 +36,18 @@ public class UnitTest
     {
         boats = new Deque<Boat>();
         members = new Deque<Member>();
-    }
 
-    @Test
-    public void test_insert()
-    {
         // Populate data
         for (String r : regNrs)
             boats.addLast(new Boat.Builder(r, "Sailboat").build());
 
         for (String n : names)
             members.addLast(new Member.Builder(n).build());
+    }
 
+    @Test
+    public void test_inserted()
+    {
         // Iterate
         for (String r : regNrs) {
             Boat pop = boats.removeFirst();
@@ -59,13 +64,6 @@ public class UnitTest
     @Test
     public void test_iterator()
     {
-        // Populate data
-        for (String r : regNrs)
-            boats.addLast(new Boat.Builder(r, "Sailboat").build());
-
-        for (String n : names)
-            members.addLast(new Member.Builder(n).build());
-
         // Iterate
         int i = 0;
         for (Boat b : boats)
@@ -74,19 +72,11 @@ public class UnitTest
         i = 0;
         for (Member m : members)
             assertTrue(m.getName().equals(names[i++]));
-
     }
 
     @Test
     public void test_relations()
     {
-        // Populate data
-        for (String r : regNrs)
-            boats.addLast(new Boat.Builder(r, "Sailboat").build());
-
-        for (String n : names)
-            members.addLast(new Member.Builder(n).build());
-
         int i = 0;
         // push two boats on each member
         for (Member m : members) {
@@ -94,50 +84,37 @@ public class UnitTest
             m.push(boats.get(i++));
         }
 
-        i = 0;
-        // test boat for each member
-        for (Member m : members) {
-            for (Boat b: m.getBoats()) {
-                assertTrue(b.getRegnr().equals(regNrs[i++]));
-                assertTrue(b.getMember().equals(m));
-            }
-        }
-
+        relations_helper(members, boats);
     }
 
     /**
-     * Ugly ass unittest. NEEDS REFACTORING!!!
+     * Somewhat less ugly unittest.
      */
     @Test
     public void test_data()
     {
         String tmpfile = "testfile.dat";
 
-        // Populate data
-        for (String r : regNrs)
-            boats.addLast(new Boat.Builder(r, "Sailboat").build());
-
-        for (String n : names)
-            members.addLast(new Member.Builder(n).build());
-
         // Save lists in wrapper class
         Deque<Deque> list = new Deque<Deque>(); // yo dawg!
         list.addLast(members);
         list.addLast(boats);
 
-        // Create some relations.
+        /**
+         * Create some relations.
+         * REFACTOR
+         * Assign random boats to random members, but not the
+         * same boat twice to different or the same member.
+         */
         int i = 0;
         for (Member m : members) {
             m.push(boats.get(i++));
             m.push(boats.get(i++));
+            m.push(boats.get(i++));
         }
 
-        i = 0;
-        for (Member m : members) {
-            for (Boat b: m.getBoats()) {
-                assertTrue(b.getRegnr().equals(regNrs[i++]));
-            }
-        }
+        // Test relations before saving to file
+        relations_helper(members, boats);
 
         // Write to tmp file!
         try {
@@ -153,27 +130,31 @@ public class UnitTest
             DequeStorage f = new DequeStorage(tmpfile);
             Deque<?> fileList = f.read();
 
+            // Risky risky...
             Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();
             Deque<Boat> fileBoats = (Deque<Boat>) fileList.removeFirst();
 
-            int j = 0;
-            // test boat for each member
-            for (Member m : fileMembers) {
-                for (Boat b: m.getBoats()) {
-                    assertTrue(b.getRegnr().equals(regNrs[j++]));
-                    assertTrue(b.getMember().equals(m));
-                }
-            }
-
-            // test the orphan boats
-            j = 0;
-            for (Boat b : fileBoats) {
-                assertTrue(b.getRegnr().equals(regNrs[j++]));
-            }
+            relations_helper(fileMembers, fileBoats);
 
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("=> Something went wrong with reading from file!");
             System.out.println(e);
         }
+    }
+
+    private void relations_helper(Deque<Member> members, Deque<Boat> boats)
+    {
+        int j = 0;
+        // test boat for each member
+        for (Member m : members) {
+            for (Boat b: m.getBoats()) {
+                assertTrue(b.getRegnr().equals(regNrs[j++]));
+                assertTrue(b.getMember().equals(m));
+            }
+        }
+        // test the orphan boats
+        j = 0;
+        for (Boat b : boats)
+            assertTrue(b.getRegnr().equals(regNrs[j++]));
     }
 }
