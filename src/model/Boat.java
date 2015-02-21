@@ -11,8 +11,8 @@ public class Boat implements Serializable
     private String regnr;
     private String type;
     private int year;
-    private float length;
-    private float power;
+    private double length;
+    private double power;
     private String color;
     private Member owner;
 
@@ -23,8 +23,8 @@ public class Boat implements Serializable
         private final String type;
         // Optional parameter
         private int year = 2000;
-        private float length = 20;
-        private float power = 100;
+        private double length = 20;
+        private double power = 100;
         private String color = "Blue";
         private Member member = null;
 
@@ -40,13 +40,13 @@ public class Boat implements Serializable
             return this;
         }
 
-        public Builder length(float val)
+        public Builder length(double val)
         {
             this.length = val;
             return this;
         }
 
-        public Builder power(float val)
+        public Builder power(double val)
         {
             this.power = val;
             return this;
@@ -89,8 +89,8 @@ public class Boat implements Serializable
     public String getType() { return type; }
     public String getColor() { return color; }
     public int getYear() { return year; }
-    public float getLength() { return length; }
-    public float getPower() { return power; }
+    public double getLength() { return length; }
+    public double getPower() { return power; }
 
     // Mutable data ...
     public Member getOwner() { return owner; }
