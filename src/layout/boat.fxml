@@ -32,12 +32,12 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Label>
-      <Button defaultButton="true" mnemonicParsing="false" text="Save and close" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
+      <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveButtonAction" text="Save and close" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="8">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </Button>
-      <Button cancelButton="true" mnemonicParsing="false" text="Close" GridPane.rowIndex="8">
+      <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onAction="#closeButtonAction" text="Close" GridPane.rowIndex="8">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>

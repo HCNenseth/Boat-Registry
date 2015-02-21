@@ -42,7 +42,9 @@ public class Base implements Initializable
     {
         FileChooser fc = new FileChooser();
         fc.setTitle("Choose data file");
-        fc.showOpenDialog(new Window(){});
+        fc.showOpenDialog(new Window()
+        {
+        });
     }
 
     @FXML
@@ -61,6 +63,19 @@ public class Base implements Initializable
         }
     }
 
+    /**
+     * Edit member
+     * Should take Member as argument.
+     */
+    private void editMember()
+    {
+        try {
+            new view.Member(); // <- Insert member
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
+
     @FXML
     private void newBoat(ActionEvent e)
     {
@@ -71,14 +86,39 @@ public class Base implements Initializable
         }
     }
 
+    /**
+     * Edit boat
+     * Should take Boat as argument.
+     */
+    private void editBoat()
+    {
+        try {
+            new view.Boat(); // <- Insert boat
+        } catch (IOException ioe) {
+            System.out.println(ioe.getMessage());
+        }
+    }
+
     @FXML
     private void memberTableClick(MouseEvent e)
     {
+        // double click only
+        if (e.getClickCount() == 2) {
+            TableView tv = (TableView) e.getSource();
+            int row = tv.getSelectionModel().getSelectedIndex();
+            editMember();
+        }
     }
 
     @FXML
     private void boatTableClick(MouseEvent e)
     {
+        // double click only
+        if (e.getClickCount() == 2) {
+            TableView tv = (TableView) e.getSource();
+            int row = tv.getSelectionModel().getSelectedIndex();
+            editBoat();
+        }
     }
 
     private void populateData()
