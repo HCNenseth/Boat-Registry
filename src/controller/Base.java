@@ -1,12 +1,10 @@
 package controller;
 
-import app.Main;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -15,21 +13,29 @@ import javafx.stage.Window;
 import model.Member;
 import model.Boat;
 import storage.Deque;
-import storage.DequeStorage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Observable;
 import java.util.ResourceBundle;
 
-public class Base implements Initializable
+public class Base extends Observable implements Initializable
 {
     @FXML
     private TableView<Member> tableViewMembers = new TableView<>();
     @FXML
     private TableView<Boat> tableViewBoats = new TableView<>();
 
+    Deque<model.Member> members;
+    Deque<model.Boat> boats;
     private ObservableList<Boat> tableBoatsList;
     private ObservableList<Member> tableMemberList;
+
+    public Base(Deque<model.Member> members, Deque<model.Boat> boats)
+    {
+        this.members = members;
+        this.boats = boats;
+    }
 
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
@@ -42,9 +48,7 @@ public class Base implements Initializable
     {
         FileChooser fc = new FileChooser();
         fc.setTitle("Choose data file");
-        fc.showOpenDialog(new Window()
-        {
-        });
+        fc.showOpenDialog(new Window(){});
     }
 
     @FXML
@@ -56,11 +60,15 @@ public class Base implements Initializable
     @FXML
     private void newMember(ActionEvent e)
     {
+        setChanged();
+        notifyObservers("newMember");
+        /*
         try {
             new view.Member();
         } catch (IOException ioe) {
             System.out.printf(ioe.getMessage());
         }
+        */
     }
 
     /**
@@ -126,22 +134,13 @@ public class Base implements Initializable
         tableBoatsList = tableViewBoats.getItems();
         tableMemberList = tableViewMembers.getItems();
 
-        /* NOT ITS FINAL FORM */
-        try {
-            DequeStorage f2 = new DequeStorage(Main.dataFile);
-            Deque<?> fileList = f2.read();
-            Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();
-            Deque<Boat> fileBoats = (Deque<Boat>) fileList.removeFirst();
-
-            for (Boat b : fileBoats)
-                tableBoatsList.add(b);
-            for (Member m : fileMembers)
-                tableMemberList.add(m);
-
-        } catch (IOException | ClassNotFoundException ioe) {
-        }
+        for (Member m : members)
+            tableMemberList.add(m);
+        for (Boat b : boats)
+            tableBoatsList.add(b);
 
         tableViewBoats.setItems(tableBoatsList);
         tableViewMembers.setItems(tableMemberList);
     }
+
 }
