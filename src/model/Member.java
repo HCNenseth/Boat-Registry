@@ -14,6 +14,7 @@ public class Member implements Serializable
     private int id;
     private static int memberCount = 0;
     private Deque<Boat> boats;
+    private String boatsString;
 
     public static class Builder
     {
@@ -41,7 +42,7 @@ public class Member implements Serializable
     public void push(Boat b)
     {
         // Side effect ...
-        b.setMember(this);
+        b.setOwner(this);
 
         boats.addLast(b);
     }
@@ -56,4 +57,19 @@ public class Member implements Serializable
 
     // OBS: this makes boats list mutable! (should return a copy)
     public Deque<Boat> getBoats() { return boats; }
+    public String getBoatsString()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (Boat b : boats)
+            sb.append(b.getRegnr()).append(", ");
+
+        return sb.toString();
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

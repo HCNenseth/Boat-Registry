@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Base">
+<GridPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Base">
    <columnConstraints>
       <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
    </columnConstraints>
@@ -46,36 +47,41 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tableViewBoats" editable="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="294.0" prefWidth="350.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                        <TableView fx:id="tableViewBoats" editable="true" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#boatTableClick" prefHeight="294.0" prefWidth="350.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
                           <columns>
                             <TableColumn prefWidth="75.0" text="Regnr">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="regnr"/>
+                                    <PropertyValueFactory property="regnr" />
                                 </cellValueFactory>
                             </TableColumn>
+                              <TableColumn prefWidth="75.0" text="Owner">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="owner" />
+                                 </cellValueFactory>
+                              </TableColumn>
                             <TableColumn prefWidth="75.0" text="Type">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property="type"/>
+                                    <PropertyValueFactory property="type" />
                                 </cellValueFactory>
                             </TableColumn>
                               <TableColumn prefWidth="75.0" text="Year">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="year"/>
+                                      <PropertyValueFactory property="year" />
                                   </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="75.0" text="Length">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="length"/>
+                                      <PropertyValueFactory property="length" />
                                   </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="75.0" text="Power">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="power"/>
+                                      <PropertyValueFactory property="power" />
                                   </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="75.0" text="Color">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="color"/>
+                                      <PropertyValueFactory property="color" />
                                   </cellValueFactory>
                               </TableColumn>
                           </columns>
@@ -91,23 +97,24 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tableViewMembers" editable="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="294.0" prefWidth="350.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
+                        <TableView fx:id="tableViewMembers" editable="true" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#memberTableClick" prefHeight="294.0" prefWidth="350.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="2.0">
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                            <columns>
                               <TableColumn prefWidth="103.0" text="ID">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="id"/>
+                                      <PropertyValueFactory property="id" />
                                   </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="692.0" text="Name">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="name"/>
+                                      <PropertyValueFactory property="name" />
                                   </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="75.0" text="Boat(s)">
                                   <cellValueFactory>
+                                      <PropertyValueFactory property="boatsString" />
                                   </cellValueFactory>
                               </TableColumn>
                            </columns>

@@ -138,7 +138,7 @@ public class UnitTest
         for (Member m : members) {
             for (Boat b: m.getBoats()) {
                 assertTrue(b.getRegnr().equals(regNrs[j++]));
-                assertTrue(b.getMember().equals(m));
+                assertTrue(b.getOwner().equals(m));
             }
         }
         // test the orphan boats

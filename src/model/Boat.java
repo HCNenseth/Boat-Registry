@@ -14,7 +14,7 @@ public class Boat implements Serializable
     private float length;
     private float power;
     private String color;
-    private Member member;
+    private Member owner;
 
     public static class Builder
     {
@@ -82,7 +82,7 @@ public class Boat implements Serializable
         this.length = b.length;
         this.power = b.power;
         this.color = b.color;
-        this.member = b.member;
+        this.owner = b.member;
     }
 
     public String getRegnr() { return regnr; }
@@ -93,11 +93,11 @@ public class Boat implements Serializable
     public float getPower() { return power; }
 
     // Mutable data ...
-    public Member getMember() { return member; }
+    public Member getOwner() { return owner; }
 
-    public void setMember(Member member)
+    public void setOwner(Member member)
     {
-        this.member = member;
+        this.owner = member;
     }
 
 }

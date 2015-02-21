@@ -2,15 +2,13 @@ package controller;
 
 import app.Main;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.GridPane;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
@@ -73,6 +71,16 @@ public class Base implements Initializable
         }
     }
 
+    @FXML
+    private void memberTableClick(MouseEvent e)
+    {
+    }
+
+    @FXML
+    private void boatTableClick(MouseEvent e)
+    {
+    }
+
     private void populateData()
     {
         tableBoatsList = tableViewBoats.getItems();
@@ -90,7 +98,6 @@ public class Base implements Initializable
             for (Member m : fileMembers)
                 tableMemberList.add(m);
 
-            tableMemberList.add(new Member.Builder("Tjobing").build());
         } catch (IOException | ClassNotFoundException ioe) {
         }
 
