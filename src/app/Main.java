@@ -1,6 +1,5 @@
 package app;
 
-import javafx.scene.control.Label;
 import model.Boat;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
