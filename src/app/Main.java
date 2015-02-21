@@ -1,41 +1,32 @@
 package app;
 
-import model.Boat;
+import controller.Mediator;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Member;
-import storage.Deque;
 
 public class Main extends Application
 {
-    private static final int WIDTH = 800;
-    private static final int HEIGHT = 650;
-
     public static final String dataFile = "testfile.dat";
 
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Parent root = FXMLLoader.load(getClass().getResource("../layout/base.fxml"));
-        primaryStage.setTitle("Boat Registry");
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
-        primaryStage.setScene(scene);
+        Mediator m = new Mediator(dataFile);
 
-        primaryStage.setMaxHeight(HEIGHT);
-        primaryStage.setMaxWidth(WIDTH);
-        primaryStage.setMinHeight(HEIGHT);
-        primaryStage.setMinWidth(WIDTH);
+        Scene current = m.activeScene();
+        primaryStage.setTitle("Boat Registry");
+        primaryStage.setScene(current);
+
+        primaryStage.setMaxHeight(m.getActive().getHeight());
+        primaryStage.setMaxWidth(m.getActive().getWidth());
+        primaryStage.setMinHeight(m.getActive().getHeight());
+        primaryStage.setMinWidth(m.getActive().getWidth());
 
         primaryStage.show();
     }
 
     public static void main(String[] args) {
-        Deque<Boat> boats = new Deque<Boat>();
-        Deque<Member> members = new Deque<Member>();
-
         launch(args);
     }
 }
