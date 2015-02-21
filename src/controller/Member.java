@@ -2,6 +2,8 @@ package controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -14,9 +16,25 @@ import java.util.ResourceBundle;
 public class Member implements Initializable
 {
     @FXML
+    private Button closeButton, saveButton;
+
+    @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
 
+    }
+
+    @FXML
+    private void closeButtonAction()
+    {
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    private void saveButtonAction()
+    {
+        closeButtonAction();
     }
 
     @FXML
