@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 public class Member implements Initializable
 {
     @FXML
-    private Button closeButton, saveButton;
+    private Button orphanBoatsButton, closeButton, saveButton;
 
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
@@ -38,7 +38,7 @@ public class Member implements Initializable
     }
 
     @FXML
-    private void orphanBoats(ActionEvent e)
+    private void orphanBoatsButtonAction()
     {
         try {
             new view.OrphanBoats();

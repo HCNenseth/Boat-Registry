@@ -12,8 +12,8 @@ import java.io.IOException;
  */
 public class OrphanBoats extends Stage
 {
-    private static final int WIDTH = 300;
-    private static final int HEIGHT = 400;
+    private static final int WIDTH = 250;
+    private static final int HEIGHT = 300;
 
     public OrphanBoats() throws IOException
     {
