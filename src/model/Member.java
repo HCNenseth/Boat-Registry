@@ -10,19 +10,20 @@ import java.io.Serializable;
 
 public class Member implements Serializable
 {
-    private String name;
     private int id;
     private static int memberCount = 0;
+    private String firstname, lastname;
     private Deque<Boat> boats;
 
     public static class Builder
     {
         // Required parameters
-        private String name;
+        private String firstname, lastname;
 
-        public Builder(String val)
+        public Builder(String firstname, String lastname)
         {
-            this.name = val;
+            this.firstname = firstname;
+            this.lastname = lastname;
         }
 
         public Member build()
@@ -33,7 +34,8 @@ public class Member implements Serializable
 
     private Member(Builder b)
     {
-        this.name = b.name;
+        this.firstname = b.firstname;
+        this.lastname = b.lastname;
         id = ++memberCount;
         boats = new Deque<Boat>();
     }
@@ -51,7 +53,8 @@ public class Member implements Serializable
         return boats.removeFirst();
     }
 
-    public String getName() { return name; }
+    public String getFirstname() { return firstname; }
+    public String getLastname() { return lastname; }
     public int getId() { return id; }
 
     // OBS: this makes boats list mutable! (should return a copy)
@@ -67,8 +70,5 @@ public class Member implements Serializable
     }
 
     @Override
-    public String toString()
-    {
-        return name;
-    }
+    public String toString()  { return firstname + " " +lastname; }
 }
