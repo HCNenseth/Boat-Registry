@@ -46,13 +46,14 @@ public class Member extends Observable implements Initializable
     private void closeButtonAction()
     {
         setChanged();
-        notifyObservers("close");
+        notifyObservers(Mediator.TransmissionSignals.CLOSE);
     }
 
     @FXML
     private void saveButtonAction()
     {
-        closeButtonAction();
+        setChanged();
+        notifyObservers(Mediator.TransmissionSignals.UPDATE_MEMBER);
     }
 
 }
