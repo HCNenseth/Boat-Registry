@@ -27,7 +27,7 @@ public class Boat extends Observable implements Initializable
     private Label regNrError, typeError, yearError,
                   lengthError, powerError, colorError;
     @FXML
-    private TextField regNrField, typeField, yearField,
+    private TextField regnrField, typeField, yearField,
                       lengthField, powerField, colorField;
     @FXML
     private ChoiceBox<model.Member> ownerField;
@@ -82,12 +82,22 @@ public class Boat extends Observable implements Initializable
     private void saveButtonAction()
     {
         boolean valid = true;
-        String regNr = regNrField.getText();
+
+        // fetch all the values.
+        String regNr = regnrField.getText();
         String type = typeField.getText();
         String year = yearField.getText();
         String length = lengthField.getText();
         String power = powerField.getText();
         String color = colorField.getText();
+
+        // reset all the error messages.
+        regNrError.setText("");
+        typeError.setText("");
+        yearError.setText("");
+        lengthError.setText("");
+        powerError.setText("");
+        colorError.setText("");
 
         if (!StringMatcher.regnr(regNr)) {
             regNrError.setText("Error value");

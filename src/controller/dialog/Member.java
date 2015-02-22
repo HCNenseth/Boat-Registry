@@ -66,8 +66,14 @@ public class Member extends Observable implements Initializable
     private void saveButtonAction()
     {
         boolean valid = true;
+
+        // get all the values.
         String firstname = firstNameField.getText();
         String lastname = lastNameField.getText();
+
+        // reset all error messages.
+        firstNameError.setText("");
+        lastNameError.setText("");
 
         if (!StringMatcher.firstname(firstname)) {
             firstNameError.setText("Error value");
