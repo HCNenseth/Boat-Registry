@@ -3,20 +3,38 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
-import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.net.URL;
+import java.util.Observable;
 import java.util.ResourceBundle;
 
 /**
  * Created by alex on 2/17/15.
  */
-public class Member implements Initializable
+public class Member extends Observable implements Initializable
 {
     @FXML
-    private Button orphanBoatsButton, closeButton, saveButton;
+    private Button closeButton, saveButton;
+
+    private Member(Builder b)
+    {
+        addObserver(b.mediator);
+    }
+
+    public static class Builder
+    {
+        private Mediator mediator;
+        public Builder observer(Mediator mediator)
+        {
+            this.mediator = mediator;
+            return this;
+        }
+
+        public Member build()
+        {
+            return new Member(this);
+        }
+    }
 
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
@@ -27,8 +45,8 @@ public class Member implements Initializable
     @FXML
     private void closeButtonAction()
     {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+        setChanged();
+        notifyObservers("close");
     }
 
     @FXML
@@ -37,13 +55,4 @@ public class Member implements Initializable
         closeButtonAction();
     }
 
-    @FXML
-    private void orphanBoatsButtonAction()
-    {
-        try {
-            new view.OrphanBoats();
-        } catch (IOException ioe) {
-
-        }
-    }
 }

@@ -2,6 +2,7 @@ package controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.stage.Stage;
 import storage.Deque;
 import storage.DequeStorage;
 
@@ -14,6 +15,7 @@ import java.util.Observer;
  */
 public class Mediator implements Observer
 {
+    private Stage secondaryStage;
     private String filename;
     private Windows active = Windows.BASE;
     private Deque<model.Boat> boats;
@@ -21,7 +23,7 @@ public class Mediator implements Observer
 
     public enum Windows {
         BASE("../layout/base.fxml", 800, 650),
-        MEMBER("../layout/member.fxml", 300, 400),
+        MEMBER("../layout/member.fxml", 300, 200),
         BOAT("../layout/boat.fxml", 300, 400);
 
         private int width;
@@ -43,6 +45,8 @@ public class Mediator implements Observer
     public Mediator(String filename)
     {
         this.filename = filename;
+        this.secondaryStage = new Stage();
+
         try {
             loadDataFromFile();
         } catch (IOException | ClassNotFoundException e) {
@@ -50,21 +54,61 @@ public class Mediator implements Observer
         }
     }
 
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
     public Scene activeScene() throws IOException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(active.getLayout()));
-        controller.Base b = new controller.Base(members, boats);
-        b.addObserver(this);
-        loader.setController(b);
-
-        return new Scene(loader.load(), active.getWidth(), active.getHeight());
+        switch (active) {
+            case BOAT:
+                loader.setController(new Boat.Builder(members).observer(this).build());
+                break;
+            case MEMBER:
+                loader.setController(new Member.Builder().observer(this).build());
+                break;
+            default:
+                loader.setController(new Base.Builder(members, boats).observer(this).build());
+        }
+        return new Scene(loader.load(),active.getWidth(), active.getHeight());
     }
 
-    private void switchScene(Windows w)
+    public Windows getActive() { return active; }
+    private void switchScene(Windows w) { active = w; }
+
+    /**
+     *
+     * @param obj the caller object
+     * @param arg the caller data
+     */
+    @Override
+    public void update(Observable obj, Object arg)
     {
-        active = w;
+        System.out.println(obj);
+        System.out.println(arg);
+
+        String keyWord = (String) arg;
+
+        if (keyWord.equals("newBoat")) {
+            switchScene(Windows.BOAT);
+        }
+        if (keyWord.equals("newMember")) {
+            switchScene(Windows.MEMBER);
+        }
+        try {
+            setScene();
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
     }
 
+    /**
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void loadDataFromFile() throws IOException,
             ClassNotFoundException
     {
@@ -74,11 +118,21 @@ public class Mediator implements Observer
         boats = (Deque<model.Boat>) fileList.removeFirst();
     }
 
-    public Windows getActive() { return active; }
-
-    @Override
-    public void update(Observable obj, Object arg)
+    /**
+     *
+     * @throws IOException
+     */
+    private void setScene() throws IOException
     {
-        System.out.println(arg);
+        secondaryStage.setTitle("Iam secondary");
+        secondaryStage.setScene(activeScene());
+
+        secondaryStage.setMaxHeight(getActive().getHeight());
+        secondaryStage.setMaxWidth(getActive().getWidth());
+        secondaryStage.setMinHeight(getActive().getHeight());
+        secondaryStage.setMinWidth(getActive().getWidth());
+
+        secondaryStage.toFront();
+        secondaryStage.show();
     }
 }

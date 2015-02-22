@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Member">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
@@ -23,31 +21,31 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </TextField>
-      <Label text="Name">
+      <Label text="Firstname">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Label>
-      <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="2" GridPane.rowIndex="3">
-         <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-         </GridPane.margin>
-      </ListView>
-      <Button fx:id="orphanBoatsButton" mnemonicParsing="false" onAction="#orphanBoatsButtonAction" text="Add boat to member" GridPane.columnSpan="2" GridPane.rowIndex="2">
+      <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveButtonAction" text="Save and close" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveButtonAction" text="Save and close" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+      <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onAction="#closeButtonAction" text="Close" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onAction="#closeButtonAction" text="Close" GridPane.rowIndex="4">
+      <Label text="Lastname" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+      </Label>
+      <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
-      </Button>
+      </TextField>
    </children>
    <padding>
       <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

@@ -14,7 +14,6 @@ public class Member implements Serializable
     private int id;
     private static int memberCount = 0;
     private Deque<Boat> boats;
-    private String boatsString;
 
     public static class Builder
     {

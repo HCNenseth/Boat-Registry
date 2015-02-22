@@ -14,7 +14,6 @@ import model.Member;
 import model.Boat;
 import storage.Deque;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
@@ -31,11 +30,37 @@ public class Base extends Observable implements Initializable
     private ObservableList<Boat> tableBoatsList;
     private ObservableList<Member> tableMemberList;
 
-    public Base(Deque<model.Member> members, Deque<model.Boat> boats)
+    private Base(Builder b)
     {
-        this.members = members;
-        this.boats = boats;
+        this.members = b.members;
+        this.boats = b.boats;
+        addObserver(b.mediator);
     }
+
+    public static class Builder
+    {
+        private Mediator mediator;
+        private Deque<model.Member> members;
+        private Deque<model.Boat> boats;
+
+        public Builder(Deque<model.Member> members, Deque<model.Boat> boats)
+        {
+            this.members = members;
+            this.boats = boats;
+        }
+
+        public Builder observer(Mediator mediator)
+        {
+            this.mediator = mediator;
+            return this;
+        }
+
+        public Base build()
+        {
+            return new Base(this);
+        }
+    }
+
 
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
@@ -62,49 +87,13 @@ public class Base extends Observable implements Initializable
     {
         setChanged();
         notifyObservers("newMember");
-        /*
-        try {
-            new view.Member();
-        } catch (IOException ioe) {
-            System.out.printf(ioe.getMessage());
-        }
-        */
-    }
-
-    /**
-     * Edit member
-     * Should take Member as argument.
-     */
-    private void editMember()
-    {
-        try {
-            new view.Member(); // <- Insert member
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
     }
 
     @FXML
     private void newBoat(ActionEvent e)
     {
-        try {
-            new view.Boat();
-        } catch (IOException ioe) {
-            System.out.printf(ioe.getMessage());
-        }
-    }
-
-    /**
-     * Edit boat
-     * Should take Boat as argument.
-     */
-    private void editBoat()
-    {
-        try {
-            new view.Boat(); // <- Insert boat
-        } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
-        }
+        setChanged();
+        notifyObservers("newBoat");
     }
 
     @FXML
@@ -114,7 +103,8 @@ public class Base extends Observable implements Initializable
         if (e.getClickCount() == 2) {
             TableView tv = (TableView) e.getSource();
             int row = tv.getSelectionModel().getSelectedIndex();
-            editMember();
+            setChanged();
+            notifyObservers("editMember: " + row);
         }
     }
 
@@ -125,7 +115,8 @@ public class Base extends Observable implements Initializable
         if (e.getClickCount() == 2) {
             TableView tv = (TableView) e.getSource();
             int row = tv.getSelectionModel().getSelectedIndex();
-            editBoat();
+            setChanged();
+            notifyObservers("editBoat: " + row);
         }
     }
 

@@ -1,22 +1,51 @@
 package controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import storage.Deque;
 
 import java.net.URL;
+import java.util.Observable;
 import java.util.ResourceBundle;
 
 /**
  * Created by alex on 2/17/15.
  */
-public class Boat implements Initializable
+public class Boat extends Observable implements Initializable
 {
+    private Deque<model.Member> members;
 
     @FXML
     private Button closeButton, saveButton;
+
+    private Boat(Builder b)
+    {
+        this.members = b.members;
+        addObserver(b.mediator);
+    }
+
+    public static class Builder
+    {
+        private Mediator mediator;
+        private Deque<model.Member> members;
+
+        public Builder(Deque<model.Member> members)
+        {
+            this.members = members;
+        }
+
+        public Builder observer(Mediator mediator)
+        {
+            this.mediator = mediator;
+            return this;
+        }
+
+        public Boat build()
+        {
+            return new Boat(this);
+        }
+    }
 
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
@@ -27,8 +56,8 @@ public class Boat implements Initializable
     @FXML
     private void closeButtonAction()
     {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+        setChanged();
+        notifyObservers("close");
     }
 
     @FXML
