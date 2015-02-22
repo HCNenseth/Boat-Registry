@@ -86,14 +86,14 @@ public class Base extends Observable implements Initializable
     private void newMember(ActionEvent e)
     {
         setChanged();
-        notifyObservers("newMember");
+        notifyObservers(Mediator.TransmissionSignals.CREATE_MEMBER);
     }
 
     @FXML
     private void newBoat(ActionEvent e)
     {
         setChanged();
-        notifyObservers("newBoat");
+        notifyObservers(Mediator.TransmissionSignals.CREATE_BOAT);
     }
 
     @FXML
@@ -104,7 +104,7 @@ public class Base extends Observable implements Initializable
             TableView tv = (TableView) e.getSource();
             int row = tv.getSelectionModel().getSelectedIndex();
             setChanged();
-            notifyObservers("editMember: " + row);
+            notifyObservers(Mediator.TransmissionSignals.EDIT_MEMBER);
         }
     }
 
@@ -116,7 +116,7 @@ public class Base extends Observable implements Initializable
             TableView tv = (TableView) e.getSource();
             int row = tv.getSelectionModel().getSelectedIndex();
             setChanged();
-            notifyObservers("editBoat: " + row);
+            notifyObservers(Mediator.TransmissionSignals.EDIT_BOAT);
         }
     }
 

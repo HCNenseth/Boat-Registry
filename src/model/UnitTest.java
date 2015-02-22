@@ -11,11 +11,13 @@ public class UnitTest
     @Test
     public void test_member()
     {
-        String name = "John";
+        String firstname = "John";
+        String lastname = "Doe";
 
-        Member m = new Member.Builder(name).build();
+        Member m = new Member.Builder(firstname, lastname).build();
 
-        assertTrue(m.getName().equals(name));
+        assertTrue(m.getFirstname().equals(firstname));
+        assertTrue(m.getLastname().equals(lastname));
     }
 
     @Test

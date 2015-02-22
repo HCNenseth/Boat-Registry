@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.layout.*?>
@@ -101,17 +102,22 @@
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                            <columns>
-                              <TableColumn prefWidth="103.0" text="ID">
+                              <TableColumn prefWidth="129.0" text="ID">
                                   <cellValueFactory>
                                       <PropertyValueFactory property="id" />
                                   </cellValueFactory>
                               </TableColumn>
-                              <TableColumn prefWidth="692.0" text="Name">
+                              <TableColumn prefWidth="186.0" text="Firstname">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property="name" />
+                                      <PropertyValueFactory property="firstname" />
                                   </cellValueFactory>
                               </TableColumn>
-                              <TableColumn prefWidth="75.0" text="Boat(s)">
+                              <TableColumn prefWidth="192.0" text="Lastname">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property="lastname" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="438.0" text="Boat(s)">
                                   <cellValueFactory>
                                       <PropertyValueFactory property="boatsString" />
                                   </cellValueFactory>

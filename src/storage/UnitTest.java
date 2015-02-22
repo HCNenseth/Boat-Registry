@@ -28,9 +28,11 @@ public class UnitTest
                                "J123", "J234", "J456"
                               };
 
-    private String[] names = {"John", "Pete", "Steve",
-                              "Sara", "Carry", "Sue"
-                             };
+    private String[][] names = {
+            {"John", "Doe" }, {"Pete", "Doe"},
+            {"Steve", "Smith"}, {"Sara", "Smith"},
+            {"Carry", "Wilson"}, {"Sue", "Wilson"}
+    };
 
     public UnitTest()
     {
@@ -41,8 +43,8 @@ public class UnitTest
         for (String r : regNrs)
             boats.addLast(new Boat.Builder(r, "Sailboat").build());
 
-        for (String n : names)
-            members.addLast(new Member.Builder(n).build());
+        for (String n[] : names)
+            members.addLast(new Member.Builder(n[0], n[1]).build());
     }
 
     @Test
@@ -55,9 +57,10 @@ public class UnitTest
             assertTrue(pop.getType().equals("Sailboat"));
         }
 
-        for (String n : names) {
+        for (String n[] : names) {
             Member pop = members.removeFirst();
-            assertTrue(pop.getName().equals(n));
+            assertTrue(pop.getFirstname().equals(n[0]));
+            assertTrue(pop.getLastname().equals(n[1]));
         }
     }
 
@@ -70,8 +73,10 @@ public class UnitTest
             assertTrue(b.getRegnr().equals(regNrs[i++]));
 
         i = 0;
-        for (Member m : members)
-            assertTrue(m.getName().equals(names[i++]));
+        for (Member m : members) {
+            assertTrue(m.getFirstname().equals(names[i][0]));
+            assertTrue(m.getLastname().equals(names[i++][1]));
+        }
     }
 
     @Test

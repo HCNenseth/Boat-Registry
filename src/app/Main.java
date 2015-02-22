@@ -7,13 +7,12 @@ import javafx.stage.Stage;
 public class Main extends Application
 {
     public static final String dataFile = "testfile.dat";
-    public static final String appName = "Boat Registry";
 
     @Override
     public void start(Stage primaryStage) throws Exception
     {
         Mediator m = new Mediator(dataFile);
-        primaryStage.setTitle(appName);
+        primaryStage.setTitle(m.getActive().getTitle());
         primaryStage.setScene(m.activeScene());
 
         primaryStage.setMaxHeight(m.getActive().getHeight());
