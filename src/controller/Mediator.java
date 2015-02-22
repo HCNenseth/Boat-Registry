@@ -1,5 +1,6 @@
 package controller;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -18,45 +19,21 @@ public class Mediator implements Observer
     private Stage secondaryStage;
     private String filename;
     private Windows active = Windows.BASE;
+    private Colleague colleague;
     private Deque<model.Boat> boats;
     private Deque<model.Member> members;
-
-    public enum Windows {
-        BASE("../layout/base.fxml", "Boat Registry", 800, 650),
-        MEMBER_NEW("../layout/member_new.fxml", "New Member", 300, 200),
-        MEMBER_EDIT("../layout/member_edit.fxml", "Edit Member", 300, 200),
-        BOAT_NEW("../layout/boat_new.fxml", "New Boat", 300, 400),
-        BOAT_EDIT("../layout/boat_edit.fxml", "Edit Boat", 300, 400);
-
-        private int width;
-        private int height;
-        private String layout;
-        private String title;
-
-        private Windows(String layout, String title, int width, int height)
-        {
-            this.width = width;
-            this.height = height;
-            this.layout = layout;
-            this.title = title;
-        }
-
-        public String getLayout() { return layout; }
-        public String getTitle() { return title; }
-        public int getWidth() { return width; }
-        public int getHeight() { return height; }
-    }
 
     public enum TransmissionSignals {
         CREATE_BOAT, EDIT_BOAT, UPDATE_BOAT,
         CREATE_MEMBER, EDIT_MEMBER, UPDATE_MEMBER,
-        CLOSE
+        CLOSE, EXIT
     }
 
     public Mediator(String filename)
     {
         this.filename = filename;
         this.secondaryStage = new Stage();
+        this.colleague = new Colleague(this);
 
         try {
             loadDataFromFile();
@@ -89,6 +66,7 @@ public class Mediator implements Observer
     }
 
     public Windows getActive() { return active; }
+
     private void switchScene(Windows w) { active = w; }
 
     /**
@@ -99,12 +77,7 @@ public class Mediator implements Observer
     @Override
     public void update(Observable obj, Object arg)
     {
-        TransmissionSignals ts = (TransmissionSignals) arg;
-
-        switch (ts) {
-            case CLOSE:
-                secondaryStage.close();
-                break;
+        switch ((TransmissionSignals) arg) {
             case CREATE_MEMBER:
                 switchScene(Windows.MEMBER_NEW);
                 setScene();
@@ -131,6 +104,12 @@ public class Mediator implements Observer
                 // get payload and do action
                 secondaryStage.close();
                 break;
+            case CLOSE:
+                secondaryStage.close();
+                break;
+            case EXIT:
+                Platform.exit();
+                break;
         }
     }
 
@@ -139,8 +118,7 @@ public class Mediator implements Observer
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    private void loadDataFromFile() throws IOException,
-            ClassNotFoundException
+    private void loadDataFromFile() throws IOException, ClassNotFoundException
     {
         DequeStorage ds = new DequeStorage(filename);
         Deque<?> fileList = ds.read();
@@ -157,12 +135,10 @@ public class Mediator implements Observer
         try {
             secondaryStage.setTitle(active.getTitle());
             secondaryStage.setScene(activeScene());
-
             secondaryStage.setMaxHeight(getActive().getHeight());
             secondaryStage.setMaxWidth(getActive().getWidth());
             secondaryStage.setMinHeight(getActive().getHeight());
             secondaryStage.setMinWidth(getActive().getWidth());
-
             secondaryStage.toFront();
             secondaryStage.show();
         } catch (IOException ioe) {

@@ -1,8 +1,13 @@
 package controller;
 
+import com.sun.javafx.css.BorderPaint;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.Observable;
@@ -13,6 +18,10 @@ import java.util.ResourceBundle;
  */
 public class Member extends Observable implements Initializable
 {
+    @FXML
+    private TextField firstName, lastName;
+    @FXML
+    private Label firstNameError, lastNameError;
     @FXML
     private Button closeButton, saveButton;
 
@@ -52,8 +61,13 @@ public class Member extends Observable implements Initializable
     @FXML
     private void saveButtonAction()
     {
-        setChanged();
-        notifyObservers(Mediator.TransmissionSignals.UPDATE_MEMBER);
+        firstNameError.setText("Error value");
+        firstNameError.setVisible(true);
+        lastNameError.setText("Error value");
+        lastNameError.setVisible(true);
+        return;
+        //setChanged();
+        //notifyObservers(Mediator.TransmissionSignals.UPDATE_MEMBER);
     }
 
 }

@@ -3,6 +3,7 @@ package controller;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import storage.Deque;
 
 import java.net.URL;
@@ -18,6 +19,9 @@ public class Boat extends Observable implements Initializable
 
     @FXML
     private Button closeButton, saveButton;
+    @FXML
+    private Label regNrError, typeError, yearError,
+                  lengthError, powerError, colorError;
 
     private Boat(Builder b)
     {
@@ -63,7 +67,25 @@ public class Boat extends Observable implements Initializable
     @FXML
     private void saveButtonAction()
     {
-        setChanged();
-        notifyObservers(Mediator.TransmissionSignals.UPDATE_BOAT);
+        regNrError.setText("Regnr error");
+        regNrError.setVisible(true);
+
+        typeError.setText("Type error");
+        typeError.setVisible(true);
+
+        yearError.setText("Year error");
+        yearError.setVisible(true);
+
+        lengthError.setText("Length error");
+        lengthError.setVisible(true);
+
+        powerError.setText("Power error");
+        powerError.setVisible(true);
+
+        colorError.setText("Color error");
+        colorError.setVisible(true);
+
+        //setChanged();
+        //notifyObservers(Mediator.TransmissionSignals.UPDATE_BOAT);
     }
 }

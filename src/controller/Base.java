@@ -20,6 +20,8 @@ import java.util.ResourceBundle;
 
 public class Base extends Observable implements Initializable
 {
+    private int activeMemberRow, activeBoatRow;
+
     @FXML
     private TableView<Member> tableViewMembers = new TableView<>();
     @FXML
@@ -79,7 +81,8 @@ public class Base extends Observable implements Initializable
     @FXML
     private void close(ActionEvent e)
     {
-        Platform.exit();
+        setChanged();
+        notifyObservers(Mediator.TransmissionSignals.EXIT);
     }
 
     @FXML
@@ -102,7 +105,7 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             TableView tv = (TableView) e.getSource();
-            int row = tv.getSelectionModel().getSelectedIndex();
+            activeMemberRow = tv.getSelectionModel().getSelectedIndex();
             setChanged();
             notifyObservers(Mediator.TransmissionSignals.EDIT_MEMBER);
         }
@@ -114,7 +117,7 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             TableView tv = (TableView) e.getSource();
-            int row = tv.getSelectionModel().getSelectedIndex();
+            activeBoatRow = tv.getSelectionModel().getSelectedIndex();
             setChanged();
             notifyObservers(Mediator.TransmissionSignals.EDIT_BOAT);
         }
@@ -134,4 +137,6 @@ public class Base extends Observable implements Initializable
         tableViewMembers.setItems(tableMemberList);
     }
 
+    public int getActiveMemberRow() { return activeMemberRow; }
+    public int getActiveBoatRow() { return activeBoatRow; }
 }

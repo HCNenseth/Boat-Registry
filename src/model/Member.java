@@ -42,9 +42,7 @@ public class Member implements Serializable
 
     public void push(Boat b)
     {
-        // Side effect ...
-        b.setOwner(this);
-
+        b.setOwner(this); // side effect...
         boats.addLast(b);
     }
 
@@ -54,11 +52,14 @@ public class Member implements Serializable
     }
 
     public String getFirstname() { return firstname; }
+
     public String getLastname() { return lastname; }
+
     public int getId() { return id; }
 
     // OBS: this makes boats list mutable! (should return a copy)
     public Deque<Boat> getBoats() { return boats; }
+
     public String getBoatsString()
     {
         StringBuilder sb = new StringBuilder();
