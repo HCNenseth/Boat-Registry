@@ -1,6 +1,7 @@
-package controller;
+package controller.window;
 
-import javafx.application.Platform;
+import controller.Mediator;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,9 +68,17 @@ public class Base extends Observable implements Initializable
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
-        populateData();
+        updateMembers();
+        updateBoats();
     }
 
+    /**
+     *
+     * This is not this methods final form.
+     * Proof of concept ONLY!
+     *
+     * @param e
+     */
     @FXML
     private void fileChooser(ActionEvent e)
     {
@@ -123,18 +132,24 @@ public class Base extends Observable implements Initializable
         }
     }
 
-    private void populateData()
+    public void updateMembers()
     {
-        tableBoatsList = tableViewBoats.getItems();
-        tableMemberList = tableViewMembers.getItems();
+        // get a empty list
+        tableMemberList = FXCollections.observableArrayList();
 
         for (Member m : members)
             tableMemberList.add(m);
+        tableViewMembers.setItems(tableMemberList);
+    }
+
+    public void updateBoats()
+    {
+        // get a empty list
+        tableBoatsList = FXCollections.observableArrayList();
+
         for (Boat b : boats)
             tableBoatsList.add(b);
-
         tableViewBoats.setItems(tableBoatsList);
-        tableViewMembers.setItems(tableMemberList);
     }
 
     public int getActiveMemberRow() { return activeMemberRow; }

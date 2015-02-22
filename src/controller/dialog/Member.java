@@ -1,13 +1,12 @@
-package controller;
+package controller.dialog;
 
-import com.sun.javafx.css.BorderPaint;
+import controller.Mediator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Border;
-import javafx.scene.paint.Color;
+import validator.StringMatcher;
 
 import java.net.URL;
 import java.util.Observable;
@@ -19,11 +18,13 @@ import java.util.ResourceBundle;
 public class Member extends Observable implements Initializable
 {
     @FXML
-    private TextField firstName, lastName;
+    private TextField firstNameField, lastNameField;
     @FXML
     private Label firstNameError, lastNameError;
     @FXML
     private Button closeButton, saveButton;
+
+    private model.Member.Builder payload;
 
     private Member(Builder b)
     {
@@ -58,16 +59,34 @@ public class Member extends Observable implements Initializable
         notifyObservers(Mediator.TransmissionSignals.CLOSE);
     }
 
+    /**
+     * THIS HORRIBLE ABOMINATION NEEDS REFACTORING!
+     */
     @FXML
     private void saveButtonAction()
     {
-        firstNameError.setText("Error value");
-        firstNameError.setVisible(true);
-        lastNameError.setText("Error value");
-        lastNameError.setVisible(true);
-        return;
-        //setChanged();
-        //notifyObservers(Mediator.TransmissionSignals.UPDATE_MEMBER);
+        boolean valid = true;
+        String firstname = firstNameField.getText();
+        String lastname = lastNameField.getText();
+
+        if (!StringMatcher.firstname(firstname)) {
+            firstNameError.setText("Error value");
+            firstNameError.setVisible(true);
+            valid = false;
+        }
+
+        if (!StringMatcher.lastname(lastname)) {
+            lastNameError.setText("Error value");
+            lastNameError.setVisible(true);
+            valid = false;
+        }
+
+        if (valid) {
+            payload = new model.Member.Builder(firstname, lastname);
+            setChanged();
+            notifyObservers(Mediator.TransmissionSignals.UPDATE_MEMBER);
+        }
     }
 
+    public model.Member.Builder getPayload() { return payload; }
 }

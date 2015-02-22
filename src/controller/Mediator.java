@@ -1,5 +1,7 @@
 package controller;
 
+import controller.dialog.Boat;
+import controller.dialog.Member;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,13 +15,20 @@ import java.util.Observer;
 
 /**
  * Created by alex on 2/21/15.
+ *
+ * This apps "God object".
+ * This class grows bigger and bigger and have therefore been
+ * assigned a colleague to help with the heavy lifting.
+ * This pattern should possibly be refactored in the future.
  */
 public class Mediator implements Observer
 {
     private Stage secondaryStage;
     private String filename;
     private Windows active = Windows.BASE;
+
     private Colleague colleague;
+
     private Deque<model.Boat> boats;
     private Deque<model.Member> members;
 
@@ -33,19 +42,23 @@ public class Mediator implements Observer
     {
         this.filename = filename;
         this.secondaryStage = new Stage();
-        this.colleague = new Colleague(this);
 
         try {
             loadDataFromFile();
         } catch (IOException | ClassNotFoundException e) {
-            // do something useful!
+            members = new Deque<>();
+            boats = new Deque<>();
         }
+
+        this.colleague = new Colleague(this);
     }
 
     /**
-     *
      * @return
      * @throws IOException
+     *
+     * This method has got some of its responsibilities moved
+     * over to the helper colleague class.
      */
     public Scene activeScene() throws IOException
     {
@@ -53,26 +66,25 @@ public class Mediator implements Observer
         switch (active) {
             case BOAT_NEW:
             case BOAT_EDIT:
-                loader.setController(new Boat.Builder(members).observer(this).build());
+                loader.setController(colleague.getBoatController());
                 break;
             case MEMBER_NEW:
             case MEMBER_EDIT:
-                loader.setController(new Member.Builder().observer(this).build());
+                loader.setController(colleague.getMemberController());
                 break;
             default:
-                loader.setController(new Base.Builder(members, boats).observer(this).build());
+                loader.setController(colleague.getBaseController());
         }
-        return new Scene(loader.load(),active.getWidth(), active.getHeight());
+        return new Scene(loader.load(), active.getWidth(), active.getHeight());
     }
 
-    public Windows getActive() { return active; }
-
-    private void switchScene(Windows w) { active = w; }
 
     /**
+     * @param obj the caller object.
+     * @param arg the caller data.
      *
-     * @param obj the caller object
-     * @param arg the caller data
+     * This method needs refactoring, and should push some
+     * of its responsibilities to the colleague class.
      */
     @Override
     public void update(Observable obj, Object arg)
@@ -88,7 +100,9 @@ public class Mediator implements Observer
                 setScene();
                 break;
             case UPDATE_MEMBER:
-                // get payload and do action
+                // get payload, push into members, and call basecontroller
+                members.addLast(((Member) obj).getPayload().build());
+                colleague.getBaseController().updateMembers();
                 secondaryStage.close();
                 break;
             case CREATE_BOAT:
@@ -101,7 +115,9 @@ public class Mediator implements Observer
                 setScene();
                 break;
             case UPDATE_BOAT:
-                // get payload and do action
+                // get payload, push into boats, and call basecontroller
+                boats.addLast(((Boat) obj).getPayload().build());
+                colleague.getBaseController().updateBoats();
                 secondaryStage.close();
                 break;
             case CLOSE:
@@ -114,7 +130,6 @@ public class Mediator implements Observer
     }
 
     /**
-     *
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -127,7 +142,6 @@ public class Mediator implements Observer
     }
 
     /**
-     *
      * @throws IOException
      */
     private void setScene()
@@ -145,4 +159,12 @@ public class Mediator implements Observer
             System.out.println(ioe.getMessage());
         }
     }
+
+    protected Deque<model.Member> getMembers() { return members; }
+
+    protected Deque<model.Boat> getBoats() { return boats; }
+
+    public Windows getActive() { return active; }
+
+    private void switchScene(Windows w) { active = w; }
 }
