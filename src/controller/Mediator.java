@@ -156,7 +156,8 @@ public class Mediator implements Observer
             secondaryStage.toFront();
             secondaryStage.show();
         } catch (IOException ioe) {
-            System.out.println(ioe.getMessage());
+            System.out.println("=> Mediator.setScene");
+            System.out.println(ioe);
         }
     }
 

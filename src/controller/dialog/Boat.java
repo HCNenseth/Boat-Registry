@@ -4,6 +4,7 @@ import controller.Mediator;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import storage.Deque;
@@ -27,8 +28,9 @@ public class Boat extends Observable implements Initializable
                   lengthError, powerError, colorError;
     @FXML
     private TextField regNrField, typeField, yearField,
-                      lengthField, powerField, colorField,
-                      ownerField;
+                      lengthField, powerField, colorField;
+    @FXML
+    private ChoiceBox<model.Member> ownerField;
 
     private model.Boat.Builder payload;
 
@@ -86,7 +88,6 @@ public class Boat extends Observable implements Initializable
         String length = lengthField.getText();
         String power = powerField.getText();
         String color = colorField.getText();
-        String owner = ownerField.getText();
 
         if (!StringMatcher.regnr(regNr)) {
             regNrError.setText("Error value");
