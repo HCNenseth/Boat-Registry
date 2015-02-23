@@ -124,7 +124,7 @@ public class Mediator implements Observer
                 secondaryStage.close();
                 break;
             case EXIT:
-                Platform.exit();
+                endRoutine();
                 break;
         }
     }
@@ -132,6 +132,9 @@ public class Mediator implements Observer
     /**
      * @throws IOException
      * @throws ClassNotFoundException
+     *
+     * Read data from file and load into the private members
+     * "members" and "boats"
      */
     private void loadDataFromFile() throws IOException, ClassNotFoundException
     {
@@ -139,6 +142,38 @@ public class Mediator implements Observer
         Deque<?> fileList = ds.read();
         members = (Deque<model.Member>) fileList.removeFirst();
         boats = (Deque<model.Boat>) fileList.removeFirst();
+
+        // Tippy toe around the static member problem...
+        model.Member.setMemberCount(members.size() + 1);
+    }
+
+    /**
+     * @throws IOException
+     *
+     * Write data to tile. Create a new god list and
+     * push inn "members" and "boats". Write this new god
+     * list to file.
+     */
+    private void writeDataToFile() throws IOException
+    {
+        DequeStorage ds = new DequeStorage(filename);
+        Deque<Deque> godList = new Deque<Deque>(); // yo dawg!
+        godList.addLast(members);
+        godList.addLast(boats);
+        ds.write(godList);
+    }
+
+    /**
+     * End routines to be executes before app goes bye bye.
+     */
+    private void endRoutine()
+    {
+        try {
+            writeDataToFile();
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+        Platform.exit();
     }
 
     /**
