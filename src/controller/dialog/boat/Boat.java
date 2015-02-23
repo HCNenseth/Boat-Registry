@@ -1,4 +1,4 @@
-package controller.dialog;
+package controller.dialog.boat;
 
 import controller.Mediator;
 import javafx.collections.FXCollections;
@@ -9,7 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.*;
 import model.Member;
 import storage.Deque;
 import validator.StringMatcher;

@@ -1,4 +1,4 @@
-package controller.dialog;
+package controller.dialog.member;
 
 import controller.Mediator;
 import javafx.fxml.FXML;

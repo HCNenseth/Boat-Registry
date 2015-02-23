@@ -1,7 +1,7 @@
 package controller;
 
-import controller.dialog.Boat;
-import controller.dialog.Member;
+import controller.dialog.boat.Boat;
+import controller.dialog.member.Member;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
