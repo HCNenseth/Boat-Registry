@@ -142,7 +142,7 @@ public class Boat extends Observable implements Initializable
                                     .power(Double.parseDouble(power))
                                     .color(color);
             setChanged();
-            notifyObservers(Mediator.TransmissionSignals.UPDATE_MEMBER);
+            notifyObservers(Mediator.TransmissionSignals.UPDATE_BOAT);
         }
     }
 
