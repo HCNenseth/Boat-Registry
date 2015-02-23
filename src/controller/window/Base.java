@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -27,6 +29,10 @@ public class Base extends Observable implements Initializable
     private TableView<Member> tableViewMembers = new TableView<>();
     @FXML
     private TableView<Boat> tableViewBoats = new TableView<>();
+    @FXML
+    private TabPane tabs;
+    @FXML
+    private Tab boatsTab, membersTab;
 
     Deque<model.Member> members;
     Deque<model.Boat> boats;
@@ -84,7 +90,9 @@ public class Base extends Observable implements Initializable
     {
         FileChooser fc = new FileChooser();
         fc.setTitle("Choose data file");
-        fc.showOpenDialog(new Window(){});
+        fc.showOpenDialog(new Window()
+        {
+        });
     }
 
     @FXML
@@ -94,18 +102,15 @@ public class Base extends Observable implements Initializable
         notifyObservers(Mediator.TransmissionSignals.EXIT);
     }
 
+    /************************
+     * MEMBER LOGIC BE HERE *
+     ************************/
+
     @FXML
     private void newMember(ActionEvent e)
     {
         setChanged();
         notifyObservers(Mediator.TransmissionSignals.CREATE_MEMBER);
-    }
-
-    @FXML
-    private void newBoat(ActionEvent e)
-    {
-        setChanged();
-        notifyObservers(Mediator.TransmissionSignals.CREATE_BOAT);
     }
 
     @FXML
@@ -120,6 +125,29 @@ public class Base extends Observable implements Initializable
         }
     }
 
+    public void updateMembers()
+    {
+        tableMemberList = FXCollections.observableArrayList();
+        for (Member m : members)
+            tableMemberList.add(m);
+        tableViewMembers.setItems(tableMemberList);
+    }
+
+    public int getActiveMemberRow() { return activeMemberRow; }
+
+    public void focusOnMembers() { tabs.getSelectionModel().select(membersTab); }
+
+    /**********************
+     * BOAT LOGIC BE HERE *
+     **********************/
+
+    @FXML
+    private void newBoat(ActionEvent e)
+    {
+        setChanged();
+        notifyObservers(Mediator.TransmissionSignals.CREATE_BOAT);
+    }
+
     @FXML
     private void boatTableClick(MouseEvent e)
     {
@@ -132,26 +160,19 @@ public class Base extends Observable implements Initializable
         }
     }
 
-    public void updateMembers()
-    {
-        // get a empty list
-        tableMemberList = FXCollections.observableArrayList();
-
-        for (Member m : members)
-            tableMemberList.add(m);
-        tableViewMembers.setItems(tableMemberList);
-    }
-
     public void updateBoats()
     {
-        // get a empty list
         tableBoatsList = FXCollections.observableArrayList();
-
         for (Boat b : boats)
             tableBoatsList.add(b);
         tableViewBoats.setItems(tableBoatsList);
     }
 
-    public int getActiveMemberRow() { return activeMemberRow; }
     public int getActiveBoatRow() { return activeBoatRow; }
+
+    public void focusOnBoats() { tabs.getSelectionModel().select(boatsTab); }
+
+    /*******************
+     * HERE BE DRAGONS *
+     *******************/
 }

@@ -41,9 +41,9 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
+      <TabPane fx:id="tabs" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" GridPane.rowIndex="1">
         <tabs>
-          <Tab text="Boats">
+          <Tab fx:id="boatsTab" text="Boats">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -93,7 +93,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Members">
+          <Tab fx:id="membersTab" text="Members">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

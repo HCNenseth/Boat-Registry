@@ -100,9 +100,10 @@ public class Mediator implements Observer
                 setScene();
                 break;
             case UPDATE_MEMBER:
-                // get payload, push into members, and call basecontroller
+                // get payload, push into members, and call basecontroller.
                 members.addLast(((Member) obj).getPayload().build());
                 colleague.getBaseController().updateMembers();
+                colleague.getBaseController().focusOnMembers();
                 secondaryStage.close();
                 break;
             case CREATE_BOAT:
@@ -118,6 +119,7 @@ public class Mediator implements Observer
                 // get payload, push into boats, and call basecontroller
                 boats.addLast(((Boat) obj).getPayload().build());
                 colleague.getBaseController().updateBoats();
+                colleague.getBaseController().focusOnBoats();
                 secondaryStage.close();
                 break;
             case CLOSE:
