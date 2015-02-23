@@ -36,7 +36,7 @@ public class Member implements Serializable
     {
         this.firstname = b.firstname;
         this.lastname = b.lastname;
-        id = ++memberCount;
+        id = memberCount++;
         boats = new Deque<Boat>();
     }
 
@@ -72,4 +72,6 @@ public class Member implements Serializable
 
     @Override
     public String toString()  { return firstname + " " +lastname; }
+
+    public static void setMemberCount(int val) { memberCount = val; }
 }
