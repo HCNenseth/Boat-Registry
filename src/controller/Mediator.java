@@ -100,10 +100,9 @@ public class Mediator implements Observer
                 setScene();
                 break;
             case UPDATE_MEMBER:
-                // get payload, push into members, and call basecontroller.
+                // get payload, push into members.
                 members.addLast(((Member) obj).getPayload().build());
-                colleague.getBaseController().updateMembers();
-                colleague.getBaseController().focusOnMembers();
+                colleague.reloadMembers();
                 secondaryStage.close();
                 break;
             case CREATE_BOAT:
@@ -116,10 +115,17 @@ public class Mediator implements Observer
                 setScene();
                 break;
             case UPDATE_BOAT:
-                // get payload, push into boats, and call basecontroller
-                boats.addLast(((Boat) obj).getPayload().build());
-                colleague.getBaseController().updateBoats();
-                colleague.getBaseController().focusOnBoats();
+                // get payload, push into boats.
+                model.Boat boat = ((Boat) obj).getPayload().build();
+                boats.addLast(boat);
+
+                if (boat.getOwner() != null)  {
+                    model.Member member = boat.getOwner();
+                    member.push(boat);
+                    colleague.reloadMembers();
+                }
+
+                colleague.reloadBoats();
                 secondaryStage.close();
                 break;
             case CLOSE:
@@ -180,6 +186,9 @@ public class Mediator implements Observer
 
     /**
      * @throws IOException
+     *
+     * Set a scene on the secondary stage. This is
+     * for displaying dialog boxes etc.
      */
     private void setScene()
     {

@@ -67,6 +67,8 @@ public class Boat implements Serializable
             return this;
         }
 
+        public Member getMember() { return member; }
+
         public Boat build()
         {
             return new Boat(this);

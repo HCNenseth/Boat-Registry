@@ -1,12 +1,16 @@
 package controller.dialog;
 
 import controller.Mediator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.*;
+import model.Member;
 import storage.Deque;
 import validator.StringMatcher;
 
@@ -30,9 +34,11 @@ public class Boat extends Observable implements Initializable
     private TextField regnrField, typeField, yearField,
                       lengthField, powerField, colorField;
     @FXML
-    private ChoiceBox<model.Member> ownerField;
+    private ChoiceBox<model.Member> ownerSelector;
 
     private model.Boat.Builder payload;
+
+    private ObservableList<model.Member> choiceBoxMembers;
 
     private Boat(Builder b)
     {
@@ -65,7 +71,15 @@ public class Boat extends Observable implements Initializable
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
+        insertMembers();
+    }
 
+    public void insertMembers()
+    {
+        choiceBoxMembers = FXCollections.observableArrayList();
+        for (model.Member m : members)
+            choiceBoxMembers.add(m);
+        ownerSelector.setItems(choiceBoxMembers);
     }
 
     @FXML
@@ -90,6 +104,8 @@ public class Boat extends Observable implements Initializable
         String length = lengthField.getText();
         String power = powerField.getText();
         String color = colorField.getText();
+
+        Member member = ownerSelector.getValue();
 
         // reset all the error messages.
         regNrError.setText("");
@@ -141,6 +157,9 @@ public class Boat extends Observable implements Initializable
                                     .length(Double.parseDouble(length))
                                     .power(Double.parseDouble(power))
                                     .color(color);
+
+            if (member != null) { payload.member(member); }
+
             setChanged();
             notifyObservers(Mediator.TransmissionSignals.UPDATE_BOAT);
         }

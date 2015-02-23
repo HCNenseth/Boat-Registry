@@ -29,11 +29,21 @@ public class Colleague
         setBoatController();
     }
 
+    /*
+        BASE CONTROLLER
+     */
+
     private void setBaseController()
     {
         baseController = new Base.Builder(mediator.getMembers(), mediator.getBoats())
                 .observer(mediator).build();
     }
+
+    public Base getBaseController() { return baseController; }
+
+    /*
+        MEMBER CONTROLLER
+     */
 
     private void setMemberController()
     {
@@ -41,15 +51,29 @@ public class Colleague
                 .observer(mediator).build();
     }
 
+    public Member getMemberController() { return memberController; }
+
+    public void reloadMembers()
+    {
+        getBaseController().updateMembers();
+        getBaseController().focusOnMembers();
+    }
+
+    /*
+        BOAT CONTROLLER
+     */
+
     private void setBoatController()
     {
         boatController = new Boat.Builder(mediator.getMembers())
                 .observer(mediator).build();
     }
 
-    public Base getBaseController() { return baseController; }
-
-    public Member getMemberController() { return memberController; }
-
     public Boat getBoatController() { return boatController; }
+
+    public void reloadBoats()
+    {
+        getBaseController().updateBoats();
+        getBaseController().focusOnBoats();
+    }
 }

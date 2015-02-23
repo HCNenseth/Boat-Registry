@@ -97,7 +97,6 @@ public class Deque<Item> implements Iterable<Item>, Serializable
             if (c++ == i) { return tmp.item; }
             tmp = tmp.next;
         }
-
         return null;
     }
 

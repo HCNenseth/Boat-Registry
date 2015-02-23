@@ -34,8 +34,9 @@ public class Base extends Observable implements Initializable
     @FXML
     private Tab boatsTab, membersTab;
 
-    Deque<model.Member> members;
-    Deque<model.Boat> boats;
+    private Deque<model.Member> members;
+    private Deque<model.Boat> boats;
+
     private ObservableList<Boat> tableBoatsList;
     private ObservableList<Member> tableMemberList;
 
@@ -128,8 +129,9 @@ public class Base extends Observable implements Initializable
     public void updateMembers()
     {
         tableMemberList = FXCollections.observableArrayList();
-        for (Member m : members)
+        for (Member m : members) {
             tableMemberList.add(m);
+        }
         tableViewMembers.setItems(tableMemberList);
     }
 
