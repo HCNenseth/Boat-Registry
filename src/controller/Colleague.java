@@ -15,18 +15,27 @@ import controller.window.Base;
  */
 public class Colleague
 {
+    // Singleton
+    private static Colleague INSTANCE;
+
     private Mediator mediator;
 
     private Base baseController;
     private Member memberController;
     private Boat boatController;
 
-    public Colleague(Mediator mediator)
+    private Colleague(Mediator mediator)
     {
         this.mediator = mediator;
         setBaseController();
         setMemberController();
         setBoatController();
+    }
+
+    public static Colleague getInstance(Mediator mediator)
+    {
+        if (INSTANCE == null) { INSTANCE = new Colleague(mediator); }
+        return INSTANCE;
     }
 
     /*

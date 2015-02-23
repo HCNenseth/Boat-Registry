@@ -15,7 +15,7 @@ public class Member implements Serializable
     private String firstname, lastname;
     private Deque<Boat> boats;
 
-    public static class Builder
+    public static class Builder implements commons.Builder
     {
         // Required parameters
         private String firstname, lastname;

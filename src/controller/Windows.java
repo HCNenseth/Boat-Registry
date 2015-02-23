@@ -5,6 +5,9 @@ package controller;
  */
 public enum Windows
 {
+    /**
+     * Simple configuration for the controllers and connected GUIs.
+     */
     BASE("../layout/base.fxml", "Boat Registry", 800, 650),
     MEMBER_NEW("../layout/member_new.fxml", "New Member", 300, 200),
     MEMBER_EDIT("../layout/member_edit.fxml", "Edit Member", 300, 200),

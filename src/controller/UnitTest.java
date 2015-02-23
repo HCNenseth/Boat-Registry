@@ -15,7 +15,7 @@ public class UnitTest
     @Rule
     public void test_mediator() throws IOException
     {
-        Mediator m = new Mediator(dataFile);
+        Mediator m = Mediator.getInstance(dataFile);
 
         assertTrue(m.getActive().equals(Windows.BASE));
     }

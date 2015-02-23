@@ -11,7 +11,7 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        Mediator m = new Mediator(dataFile);
+        Mediator m = Mediator.getInstance(dataFile);
         primaryStage.setTitle(m.getActive().getTitle());
         primaryStage.setScene(m.activeScene());
 

@@ -31,7 +31,7 @@ public class Member extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder
+    public static class Builder implements commons.Builder
     {
         private Mediator mediator;
         public Builder observer(Mediator mediator)

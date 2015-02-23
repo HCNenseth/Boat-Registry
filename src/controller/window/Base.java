@@ -1,5 +1,6 @@
 package controller.window;
 
+import commons.Builder;
 import controller.Mediator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,8 +24,6 @@ import java.util.ResourceBundle;
 
 public class Base extends Observable implements Initializable
 {
-    private int activeMemberRow, activeBoatRow;
-
     @FXML
     private TableView<Member> tableViewMembers = new TableView<>();
     @FXML
@@ -33,6 +32,8 @@ public class Base extends Observable implements Initializable
     private TabPane tabs;
     @FXML
     private Tab boatsTab, membersTab;
+
+    private int activeMemberRow, activeBoatRow;
 
     private Deque<model.Member> members;
     private Deque<model.Boat> boats;
@@ -47,7 +48,7 @@ public class Base extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder
+    public static class Builder implements commons.Builder
     {
         private Mediator mediator;
         private Deque<model.Member> members;

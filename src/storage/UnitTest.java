@@ -122,12 +122,11 @@ public class UnitTest
         relations_helper(members, boats);
 
         // Write to tmp file!
-        DequeStorage f1 = new DequeStorage(tmpfile);
+        DequeStorage f1 = DequeStorage.getInstance(tmpfile);
         f1.write(list);
 
         // Read from tmp file
-        DequeStorage f2 = new DequeStorage(tmpfile);
-        Deque<?> fileList = f2.read();
+        Deque<?> fileList = f1.read();
 
         // Risky risky...
         Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();

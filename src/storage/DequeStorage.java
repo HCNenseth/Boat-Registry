@@ -10,11 +10,20 @@ import java.io.*;
  */
 public class DequeStorage
 {
-    private String path;
+    // Singleton
+    private static DequeStorage instance;
 
-    public DequeStorage(String path)
+    private String filename;
+
+    private DequeStorage(String filename)
     {
-        this.path = path;
+        this.filename = filename;
+    }
+
+    public static DequeStorage getInstance(String filename)
+    {
+        if (instance == null) { instance = new DequeStorage(filename); }
+        return instance;
     }
 
     /**
@@ -25,7 +34,7 @@ public class DequeStorage
     public void write(Deque<?> d) throws IOException
     {
         ObjectOutputStream handle = new ObjectOutputStream(
-                new FileOutputStream(path)
+                new FileOutputStream(filename)
         );
         handle.writeObject(d);
         handle.close();
@@ -42,7 +51,7 @@ public class DequeStorage
     public Deque<?> read() throws IOException, ClassNotFoundException
     {
         ObjectInputStream handle = new ObjectInputStream(
-                new FileInputStream(path)
+                new FileInputStream(filename)
         );
         Deque<?> tmp = (Deque<?>) handle.readObject();
         handle.close();

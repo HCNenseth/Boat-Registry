@@ -23,6 +23,9 @@ import java.util.Observer;
  */
 public class Mediator implements Observer
 {
+    // Singleton
+    private static Mediator INSTANCE;
+
     private Stage secondaryStage;
     private String filename;
     private Windows active = Windows.BASE;
@@ -38,7 +41,7 @@ public class Mediator implements Observer
         CLOSE, EXIT
     }
 
-    public Mediator(String filename)
+    private Mediator(String filename)
     {
         this.filename = filename;
         this.secondaryStage = new Stage();
@@ -50,7 +53,13 @@ public class Mediator implements Observer
             boats = new Deque<>();
         }
 
-        this.colleague = new Colleague(this);
+        this.colleague = Colleague.getInstance(this);
+    }
+
+    public static Mediator getInstance(String filename)
+    {
+        if (INSTANCE == null) { INSTANCE = new Mediator(filename); }
+        return INSTANCE;
     }
 
     /**
@@ -146,7 +155,7 @@ public class Mediator implements Observer
      */
     private void loadDataFromFile() throws IOException, ClassNotFoundException
     {
-        DequeStorage ds = new DequeStorage(filename);
+        DequeStorage ds = DequeStorage.getInstance(filename);
         Deque<?> fileList = ds.read();
         members = (Deque<model.Member>) fileList.removeFirst();
         boats = (Deque<model.Boat>) fileList.removeFirst();
@@ -164,7 +173,7 @@ public class Mediator implements Observer
      */
     private void writeDataToFile() throws IOException
     {
-        DequeStorage ds = new DequeStorage(filename);
+        DequeStorage ds = DequeStorage.getInstance(filename);
         Deque<Deque> godList = new Deque<Deque>(); // yo dawg!
         godList.addLast(members);
         godList.addLast(boats);

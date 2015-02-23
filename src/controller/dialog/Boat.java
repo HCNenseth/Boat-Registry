@@ -46,7 +46,7 @@ public class Boat extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder
+    public static class Builder implements commons.Builder
     {
         private Mediator mediator;
         private Deque<model.Member> members;
