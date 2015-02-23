@@ -5,9 +5,7 @@ import java.io.*;
 /**
  * Created by alex on 2/18/15.
  *
- * Very spesific Data file storage class
- *
- * EXPERIMENTAL!
+ * Deque file storage class
  *
  */
 public class DequeStorage
@@ -46,7 +44,6 @@ public class DequeStorage
         ObjectInputStream handle = new ObjectInputStream(
                 new FileInputStream(path)
         );
-
         Deque<?> tmp = (Deque<?>) handle.readObject();
         handle.close();
         return tmp;
