@@ -1,6 +1,5 @@
 package controller.window;
 
-import commons.Builder;
 import controller.Colleague;
 import controller.Mediator;
 import javafx.collections.FXCollections;
@@ -8,16 +7,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 
 import model.Member;
 import model.Boat;
-import storage.Deque;
 
 import java.net.URL;
 import java.util.Observable;
@@ -33,6 +30,11 @@ public class Base extends Observable implements Initializable
     private TabPane tabs;
     @FXML
     private Tab boatsTab, membersTab;
+    @FXML
+    private ContextMenu membersContextMenu, boatsContextMenu;
+    @FXML
+    private MenuItem rightBoatEdit, rightBoatDelete,
+                     rightMemberEdit, rightMemberDelete;
 
     private int activeMemberRow, activeBoatRow;
 
@@ -70,7 +72,14 @@ public class Base extends Observable implements Initializable
     {
         updateMembers();
         updateBoats();
+
+        rightBoatDelete.setOnAction(e -> boatDelete());
+        rightBoatEdit.setOnAction(e -> boatEdit());
+        rightMemberDelete.setOnAction(e -> memberDelete());
+        rightMemberEdit.setOnAction(e -> memberEdit());
     }
+
+    public void somemethod() { }
 
     /**
      *
@@ -119,6 +128,23 @@ public class Base extends Observable implements Initializable
         }
     }
 
+    @FXML
+    private void memberTableKey(KeyEvent k)
+    {
+    }
+
+    private void memberEdit()
+    {
+        int r = tableViewMembers.getSelectionModel().getSelectedIndex();
+        System.out.println("Edit member: " + r);
+    }
+
+    private void memberDelete()
+    {
+        int r = tableViewMembers.getSelectionModel().getSelectedIndex();
+        System.out.println("Delete member: " + r);
+    }
+
     public void updateMembers()
     {
         tableMemberList = FXCollections.observableArrayList();
@@ -153,6 +179,23 @@ public class Base extends Observable implements Initializable
             setChanged();
             notifyObservers(Mediator.TransmissionSignals.EDIT_BOAT);
         }
+    }
+
+    @FXML
+    private void boatTableKey(KeyEvent k)
+    {
+    }
+
+    private void boatDelete()
+    {
+        int r = tableViewBoats.getSelectionModel().getSelectedIndex();
+        System.out.println("Delete boat: " + r);
+    }
+
+    private void boatEdit()
+    {
+        int r = tableViewBoats.getSelectionModel().getSelectedIndex();
+        System.out.println("Edit boat: " + r);
     }
 
     public void updateBoats()
