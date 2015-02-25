@@ -121,8 +121,6 @@ public class Base extends Observable implements Initializable
     {
         // double click only
         if (e.getClickCount() == 2) {
-            TableView tv = (TableView) e.getSource();
-            activeMemberRow = tv.getSelectionModel().getSelectedIndex();
             setChanged();
             notifyObservers(Mediator.TransmissionSignals.EDIT_MEMBER);
         }
@@ -135,14 +133,17 @@ public class Base extends Observable implements Initializable
 
     private void memberEdit()
     {
-        int r = tableViewMembers.getSelectionModel().getSelectedIndex();
-        System.out.println("Edit member: " + r);
+        Member selectedMember = getSelectedMember();
     }
 
     private void memberDelete()
     {
-        int r = tableViewMembers.getSelectionModel().getSelectedIndex();
-        System.out.println("Delete member: " + r);
+        Member selectedMember = getSelectedMember();
+    }
+
+    private Member getSelectedMember()
+    {
+        return tableViewMembers.getSelectionModel().getSelectedItem();
     }
 
     public void updateMembers()
@@ -174,8 +175,6 @@ public class Base extends Observable implements Initializable
     {
         // double click only
         if (e.getClickCount() == 2) {
-            TableView tv = (TableView) e.getSource();
-            activeBoatRow = tv.getSelectionModel().getSelectedIndex();
             setChanged();
             notifyObservers(Mediator.TransmissionSignals.EDIT_BOAT);
         }
@@ -188,14 +187,17 @@ public class Base extends Observable implements Initializable
 
     private void boatDelete()
     {
-        int r = tableViewBoats.getSelectionModel().getSelectedIndex();
-        System.out.println("Delete boat: " + r);
+        Boat selectedBoat = getSelectedBoat();
     }
 
     private void boatEdit()
     {
-        int r = tableViewBoats.getSelectionModel().getSelectedIndex();
-        System.out.println("Edit boat: " + r);
+        Boat selectedBoat = getSelectedBoat();
+    }
+
+    private Boat getSelectedBoat()
+    {
+        return tableViewBoats.getSelectionModel().getSelectedItem();
     }
 
     public void updateBoats()
