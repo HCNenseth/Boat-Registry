@@ -8,14 +8,18 @@ import java.util.NoSuchElementException;
 /**
  * Created by alex on 2/17/15.
  */
-public class Deque<Item> implements Iterable<Item>, Serializable
+public final class Deque<Item> implements Iterable<Item>, Serializable
 {
+    private static final long serialVersionUID = 3000L;
+
     private Node first;
     private Node last;
     private int count;
 
-    private class Node implements Serializable
+    private final class Node implements Serializable
     {
+        private static final long serialVersionUID = 4000L;
+
         Item item;
         Node next;
     }

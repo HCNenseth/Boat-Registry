@@ -8,8 +8,10 @@ import storage.Deque;
 
 import java.io.Serializable;
 
-public class Member implements Serializable
+public final class Member implements Serializable
 {
+    private static final long serialVersionUID = 2000L;
+
     private int id;
     private static int memberCount = 0;
     private String firstname, lastname;

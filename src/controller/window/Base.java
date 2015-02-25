@@ -1,6 +1,7 @@
 package controller.window;
 
 import commons.Builder;
+import controller.Colleague;
 import controller.Mediator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -35,29 +36,20 @@ public class Base extends Observable implements Initializable
 
     private int activeMemberRow, activeBoatRow;
 
-    private Deque<model.Member> members;
-    private Deque<model.Boat> boats;
-
     private ObservableList<Boat> tableBoatsList;
     private ObservableList<Member> tableMemberList;
 
     private Base(Builder b)
     {
-        this.members = b.members;
-        this.boats = b.boats;
         addObserver(b.mediator);
     }
 
     public static class Builder implements commons.Builder
     {
         private Mediator mediator;
-        private Deque<model.Member> members;
-        private Deque<model.Boat> boats;
 
-        public Builder(Deque<model.Member> members, Deque<model.Boat> boats)
+        public Builder()
         {
-            this.members = members;
-            this.boats = boats;
         }
 
         public Builder observer(Mediator mediator)
@@ -130,7 +122,7 @@ public class Base extends Observable implements Initializable
     public void updateMembers()
     {
         tableMemberList = FXCollections.observableArrayList();
-        for (Member m : members) {
+        for (Member m : Colleague.getInstance().getMembers() ) {
             tableMemberList.add(m);
         }
         tableViewMembers.setItems(tableMemberList);
@@ -166,7 +158,7 @@ public class Base extends Observable implements Initializable
     public void updateBoats()
     {
         tableBoatsList = FXCollections.observableArrayList();
-        for (Boat b : boats)
+        for (Boat b : Colleague.getInstance().getBoats())
             tableBoatsList.add(b);
         tableViewBoats.setItems(tableBoatsList);
     }

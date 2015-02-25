@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 /**
  * Created by alex on 2/17/15.
  */
-public class Boat extends Observable implements Initializable
+public final class Boat extends Observable implements Initializable
 {
     private Deque<model.Member> members;
 

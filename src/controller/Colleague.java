@@ -3,6 +3,7 @@ package controller;
 import controller.dialog.boat.Boat;
 import controller.dialog.member.Member;
 import controller.window.Base;
+import storage.Deque;
 
 /**
  * Created by alex on 2/22/15.
@@ -16,7 +17,7 @@ import controller.window.Base;
 public class Colleague
 {
     // Singleton
-    private static Colleague INSTANCE;
+    private static Colleague instance;
 
     private Mediator mediator;
 
@@ -34,8 +35,13 @@ public class Colleague
 
     public static Colleague getInstance(Mediator mediator)
     {
-        if (INSTANCE == null) { INSTANCE = new Colleague(mediator); }
-        return INSTANCE;
+        if (instance == null) { instance = new Colleague(mediator); }
+        return instance;
+    }
+
+    public static Colleague getInstance()
+    {
+        return instance;
     }
 
     /*
@@ -44,8 +50,7 @@ public class Colleague
 
     private void setBaseController()
     {
-        baseController = new Base.Builder(mediator.getMembers(), mediator.getBoats())
-                .observer(mediator).build();
+        baseController = new Base.Builder().observer(mediator).build();
     }
 
     public Base getBaseController() { return baseController; }
@@ -68,6 +73,10 @@ public class Colleague
         getBaseController().focusOnMembers();
     }
 
+    public Deque<model.Member> getMembers() {
+        return mediator.getMembers();
+    }
+
     /*
         BOAT CONTROLLER
      */
@@ -85,4 +94,6 @@ public class Colleague
         getBaseController().updateBoats();
         getBaseController().focusOnBoats();
     }
+
+    public Deque<model.Boat> getBoats() { return mediator.getBoats(); }
 }

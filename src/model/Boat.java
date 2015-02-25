@@ -6,8 +6,10 @@ package model;
 
 import java.io.Serializable;
 
-public class Boat implements Serializable
+public final class Boat implements Serializable
 {
+    private static final long serialVersionUID = 1000L;
+
     private String regnr;
     private String type;
     private int year;
