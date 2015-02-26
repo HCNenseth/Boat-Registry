@@ -1,5 +1,6 @@
 package storage;
 
+import data.Data;
 import model.Member;
 import model.Boat;
 import org.junit.Test;
@@ -99,11 +100,8 @@ public class UnitTest
     public void test_data() throws IOException, ClassNotFoundException
     {
         String tmpfile = "testfile.dat";
-
-        // Save lists in wrapper class
-        Deque<Deque> list = new Deque<Deque>(); // yo dawg!
-        list.addLast(members);
-        list.addLast(boats);
+        DequeStorage.setInstance(tmpfile);
+        DequeStorage f1 = DequeStorage.getInstance();
 
         /**
          * Create some relations.
@@ -121,16 +119,16 @@ public class UnitTest
         // Test relations before saving to file
         relations_helper(members, boats);
 
-        // Write to tmp file!
-        DequeStorage f1 = DequeStorage.getInstance(tmpfile);
-        f1.write(list);
+        Data.getInstance().setMembers(members);
+        Data.getInstance().setBoats(boats);
 
-        // Read from tmp file
-        Deque<?> fileList = f1.read();
+        Data.getInstance().writeData();
+
+        Data.getInstance().loadData();
 
         // Risky risky...
-        Deque<Member> fileMembers = (Deque<Member>) fileList.removeFirst();
-        Deque<Boat> fileBoats = (Deque<Boat>) fileList.removeFirst();
+        Deque<Member> fileMembers = Data.getInstance().getMembers();
+        Deque<Boat> fileBoats = Data.getInstance().getBoats();
 
         relations_helper(fileMembers, fileBoats);
     }

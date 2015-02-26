@@ -20,9 +20,15 @@ public class DequeStorage
         this.filename = filename;
     }
 
-    public static DequeStorage getInstance(String filename)
+    public static void setInstance(String filename)
     {
         if (instance == null) { instance = new DequeStorage(filename); }
+
+        return;
+    }
+
+    public static DequeStorage getInstance()
+    {
         return instance;
     }
 

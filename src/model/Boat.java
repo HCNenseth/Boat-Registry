@@ -18,7 +18,7 @@ public final class Boat implements Serializable
     private String color;
     private Member owner;
 
-    public static class Builder implements commons.Builder
+    public static class Builder implements common.Builder
     {
         // Required parameters
         private final String regnr;

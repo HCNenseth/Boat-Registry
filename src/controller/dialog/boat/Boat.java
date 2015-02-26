@@ -1,6 +1,10 @@
 package controller.dialog.boat;
 
+import common.DataType;
+import common.DialogSignal;
+import common.SignalType;
 import controller.Mediator;
+import data.Data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -35,8 +39,6 @@ public final class Boat extends Observable implements Initializable
     @FXML
     private ChoiceBox<model.Member> ownerSelector;
 
-    private model.Boat.Builder payload;
-
     private ObservableList<model.Member> choiceBoxMembers;
 
     private Boat(Builder b)
@@ -45,7 +47,7 @@ public final class Boat extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder implements commons.Builder
+    public static class Builder implements common.Builder
     {
         private Mediator mediator;
         private Deque<model.Member> members;
@@ -85,7 +87,7 @@ public final class Boat extends Observable implements Initializable
     private void closeButtonAction()
     {
         setChanged();
-        notifyObservers(Mediator.TransmissionSignals.CLOSE);
+        notifyObservers(new DialogSignal<>(SignalType.CLOSE));
     }
 
     /**
@@ -151,18 +153,23 @@ public final class Boat extends Observable implements Initializable
         }
 
         if (valid) {
-            payload = new model.Boat.Builder(regNr, type)
+            model.Boat.Builder payload = new model.Boat.Builder(regNr, type)
                                     .year(Integer.parseInt(year))
                                     .length(Double.parseDouble(length))
                                     .power(Double.parseDouble(power))
                                     .color(color);
 
-            if (member != null) { payload.member(member); }
+            model.Boat b = payload.build();
+
+            if (member != null) {
+                b.setOwner(member);
+                member.push(b);
+            }
+
+            Data.getInstance().getBoats().addLast(b);
 
             setChanged();
-            notifyObservers(Mediator.TransmissionSignals.UPDATE_BOAT);
+            notifyObservers(new DialogSignal<>(SignalType.CREATE, DataType.BOAT));
         }
     }
-
-    public model.Boat.Builder getPayload() { return payload; }
 }

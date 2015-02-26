@@ -1,11 +1,16 @@
 package controller.dialog.member;
 
+import common.DataType;
+import common.DialogSignal;
+import common.SignalType;
 import controller.Mediator;
+import data.Data;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.Boat;
 import validator.StringMatcher;
 
 import java.net.URL;
@@ -31,7 +36,7 @@ public final class Member extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder implements commons.Builder
+    public static class Builder implements common.Builder
     {
         private Mediator mediator;
         public Builder observer(Mediator mediator)
@@ -56,7 +61,8 @@ public final class Member extends Observable implements Initializable
     private void closeButtonAction()
     {
         setChanged();
-        notifyObservers(Mediator.TransmissionSignals.CLOSE);
+        //notifyObservers(Mediator.TransmissionSignals.CLOSE);
+        notifyObservers(new DialogSignal<>(SignalType.CLOSE));
     }
 
     /**
@@ -88,9 +94,11 @@ public final class Member extends Observable implements Initializable
         }
 
         if (valid) {
-            payload = new model.Member.Builder(firstname, lastname);
+            Data.getInstance().getMembers()
+                    .addLast(new model.Member.Builder(firstname, lastname).build());
+
             setChanged();
-            notifyObservers(Mediator.TransmissionSignals.UPDATE_MEMBER);
+            notifyObservers(new DialogSignal<>(SignalType.CREATE, DataType.BOAT));
         }
     }
 

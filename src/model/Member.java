@@ -17,7 +17,7 @@ public final class Member implements Serializable
     private String firstname, lastname;
     private Deque<Boat> boats;
 
-    public static class Builder implements commons.Builder
+    public static class Builder implements common.Builder
     {
         // Required parameters
         private String firstname, lastname;
@@ -76,4 +76,9 @@ public final class Member implements Serializable
     public String toString()  { return firstname + " " +lastname; }
 
     public static void setMemberCount(int val) { memberCount = val; }
+
+    public boolean hasBoats()
+    {
+        return getBoats() == null;
+    }
 }

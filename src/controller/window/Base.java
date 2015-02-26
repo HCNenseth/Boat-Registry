@@ -1,7 +1,10 @@
 package controller.window;
 
-import controller.Colleague;
+import common.DataType;
+import common.SignalType;
+import common.Action;
 import controller.Mediator;
+import data.Data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,7 +49,7 @@ public class Base extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder implements commons.Builder
+    public static class Builder implements common.Builder
     {
         private Mediator mediator;
 
@@ -79,8 +82,6 @@ public class Base extends Observable implements Initializable
         rightMemberEdit.setOnAction(e -> memberEdit());
     }
 
-    public void somemethod() { }
-
     /**
      *
      * This is not this methods final form.
@@ -102,7 +103,7 @@ public class Base extends Observable implements Initializable
     private void close(ActionEvent e)
     {
         setChanged();
-        notifyObservers(Mediator.TransmissionSignals.EXIT);
+        notifyObservers(new Action<>(SignalType.QUIT));
     }
 
     /************************
@@ -113,7 +114,8 @@ public class Base extends Observable implements Initializable
     private void newMember(ActionEvent e)
     {
         setChanged();
-        notifyObservers(Mediator.TransmissionSignals.CREATE_MEMBER);
+        //notifyObservers(Mediator.TransmissionSignals.CREATE_MEMBER);
+        notifyObservers(new Action<>(SignalType.NEW, DataType.MEMBER));
     }
 
     @FXML
@@ -122,7 +124,9 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             setChanged();
-            notifyObservers(Mediator.TransmissionSignals.EDIT_MEMBER);
+            notifyObservers(new Action<>(getSelectedMember(),
+                    SignalType.EDIT, DataType.MEMBER));
+            //notifyObservers(Mediator.TransmissionSignals.EDIT_MEMBER);
         }
     }
 
@@ -133,12 +137,24 @@ public class Base extends Observable implements Initializable
 
     private void memberEdit()
     {
-        Member selectedMember = getSelectedMember();
+        setChanged();
+        notifyObservers(new Action<>(getSelectedMember(),
+                SignalType.EDIT, DataType.MEMBER));
     }
 
     private void memberDelete()
     {
         Member selectedMember = getSelectedMember();
+
+        if (selectedMember.hasBoats()) {
+            // nope ...
+            return;
+        }
+
+        setChanged();
+        notifyObservers(new Action<>(selectedMember,
+                SignalType.DELETE, DataType.MEMBER));
+
     }
 
     private Member getSelectedMember()
@@ -149,7 +165,7 @@ public class Base extends Observable implements Initializable
     public void updateMembers()
     {
         tableMemberList = FXCollections.observableArrayList();
-        for (Member m : Colleague.getInstance().getMembers() ) {
+        for (Member m : Data.getInstance().getMembers()) {
             tableMemberList.add(m);
         }
         tableViewMembers.setItems(tableMemberList);
@@ -167,7 +183,7 @@ public class Base extends Observable implements Initializable
     private void newBoat(ActionEvent e)
     {
         setChanged();
-        notifyObservers(Mediator.TransmissionSignals.CREATE_BOAT);
+        notifyObservers(new Action<>(SignalType.NEW, DataType.BOAT));
     }
 
     @FXML
@@ -176,7 +192,8 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             setChanged();
-            notifyObservers(Mediator.TransmissionSignals.EDIT_BOAT);
+            notifyObservers(new Action<>(getSelectedBoat(),
+                    SignalType.EDIT, DataType.BOAT));
         }
     }
 
@@ -187,12 +204,16 @@ public class Base extends Observable implements Initializable
 
     private void boatDelete()
     {
-        Boat selectedBoat = getSelectedBoat();
+        setChanged();
+        notifyObservers(new Action<>(getSelectedBoat(),
+                SignalType.DELETE, DataType.BOAT));
     }
 
     private void boatEdit()
     {
-        Boat selectedBoat = getSelectedBoat();
+        setChanged();
+        notifyObservers(new Action<>(getSelectedBoat(),
+                SignalType.EDIT, DataType.BOAT));
     }
 
     private Boat getSelectedBoat()
@@ -203,7 +224,7 @@ public class Base extends Observable implements Initializable
     public void updateBoats()
     {
         tableBoatsList = FXCollections.observableArrayList();
-        for (Boat b : Colleague.getInstance().getBoats())
+        for (Boat b : Data.getInstance().getBoats())
             tableBoatsList.add(b);
         tableViewBoats.setItems(tableBoatsList);
     }

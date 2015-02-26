@@ -1,8 +1,10 @@
 package app;
 
 import controller.Mediator;
+import data.Data;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import storage.DequeStorage;
 
 public class Main extends Application
 {
@@ -11,6 +13,11 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+        DequeStorage.setInstance(dataFile);
+        Data.getInstance().loadData();
+
+
+
         Mediator m = Mediator.getInstance(dataFile);
         primaryStage.setTitle(m.getActive().getTitle());
         primaryStage.setScene(m.activeScene());

@@ -1,14 +1,18 @@
 package controller;
 
+import common.Command;
+import common.DataType;
+import common.SignalType;
 import controller.dialog.boat.Boat;
 import controller.dialog.member.Member;
 import controller.window.Base;
+import data.Data;
 import storage.Deque;
 
 /**
  * Created by alex on 2/22/15.
  *
- * This class is meant to act as a helper "colleauge" to the busy
+ * This class is meant to act as a helper "colleague" to the busy
  * Mediator. This might not be 100% correct to the pattern.
  * As of now this class holds and manages all the controllers,
  * and will be first support line to the controller instances in
@@ -35,7 +39,9 @@ public class Colleague
 
     public static Colleague getInstance(Mediator mediator)
     {
-        if (instance == null) { instance = new Colleague(mediator); }
+        if (instance == null) {
+            instance = new Colleague(mediator);
+        }
         return instance;
     }
 
@@ -53,10 +59,49 @@ public class Colleague
         baseController = new Base.Builder().observer(mediator).build();
     }
 
-    public Base getBaseController() { return baseController; }
+    public Base getBaseController()
+    {
+        return baseController;
+    }
 
     /*
-        MEMBER CONTROLLER
+        GENERIC WINDOW METHODS
+     */
+
+    public void processWindowSignal(Command c)
+    {
+        if (c.getSignalType() == SignalType.QUIT) {
+            mediator.endRoutine();
+            return;
+        }
+
+        switch (c.getDataType()) {
+            case BOAT:
+                processBoatSignal(c);
+                return;
+            case MEMBER:
+                processMemberSignal(c);
+                return;
+        }
+    }
+
+    /*
+        GENERIC DIALOG METHODS
+     */
+    public void processDialogSignal(Command c)
+    {
+        switch (c.getSignalType()) {
+            case CLOSE:
+                mediator.secondaryStage.close();
+                break;
+            case CREATE:
+                reloadBoats(); reloadMembers();
+                mediator.secondaryStage.close();
+        }
+    }
+
+    /*
+        MEMBER LOGIC
      */
 
     private void setMemberController()
@@ -65,7 +110,10 @@ public class Colleague
                 .observer(mediator).build();
     }
 
-    public Member getMemberController() { return memberController; }
+    public Member getMemberController()
+    {
+        return memberController;
+    }
 
     public void reloadMembers()
     {
@@ -73,21 +121,35 @@ public class Colleague
         getBaseController().focusOnMembers();
     }
 
-    public Deque<model.Member> getMembers() {
-        return mediator.getMembers();
+    private void processMemberSignal(Command c)
+    {
+        switch (c.getSignalType()) {
+            case EDIT:
+                System.out.println("edit member");
+                break;
+            case DELETE:
+                System.out.println("delete member");
+                break;
+            case NEW:
+                mediator.switchScene(Windows.MEMBER_NEW);
+                break;
+        }
     }
 
     /*
-        BOAT CONTROLLER
+        BOAT LOGIC
      */
 
     private void setBoatController()
     {
-        boatController = new Boat.Builder(mediator.getMembers())
+        boatController = new Boat.Builder(Data.getInstance().getMembers())
                 .observer(mediator).build();
     }
 
-    public Boat getBoatController() { return boatController; }
+    public Boat getBoatController()
+    {
+        return boatController;
+    }
 
     public void reloadBoats()
     {
@@ -95,5 +157,31 @@ public class Colleague
         getBaseController().focusOnBoats();
     }
 
-    public Deque<model.Boat> getBoats() { return mediator.getBoats(); }
+    private void processBoatSignal(Command c)
+    {
+        switch (c.getSignalType()) {
+            case EDIT:
+                /**
+                 * Open Boat edit mode
+                 * send boat on payload to controller
+                 */
+                System.out.println("edit boat");
+                break;
+            case DELETE:
+                /**
+                 * Push a query dialog to verify
+                 * - Fetch data on payload.
+                 * - Check if connected owners
+                 * - Remove from boat list.
+                 * - Remove from member list.
+                 */
+
+                System.out.println("delete boat");
+                break;
+            case NEW:
+                mediator.switchScene(Windows.BOAT_NEW);
+                break;
+        }
+    }
+
 }

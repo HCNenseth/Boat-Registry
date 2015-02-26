@@ -1,13 +1,12 @@
 package controller;
 
-import controller.dialog.boat.Boat;
-import controller.dialog.member.Member;
+import common.Command;
+import data.Data;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import storage.Deque;
-import storage.DequeStorage;
 
 import java.io.IOException;
 import java.util.Observable;
@@ -26,33 +25,16 @@ public class Mediator implements Observer
     // Singleton
     private static Mediator INSTANCE;
 
-    private Stage secondaryStage;
+    protected Stage secondaryStage;
     private String filename;
     private Windows active = Windows.BASE;
 
     private Colleague colleague;
 
-    private Deque<model.Boat> boats;
-    private Deque<model.Member> members;
-
-    public enum TransmissionSignals {
-        CREATE_BOAT, EDIT_BOAT, UPDATE_BOAT,
-        CREATE_MEMBER, EDIT_MEMBER, UPDATE_MEMBER,
-        CLOSE, EXIT
-    }
-
     private Mediator(String filename)
     {
         this.filename = filename;
         this.secondaryStage = new Stage();
-
-        try {
-            loadDataFromFile();
-        } catch (IOException | ClassNotFoundException e) {
-            members = new Deque<>();
-            boats = new Deque<>();
-        }
-
         this.colleague = Colleague.getInstance(this);
     }
 
@@ -98,6 +80,14 @@ public class Mediator implements Observer
     @Override
     public void update(Observable obj, Object arg)
     {
+        Command c = (Command) arg;
+
+        switch (c.getSignalOrigin()) {
+            case DIALOG: colleague.processDialogSignal(c); return;
+            case WINDOW: colleague.processWindowSignal(c); return;
+        }
+
+        /**
         switch ((TransmissionSignals) arg) {
             case CREATE_MEMBER:
                 switchScene(Windows.MEMBER_NEW);
@@ -144,49 +134,16 @@ public class Mediator implements Observer
                 endRoutine();
                 break;
         }
-    }
-
-    /**
-     * @throws IOException
-     * @throws ClassNotFoundException
-     *
-     * Read data from file and load into the private members
-     * "members" and "boats"
-     */
-    private void loadDataFromFile() throws IOException, ClassNotFoundException
-    {
-        DequeStorage ds = DequeStorage.getInstance(filename);
-        Deque<?> fileList = ds.read();
-        members = (Deque<model.Member>) fileList.removeFirst();
-        boats = (Deque<model.Boat>) fileList.removeFirst();
-
-        // Tippy toe around the static member problem...
-        model.Member.setMemberCount(members.size() + 1);
-    }
-
-    /**
-     * @throws IOException
-     *
-     * Write data to tile. Create a new god list and
-     * push inn "members" and "boats". Write this new god
-     * list to file.
-     */
-    private void writeDataToFile() throws IOException
-    {
-        DequeStorage ds = DequeStorage.getInstance(filename);
-        Deque<Deque> godList = new Deque<Deque>(); // yo dawg!
-        godList.addLast(members);
-        godList.addLast(boats);
-        ds.write(godList);
+        */
     }
 
     /**
      * End routines to be executes before app goes bye bye.
      */
-    private void endRoutine()
+    protected void endRoutine()
     {
         try {
-            writeDataToFile();
+            Data.getInstance().writeData();
         } catch (IOException ioe) {
             System.out.println(ioe);
         }
@@ -216,11 +173,10 @@ public class Mediator implements Observer
         }
     }
 
-    protected Deque<model.Member> getMembers() { return members; }
-
-    protected Deque<model.Boat> getBoats() { return boats; }
-
     public Windows getActive() { return active; }
 
-    private void switchScene(Windows w) { active = w; }
+    protected void switchScene(Windows w) {
+        active = w;
+        setScene();
+    }
 }

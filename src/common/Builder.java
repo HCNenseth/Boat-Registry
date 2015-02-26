@@ -1,4 +1,4 @@
-package commons;
+package common;
 
 /**
  * Created by alex on 2/23/15.
