@@ -1,13 +1,11 @@
 package controller;
 
 import common.Command;
-import common.DataType;
 import common.SignalType;
-import controller.dialog.boat.Boat;
-import controller.dialog.member.Member;
+import controller.widget.boat.Boat;
+import controller.widget.member.Member;
 import controller.window.Base;
 import data.Data;
-import storage.Deque;
 
 /**
  * Created by alex on 2/22/15.
@@ -86,17 +84,19 @@ public class Colleague
     }
 
     /*
-        GENERIC DIALOG METHODS
+        GENERIC WIDGET METHODS
      */
-    public void processDialogSignal(Command c)
+    public void processWidgetSignal(Command c)
     {
         switch (c.getSignalType()) {
             case CLOSE:
                 mediator.secondaryStage.close();
                 break;
             case CREATE:
+            case UPDATE:
                 reloadBoats(); reloadMembers();
                 mediator.secondaryStage.close();
+                break;
         }
     }
 
@@ -125,13 +125,14 @@ public class Colleague
     {
         switch (c.getSignalType()) {
             case EDIT:
-                System.out.println("edit member");
+                getMemberController().setMember((model.Member) c.getPayload());
+                mediator.switchScene(Configuration.MEMBER_EDIT);
                 break;
             case DELETE:
                 System.out.println("delete member");
                 break;
             case NEW:
-                mediator.switchScene(Windows.MEMBER_NEW);
+                mediator.switchScene(Configuration.MEMBER_NEW);
                 break;
         }
     }
@@ -161,15 +162,12 @@ public class Colleague
     {
         switch (c.getSignalType()) {
             case EDIT:
-                /**
-                 * Open Boat edit mode
-                 * send boat on payload to controller
-                 */
-                System.out.println("edit boat");
+                getBoatController().setBoat((model.Boat) c.getPayload());
+                mediator.switchScene(Configuration.BOAT_EDIT);
                 break;
             case DELETE:
                 /**
-                 * Push a query dialog to verify
+                 * Push a query widget to verify
                  * - Fetch data on payload.
                  * - Check if connected owners
                  * - Remove from boat list.
@@ -179,7 +177,7 @@ public class Colleague
                 System.out.println("delete boat");
                 break;
             case NEW:
-                mediator.switchScene(Windows.BOAT_NEW);
+                mediator.switchScene(Configuration.BOAT_NEW);
                 break;
         }
     }

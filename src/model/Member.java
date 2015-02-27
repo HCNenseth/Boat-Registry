@@ -57,6 +57,14 @@ public final class Member implements Serializable
 
     public String getLastname() { return lastname; }
 
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public int getId() { return id; }
 
     // OBS: this makes boats list mutable! (should return a copy)

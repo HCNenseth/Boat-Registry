@@ -1,7 +1,7 @@
-package controller.dialog.boat;
+package controller.widget.boat;
 
 import common.DataType;
-import common.DialogSignal;
+import common.WidgetSignal;
 import common.SignalType;
 import controller.Mediator;
 import data.Data;
@@ -40,6 +40,9 @@ public final class Boat extends Observable implements Initializable
     private ChoiceBox<model.Member> ownerSelector;
 
     private ObservableList<model.Member> choiceBoxMembers;
+    private model.Boat boat;
+    private Mode mode = Mode.CREATE;
+    private enum Mode {CREATE, UPDATE};
 
     private Boat(Builder b)
     {
@@ -73,6 +76,11 @@ public final class Boat extends Observable implements Initializable
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
         insertMembers();
+        if (mode == Mode.UPDATE && boat != null) {
+            regnrField.setText(boat.getRegnr());
+            typeField.setText(boat.getType());
+            //yearField.setText(boat.getYear());
+        }
     }
 
     public void insertMembers()
@@ -87,7 +95,7 @@ public final class Boat extends Observable implements Initializable
     private void closeButtonAction()
     {
         setChanged();
-        notifyObservers(new DialogSignal<>(SignalType.CLOSE));
+        notifyObservers(new WidgetSignal<>(SignalType.CLOSE));
     }
 
     /**
@@ -169,7 +177,15 @@ public final class Boat extends Observable implements Initializable
             Data.getInstance().getBoats().addLast(b);
 
             setChanged();
-            notifyObservers(new DialogSignal<>(SignalType.CREATE, DataType.BOAT));
+            notifyObservers(new WidgetSignal<>(SignalType.CREATE, DataType.BOAT));
         }
     }
+
+    public void setBoat(model.Boat boat) {
+        this.boat = boat;
+        setUpdateMode();
+    }
+
+    private void setCreateMode() { mode = Mode.CREATE; }
+    private void setUpdateMode() { mode = Mode.UPDATE; }
 }

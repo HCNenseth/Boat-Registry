@@ -5,5 +5,5 @@ package common;
  */
 public enum SignalOrigin
 {
-    DIALOG, WINDOW
+    WIDGET, WINDOW
 }

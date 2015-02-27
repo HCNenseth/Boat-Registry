@@ -17,6 +17,6 @@ public class UnitTest
     {
         Mediator m = Mediator.getInstance(dataFile);
 
-        assertTrue(m.getActive().equals(Windows.BASE));
+        assertTrue(m.getActive().equals(Configuration.BASE));
     }
 }

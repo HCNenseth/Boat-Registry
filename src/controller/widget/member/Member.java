@@ -1,7 +1,7 @@
-package controller.dialog.member;
+package controller.widget.member;
 
 import common.DataType;
-import common.DialogSignal;
+import common.WidgetSignal;
 import common.SignalType;
 import controller.Mediator;
 import data.Data;
@@ -10,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.Boat;
 import validator.StringMatcher;
 
 import java.net.URL;
@@ -28,6 +27,10 @@ public final class Member extends Observable implements Initializable
     private Label firstNameError, lastNameError;
     @FXML
     private Button closeButton, saveButton;
+
+    private model.Member member;
+    private Mode mode = Mode.CREATE;
+    private enum Mode {CREATE, UPDATE};
 
     private model.Member.Builder payload;
 
@@ -54,15 +57,17 @@ public final class Member extends Observable implements Initializable
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
-
+        if (mode == Mode.UPDATE && member != null) {
+            firstNameField.setText(member.getFirstname());
+            lastNameField.setText(member.getLastname());
+        }
     }
 
     @FXML
     private void closeButtonAction()
     {
         setChanged();
-        //notifyObservers(Mediator.TransmissionSignals.CLOSE);
-        notifyObservers(new DialogSignal<>(SignalType.CLOSE));
+        notifyObservers(new WidgetSignal<>(SignalType.CLOSE));
     }
 
     /**
@@ -94,13 +99,34 @@ public final class Member extends Observable implements Initializable
         }
 
         if (valid) {
-            Data.getInstance().getMembers()
-                    .addLast(new model.Member.Builder(firstname, lastname).build());
 
             setChanged();
-            notifyObservers(new DialogSignal<>(SignalType.CREATE, DataType.BOAT));
+
+            switch (mode) {
+                case CREATE:
+                    Data.getInstance().getMembers()
+                            .addLast(new model.Member.Builder(firstname, lastname).build());
+                    notifyObservers(new WidgetSignal<>(SignalType.CREATE, DataType.MEMBER));
+                    break;
+                case UPDATE:
+                    member.setFirstname(firstname);
+                    member.setLastname(lastname);
+                    notifyObservers(new WidgetSignal<>(SignalType.UPDATE, DataType.MEMBER));
+                    setCreateMode();
+                    break;
+            }
         }
     }
 
     public model.Member.Builder getPayload() { return payload; }
+
+    public void setMember(model.Member member)
+    {
+        this.member = member;
+        setUpdateMode();
+    }
+
+    private void setCreateMode() { mode = Mode.CREATE; }
+    private void setUpdateMode() { mode = Mode.UPDATE; }
 }
+

@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import storage.Deque;
 
 import java.io.IOException;
 import java.util.Observable;
@@ -27,7 +26,7 @@ public class Mediator implements Observer
 
     protected Stage secondaryStage;
     private String filename;
-    private Windows active = Windows.BASE;
+    private Configuration active = Configuration.BASE;
 
     private Colleague colleague;
 
@@ -80,22 +79,25 @@ public class Mediator implements Observer
     @Override
     public void update(Observable obj, Object arg)
     {
+        if (! (arg instanceof Command))
+            throw new IllegalArgumentException("Wrong arg type!");
+
         Command c = (Command) arg;
 
         switch (c.getSignalOrigin()) {
-            case DIALOG: colleague.processDialogSignal(c); return;
+            case WIDGET: colleague.processWidgetSignal(c); return;
             case WINDOW: colleague.processWindowSignal(c); return;
         }
 
         /**
         switch ((TransmissionSignals) arg) {
             case CREATE_MEMBER:
-                switchScene(Windows.MEMBER_NEW);
+                switchScene(Configuration.MEMBER_NEW);
                 setScene();
                 break;
             case EDIT_MEMBER:
                 // get info
-                switchScene(Windows.MEMBER_EDIT);
+                switchScene(Configuration.MEMBER_EDIT);
                 setScene();
                 break;
             case UPDATE_MEMBER:
@@ -105,12 +107,12 @@ public class Mediator implements Observer
                 secondaryStage.close();
                 break;
             case CREATE_BOAT:
-                switchScene(Windows.BOAT_NEW);
+                switchScene(Configuration.BOAT_NEW);
                 setScene();
                 break;
             case EDIT_BOAT:
                 // get info and setup edit window
-                switchScene(Windows.BOAT_EDIT);
+                switchScene(Configuration.BOAT_EDIT);
                 setScene();
                 break;
             case UPDATE_BOAT:
@@ -154,7 +156,7 @@ public class Mediator implements Observer
      * @throws IOException
      *
      * Set a scene on the secondary stage. This is
-     * for displaying dialog boxes etc.
+     * for displaying widget boxes etc.
      */
     private void setScene()
     {
@@ -173,9 +175,9 @@ public class Mediator implements Observer
         }
     }
 
-    public Windows getActive() { return active; }
+    public Configuration getActive() { return active; }
 
-    protected void switchScene(Windows w) {
+    protected void switchScene(Configuration w) {
         active = w;
         setScene();
     }

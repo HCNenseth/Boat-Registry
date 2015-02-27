@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -7,7 +9,9 @@
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="10.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="10.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
    </rowConstraints>
@@ -16,7 +20,7 @@
       <ColumnConstraints maxWidth="194.0" minWidth="160.0" prefWidth="160.0" />
    </columnConstraints>
    <children>
-      <TextField GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+      <TextField fx:id="firstNameField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
@@ -26,26 +30,42 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Label>
-      <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveButtonAction" text="Save and close" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+      <Button fx:id="saveButton" defaultButton="true" mnemonicParsing="false" onAction="#saveButtonAction" text="Save and close" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </Button>
-      <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onAction="#closeButtonAction" text="Close" GridPane.rowIndex="3">
+      <Button fx:id="closeButton" cancelButton="true" mnemonicParsing="false" onAction="#closeButtonAction" text="Close" GridPane.rowIndex="5">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </Button>
-      <Label text="Lastname" GridPane.rowIndex="1">
+      <Label text="Lastname" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
       </Label>
-      <TextField GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <TextField fx:id="lastNameField" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </TextField>
+      <Label fx:id="firstNameError" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="lastNameError" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <GridPane.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </GridPane.margin>
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Label>
    </children>
    <padding>
       <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
