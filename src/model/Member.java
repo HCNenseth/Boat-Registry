@@ -4,11 +4,12 @@
 
 package model;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import storage.Deque;
 
 import java.io.Serializable;
 
-public final class Member implements Serializable
+public final class Member implements Comparable<Member>, Serializable
 {
     private static final long serialVersionUID = 2000L;
 
@@ -17,7 +18,7 @@ public final class Member implements Serializable
     private String firstname, lastname;
     private Deque<Boat> boats;
 
-    public static class Builder implements common.Builder
+    public static class Builder implements share.Builder
     {
         // Required parameters
         private String firstname, lastname;
@@ -88,5 +89,20 @@ public final class Member implements Serializable
     public boolean hasBoats()
     {
         return getBoats() == null;
+    }
+
+    @Override
+    public int compareTo(Member test)
+    {
+        final int NOT_EQUAL = 1;
+        final int EQUAL = 0;
+
+        if (id != test.getId()) { return NOT_EQUAL; }
+        if (! firstname.equals(test.getFirstname())) { return NOT_EQUAL; }
+        if (! lastname.equals(test.getLastname())) { return NOT_EQUAL; }
+
+        if (boats.compareTo(test.getBoats()) < EQUAL) { return NOT_EQUAL; }
+
+        return EQUAL;
     }
 }

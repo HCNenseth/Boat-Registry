@@ -1,6 +1,6 @@
 package controller;
 
-import common.Command;
+import share.Command;
 import data.Data;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -22,26 +22,20 @@ import java.util.Observer;
 public class Mediator implements Observer
 {
     // Singleton
-    private static Mediator INSTANCE;
+    private static Mediator INSTANCE = new Mediator();
 
     protected Stage secondaryStage;
-    private String filename;
     private Configuration active = Configuration.BASE;
 
     private Colleague colleague;
 
-    private Mediator(String filename)
+    private Mediator()
     {
-        this.filename = filename;
         this.secondaryStage = new Stage();
         this.colleague = Colleague.getInstance(this);
     }
 
-    public static Mediator getInstance(String filename)
-    {
-        if (INSTANCE == null) { INSTANCE = new Mediator(filename); }
-        return INSTANCE;
-    }
+    public static Mediator getInstance() { return INSTANCE; }
 
     /**
      * @return
@@ -88,55 +82,6 @@ public class Mediator implements Observer
             case WIDGET: colleague.processWidgetSignal(c); return;
             case WINDOW: colleague.processWindowSignal(c); return;
         }
-
-        /**
-        switch ((TransmissionSignals) arg) {
-            case CREATE_MEMBER:
-                switchScene(Configuration.MEMBER_NEW);
-                setScene();
-                break;
-            case EDIT_MEMBER:
-                // get info
-                switchScene(Configuration.MEMBER_EDIT);
-                setScene();
-                break;
-            case UPDATE_MEMBER:
-                // get payload, push into members.
-                members.addLast(((Member) obj).getPayload().build());
-                colleague.reloadMembers();
-                secondaryStage.close();
-                break;
-            case CREATE_BOAT:
-                switchScene(Configuration.BOAT_NEW);
-                setScene();
-                break;
-            case EDIT_BOAT:
-                // get info and setup edit window
-                switchScene(Configuration.BOAT_EDIT);
-                setScene();
-                break;
-            case UPDATE_BOAT:
-                // get payload, push into boats.
-                model.Boat boat = ((Boat) obj).getPayload().build();
-                boats.addLast(boat);
-
-                if (boat.getOwner() != null)  {
-                    model.Member member = boat.getOwner();
-                    member.push(boat);
-                    colleague.reloadMembers();
-                }
-
-                colleague.reloadBoats();
-                secondaryStage.close();
-                break;
-            case CLOSE:
-                secondaryStage.close();
-                break;
-            case EXIT:
-                endRoutine();
-                break;
-        }
-        */
     }
 
     /**

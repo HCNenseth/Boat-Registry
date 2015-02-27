@@ -10,12 +10,10 @@ import java.io.IOException;
  */
 public class UnitTest
 {
-    public final String dataFile = "testfile.dat";
-
     @Rule
     public void test_mediator() throws IOException
     {
-        Mediator m = Mediator.getInstance(dataFile);
+        Mediator m = Mediator.getInstance();
 
         assertTrue(m.getActive().equals(Configuration.BASE));
     }

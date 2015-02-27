@@ -1,8 +1,8 @@
 package controller.window;
 
-import common.DataType;
-import common.SignalType;
-import common.Action;
+import share.DataType;
+import share.SignalType;
+import share.Action;
 import controller.Mediator;
 import data.Data;
 import javafx.collections.FXCollections;
@@ -47,9 +47,11 @@ public class Base extends Observable implements Initializable
     private Base(Builder b)
     {
         addObserver(b.mediator);
+        tableBoatsList = FXCollections.observableArrayList();
+        tableMemberList = FXCollections.observableArrayList();
     }
 
-    public static class Builder implements common.Builder
+    public static class Builder implements share.Builder
     {
         private Mediator mediator;
 
@@ -80,6 +82,7 @@ public class Base extends Observable implements Initializable
         rightBoatEdit.setOnAction(e -> boatEdit());
         rightMemberDelete.setOnAction(e -> memberDelete());
         rightMemberEdit.setOnAction(e -> memberEdit());
+
     }
 
     /**
@@ -114,7 +117,6 @@ public class Base extends Observable implements Initializable
     private void newMember(ActionEvent e)
     {
         setChanged();
-        //notifyObservers(Mediator.TransmissionSignals.CREATE_MEMBER);
         notifyObservers(new Action<>(SignalType.NEW, DataType.MEMBER));
     }
 
@@ -126,13 +128,7 @@ public class Base extends Observable implements Initializable
             setChanged();
             notifyObservers(new Action<>(getSelectedMember(),
                     SignalType.EDIT, DataType.MEMBER));
-            //notifyObservers(Mediator.TransmissionSignals.EDIT_MEMBER);
         }
-    }
-
-    @FXML
-    private void memberTableKey(KeyEvent k)
-    {
     }
 
     private void memberEdit()
@@ -164,10 +160,11 @@ public class Base extends Observable implements Initializable
 
     public void updateMembers()
     {
-        tableMemberList = FXCollections.observableArrayList();
-        for (Member m : Data.getInstance().getMembers()) {
+        tableMemberList.removeAll(tableMemberList);
+
+        for (Member m : Data.getInstance().getMembers())
             tableMemberList.add(m);
-        }
+
         tableViewMembers.setItems(tableMemberList);
     }
 
@@ -197,11 +194,6 @@ public class Base extends Observable implements Initializable
         }
     }
 
-    @FXML
-    private void boatTableKey(KeyEvent k)
-    {
-    }
-
     private void boatDelete()
     {
         setChanged();
@@ -223,9 +215,11 @@ public class Base extends Observable implements Initializable
 
     public void updateBoats()
     {
-        tableBoatsList = FXCollections.observableArrayList();
+        tableBoatsList.removeAll(tableBoatsList);
+
         for (Boat b : Data.getInstance().getBoats())
             tableBoatsList.add(b);
+
         tableViewBoats.setItems(tableBoatsList);
     }
 

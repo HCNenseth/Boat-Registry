@@ -1,8 +1,8 @@
 package controller.widget.boat;
 
-import common.DataType;
-import common.WidgetSignal;
-import common.SignalType;
+import share.DataType;
+import share.WidgetSignal;
+import share.SignalType;
 import controller.Mediator;
 import data.Data;
 import javafx.collections.FXCollections;
@@ -15,7 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.Member;
 import storage.Deque;
-import validator.StringMatcher;
+import share.validator.StringMatcher;
 
 import java.net.URL;
 import java.util.Observable;
@@ -50,7 +50,7 @@ public final class Boat extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder implements common.Builder
+    public static class Builder implements share.Builder
     {
         private Mediator mediator;
         private Deque<model.Member> members;
@@ -76,11 +76,8 @@ public final class Boat extends Observable implements Initializable
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
         insertMembers();
-        if (mode == Mode.UPDATE && boat != null) {
-            regnrField.setText(boat.getRegnr());
-            typeField.setText(boat.getType());
-            //yearField.setText(boat.getYear());
-        }
+        if (mode == Mode.UPDATE)
+            populateFields();
     }
 
     public void insertMembers()
@@ -161,23 +158,29 @@ public final class Boat extends Observable implements Initializable
         }
 
         if (valid) {
-            model.Boat.Builder payload = new model.Boat.Builder(regNr, type)
-                                    .year(Integer.parseInt(year))
-                                    .length(Double.parseDouble(length))
-                                    .power(Double.parseDouble(power))
-                                    .color(color);
-
-            model.Boat b = payload.build();
-
-            if (member != null) {
-                b.setOwner(member);
-                member.push(b);
-            }
-
-            Data.getInstance().getBoats().addLast(b);
-
             setChanged();
-            notifyObservers(new WidgetSignal<>(SignalType.CREATE, DataType.BOAT));
+
+            switch (mode) {
+                case CREATE:
+                    model.Boat.Builder payload = new model.Boat.Builder(regNr, type)
+                            .year(Integer.parseInt(year))
+                            .length(Double.parseDouble(length))
+                            .power(Double.parseDouble(power))
+                            .color(color);
+                    model.Boat b = payload.build();
+
+                    if (member != null)
+                        Data.getInstance().connectBoatAndMember(b, member);
+
+                    Data.getInstance().getBoats().addLast(b);
+
+                    notifyObservers(new WidgetSignal<>(SignalType.CREATE, DataType.BOAT));
+                    break;
+                case UPDATE:
+                    updateData();
+                    notifyObservers(new WidgetSignal<>(SignalType.UPDATE, DataType.BOAT));
+                    break;
+            }
         }
     }
 
@@ -188,4 +191,39 @@ public final class Boat extends Observable implements Initializable
 
     private void setCreateMode() { mode = Mode.CREATE; }
     private void setUpdateMode() { mode = Mode.UPDATE; }
+
+    private void populateFields()
+    {
+        if (boat != null) {
+            regnrField.setText(boat.getRegnr());
+            typeField.setText(boat.getType());
+            yearField.setText(Integer.toString(boat.getYear()));
+            lengthField.setText(Double.toString(boat.getLength()));
+            powerField.setText(Double.toString(boat.getPower()));
+            colorField.setText(boat.getColor());
+
+            if (boat.getOwner() != null) {
+                ownerSelector.setValue(boat.getOwner());
+            }
+
+        }
+    }
+
+    private void updateData()
+    {
+        if (boat != null) {
+            boat.setRegnr(regnrField.getText());
+            boat.setType(typeField.getText());
+            boat.setYear(Integer.parseInt(yearField.getText()));
+            boat.setLength(Double.parseDouble(lengthField.getText()));
+            boat.setPower(Double.parseDouble(powerField.getText()));
+            boat.setColor(colorField.getText());
+
+            if (! ownerSelector.getValue().equals(boat.getOwner())) {
+                if (boat.getOwner() != null)
+                    Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
+                Data.getInstance().connectBoatAndMember(boat, ownerSelector.getValue());
+            }
+        }
+    }
 }

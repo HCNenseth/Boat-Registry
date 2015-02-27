@@ -16,9 +16,7 @@ public class Main extends Application
         DequeStorage.setInstance(dataFile);
         Data.getInstance().loadData();
 
-
-
-        Mediator m = Mediator.getInstance(dataFile);
+        Mediator m = Mediator.getInstance();
         primaryStage.setTitle(m.getActive().getTitle());
         primaryStage.setScene(m.activeScene());
 

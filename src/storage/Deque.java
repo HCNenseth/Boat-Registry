@@ -1,6 +1,7 @@
 package storage;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -8,9 +9,10 @@ import java.util.NoSuchElementException;
 /**
  * Created by alex on 2/17/15.
  */
-public final class Deque<Item> implements Iterable<Item>, Serializable
+public final class Deque<Item extends Comparable>
+        implements Iterable<Item>, Comparable<Deque>, Comparator<Item>, Serializable
 {
-    private static final long serialVersionUID = 3000L;
+    private static final long serialVersionUID = 3001L;
 
     private Node first;
     private Node last;
@@ -18,7 +20,7 @@ public final class Deque<Item> implements Iterable<Item>, Serializable
 
     private final class Node implements Serializable
     {
-        private static final long serialVersionUID = 4000L;
+        private static final long serialVersionUID = 4001L;
 
         Item item;
         Node next;
@@ -39,10 +41,14 @@ public final class Deque<Item> implements Iterable<Item>, Serializable
         return count;
     }
 
+    /**
+     *
+     * @param item
+     */
     public void addLast(Item item)
     {
         if (item == null)
-            throw new NullPointerException("Item is null1");
+            throw new NullPointerException("Item is null!");
 
         Node newLast = new Node();
         newLast.item = item;
@@ -56,10 +62,14 @@ public final class Deque<Item> implements Iterable<Item>, Serializable
         count++;
     }
 
+    /**
+     *
+     * @param item
+     */
     public void addFirst(Item item)
     {
         if (item == null)
-            throw new NullPointerException("Item is null1");
+            throw new NullPointerException("Item is null!");
 
         Node newFirst = new Node();
         newFirst.item = item;
@@ -81,9 +91,52 @@ public final class Deque<Item> implements Iterable<Item>, Serializable
         Node tmp = first;
         first = first.next;
 
+        count--;
         return tmp.item;
     }
 
+    /**
+     * Remove item from list.
+     * @param item
+     * @return
+     */
+    public Item remove(Item item)
+    {
+        if (item == null)
+            throw new NullPointerException("Item is null!");
+
+        if (size() == 0)
+            throw new NoSuchElementException("List is empty!");
+
+        if (first.item.equals(item)) {
+            Item tmp = first.item;
+            first = first.next;
+            count--;
+            return tmp;
+        }
+
+        Node tmp = first;
+
+        while (tmp.next != null) {
+            if (tmp.next.item.compareTo(item) >= 0) {
+                Item tmpItem = tmp.next.item;
+
+                tmp.next = tmp.next.next;
+
+                count--;
+                return tmpItem;
+            }
+            tmp = tmp.next;
+        }
+
+        throw new NullPointerException("Element does not exists in list!");
+    }
+
+    /**
+     * Get a numbered item from list.
+     * @param i
+     * @return
+     */
     public Item get(int i)
     {
         if (isEmpty())
@@ -91,17 +144,70 @@ public final class Deque<Item> implements Iterable<Item>, Serializable
         if (i > size())
             throw new NoSuchElementException("Out of bounds!");
 
-        if (i == 0)
-            return first.item;
-
         Node tmp = first;
         int c = 0;
 
-        while (tmp.next != null) {
+        while (tmp != null) {
             if (c++ == i) { return tmp.item; }
             tmp = tmp.next;
         }
         return null;
+    }
+
+    /**
+     *
+     * @param item
+     * @return
+     */
+    public boolean has(Item item)
+    {
+        if (isEmpty())
+            throw new NoSuchElementException("Empty list!");
+
+        Node tmp = first;
+
+        while (tmp.next != null) {
+            if (tmp.item.compareTo(item) < 0) { return false; }
+
+            tmp = tmp.next;
+        }
+
+        return true;
+    }
+
+    /**
+     * Make a copy of the list and return it.
+     * @return
+     */
+    public Deque<Item> copy()
+    {
+        Deque<Item> tmp = new Deque<>();
+        for (Item i : this)
+            tmp.addLast(i);
+
+        return tmp;
+    }
+
+    @Override
+    public int compare(Item i1, Item i2)
+    {
+        return i1.compareTo(i2);
+    }
+
+    @Override
+    public int compareTo(Deque d)
+    {
+        if (d == null)
+            throw new NullPointerException("Arg is null!");
+
+        // first test size
+        if (d.size() != size()) { return -1; }
+
+        for (int i = 0; i < size(); i++) {
+            if (! get(i).equals(d.get(i))) { return -1; }
+        }
+
+        return 0;
     }
 
     public Iterator<Item> iterator() {
@@ -169,5 +275,4 @@ public final class Deque<Item> implements Iterable<Item>, Serializable
             }
         };
     }
-
 }

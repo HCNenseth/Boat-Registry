@@ -1,4 +1,4 @@
-package validator;
+package share.validator;
 
 /**
  * Created by alex on 2/22/15.
@@ -14,8 +14,8 @@ public class StringMatcher
     private final static String regnr  = "\\w{2,6}";
     private final static String type = "\\w{2,20}";
     private final static String year = "\\d{4}";
-    private final static String length = "\\d{2,4}";
-    private final static String power = "\\d{2,4}";
+    private final static String length = "\\d+\\.\\d+";
+    private final static String power = "\\d+\\.\\d+";
     private final static String color = "\\w{2,20}";
 
     // not to be initiated

@@ -17,16 +17,12 @@ public class Data
     private Deque<Member> members;
     private Deque<Boat> boats;
 
-    private Data()
-    {
-
-    }
+    private Data() { }
 
     public static Data getInstance()
     {
         return instance;
     }
-
 
     public void loadData() throws IOException, ClassNotFoundException
     {
@@ -45,34 +41,22 @@ public class Data
         DequeStorage.getInstance().write(godList);
     }
 
-    public Deque<Boat> getBoats()
+    public void connectBoatAndMember(Boat boat, Member member)
     {
-        return boats;
+        boat.setOwner(member);
+        member.push(boat);
     }
 
-    public Deque<Member> getMembers()
+    public void disconnectBoatAndMember(Boat boat, Member member)
     {
-        return members;
+        member.getBoats().remove(boat);
+        boat.setOwner(null);
     }
 
-    public void setBoats(Deque<Boat> boats)
-    {
-        this.boats = boats;
-    }
+    public Deque<Boat> getBoats() { return boats;}
+    public Deque<Member> getMembers() { return members; }
 
-    public void setMembers(Deque<Member> members)
-    {
-        this.members = members;
-    }
+    public void setBoats(Deque<Boat> boats) { this.boats = boats; }
+    public void setMembers(Deque<Member> members) { this.members = members; }
 
-
-    public void updateMember(Member member)
-    {
-        // to be implemented
-    }
-
-    public void updateBoat(Boat boat)
-    {
-        // to be implemented
-    }
 }

@@ -6,7 +6,7 @@ package model;
 
 import java.io.Serializable;
 
-public final class Boat implements Serializable
+public final class Boat implements Comparable<Boat>, Serializable
 {
     private static final long serialVersionUID = 1000L;
 
@@ -18,7 +18,7 @@ public final class Boat implements Serializable
     private String color;
     private Member owner;
 
-    public static class Builder implements common.Builder
+    public static class Builder implements share.Builder
     {
         // Required parameters
         private final String regnr;
@@ -99,9 +99,58 @@ public final class Boat implements Serializable
     // Mutable data ...
     public Member getOwner() { return owner; }
 
+    public void setRegnr(String regnr)
+    {
+        this.regnr = regnr;
+    }
+
+    public void setType(String type)
+    {
+        this.type = type;
+    }
+
+    public void setColor(String color)
+    {
+        this.color = color;
+    }
+
+    public void setYear(int year)
+    {
+        this.year = year;
+    }
+
+    public void setLength(double length)
+    {
+        this.length = length;
+    }
+
+    public void setPower(double power)
+    {
+        this.power = power;
+    }
+
     public void setOwner(Member member)
     {
         this.owner = member;
     }
 
+    @Override
+    public int compareTo(Boat test)
+    {
+        final int NOT_EQUAL = -1;
+        final int EQUAL = 0;
+
+        if (! regnr.equals(test.getRegnr())) { return NOT_EQUAL; }
+        if (! type.equals(test.getType())) { return NOT_EQUAL; }
+        if (! color.equals(test.getColor())) { return NOT_EQUAL; }
+
+        if (year != test.getYear()) { return NOT_EQUAL; }
+
+        if (Double.compare(length, test.getLength()) < EQUAL) { return NOT_EQUAL; }
+        if (Double.compare(power, test.getLength()) < EQUAL) { return NOT_EQUAL; }
+
+        if (owner.compareTo(test.getOwner()) < EQUAL) { return NOT_EQUAL; }
+
+        return EQUAL;
+    }
 }

@@ -1,7 +1,7 @@
 package controller;
 
-import common.Command;
-import common.SignalType;
+import share.Command;
+import share.SignalType;
 import controller.widget.boat.Boat;
 import controller.widget.member.Member;
 import controller.window.Base;
@@ -37,14 +37,7 @@ public class Colleague
 
     public static Colleague getInstance(Mediator mediator)
     {
-        if (instance == null) {
-            instance = new Colleague(mediator);
-        }
-        return instance;
-    }
-
-    public static Colleague getInstance()
-    {
+        if (instance == null) { instance = new Colleague(mediator); }
         return instance;
     }
 
@@ -86,6 +79,7 @@ public class Colleague
     /*
         GENERIC WIDGET METHODS
      */
+
     public void processWidgetSignal(Command c)
     {
         switch (c.getSignalType()) {
@@ -93,8 +87,12 @@ public class Colleague
                 mediator.secondaryStage.close();
                 break;
             case CREATE:
-            case UPDATE:
                 reloadBoats(); reloadMembers();
+                mediator.secondaryStage.close();
+                break;
+            case UPDATE:
+                getBaseController().updateMembers();
+                getBaseController().updateBoats();
                 mediator.secondaryStage.close();
                 break;
         }
@@ -181,5 +179,4 @@ public class Colleague
                 break;
         }
     }
-
 }

@@ -1,8 +1,8 @@
 package controller.widget.member;
 
-import common.DataType;
-import common.WidgetSignal;
-import common.SignalType;
+import share.DataType;
+import share.WidgetSignal;
+import share.SignalType;
 import controller.Mediator;
 import data.Data;
 import javafx.fxml.FXML;
@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import validator.StringMatcher;
+import share.validator.StringMatcher;
 
 import java.net.URL;
 import java.util.Observable;
@@ -39,7 +39,7 @@ public final class Member extends Observable implements Initializable
         addObserver(b.mediator);
     }
 
-    public static class Builder implements common.Builder
+    public static class Builder implements share.Builder
     {
         private Mediator mediator;
         public Builder observer(Mediator mediator)
