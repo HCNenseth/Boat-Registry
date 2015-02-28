@@ -11,6 +11,9 @@ public class Action<Item> implements Command<Item>
 
     private final SignalOrigin signalOrigin = SignalOrigin.WINDOW;
 
+    /*
+        Ugly telescoping, consider refactoring.
+     */
     public Action(Item i, SignalType s, DataType d)
     {
         item = i;
@@ -29,12 +32,14 @@ public class Action<Item> implements Command<Item>
         signalType = s;
     }
 
+    /*
+        GETTERS
+     */
+
+    @Override
     public Item getPayload() {
         return item;
     }
-
-    @Override
-    public void execute() {}
 
     @Override
     public SignalOrigin getSignalOrigin()
@@ -53,4 +58,7 @@ public class Action<Item> implements Command<Item>
     {
         return dataType;
     }
+
+    @Override
+    public void execute() {}
 }

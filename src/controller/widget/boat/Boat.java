@@ -4,7 +4,7 @@ import share.DataType;
 import share.WidgetSignal;
 import share.SignalType;
 import controller.Mediator;
-import data.Data;
+import storage.Data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -28,20 +28,17 @@ public final class Boat extends Observable implements Initializable
 {
     private Deque<model.Member> members;
 
-    @FXML
-    private Button closeButton, saveButton;
-    @FXML
-    private Label regNrError, typeError, yearError,
+    @FXML private Button closeButton, saveButton;
+    @FXML private Label regNrError, typeError, yearError,
                   lengthError, powerError, colorError;
-    @FXML
-    private TextField regnrField, typeField, yearField,
+    @FXML private TextField regnrField, typeField, yearField,
                       lengthField, powerField, colorField;
-    @FXML
-    private ChoiceBox<model.Member> ownerSelector;
+    @FXML private ChoiceBox<model.Member> ownerSelector;
 
     private ObservableList<model.Member> choiceBoxMembers;
     private model.Boat boat;
     private Mode mode = Mode.CREATE;
+
     private enum Mode {CREATE, UPDATE};
 
     private Boat(Builder b)
@@ -76,8 +73,7 @@ public final class Boat extends Observable implements Initializable
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
         insertMembers();
-        if (mode == Mode.UPDATE)
-            populateFields();
+        if (mode == Mode.UPDATE) { populateFields(); }
     }
 
     public void insertMembers()
@@ -91,6 +87,8 @@ public final class Boat extends Observable implements Initializable
     @FXML
     private void closeButtonAction()
     {
+        setCreateMode();
+        resetFields();
         setChanged();
         notifyObservers(new WidgetSignal<>(SignalType.CLOSE));
     }
@@ -181,6 +179,7 @@ public final class Boat extends Observable implements Initializable
                     notifyObservers(new WidgetSignal<>(SignalType.UPDATE, DataType.BOAT));
                     break;
             }
+            resetFields();
         }
     }
 
@@ -190,6 +189,7 @@ public final class Boat extends Observable implements Initializable
     }
 
     private void setCreateMode() { mode = Mode.CREATE; }
+
     private void setUpdateMode() { mode = Mode.UPDATE; }
 
     private void populateFields()
@@ -225,5 +225,15 @@ public final class Boat extends Observable implements Initializable
                 Data.getInstance().connectBoatAndMember(boat, ownerSelector.getValue());
             }
         }
+    }
+
+    private void resetFields()
+    {
+        regnrField.setText("");
+        typeField.setText("");
+        yearField.setText("");
+        lengthField.setText("");
+        powerField.setText("");
+        colorField.setText("");
     }
 }

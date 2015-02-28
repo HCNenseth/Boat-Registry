@@ -1,7 +1,7 @@
 package app;
 
 import controller.Mediator;
-import data.Data;
+import storage.Data;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import storage.DequeStorage;
@@ -20,6 +20,11 @@ public class Main extends Application
         primaryStage.setTitle(m.getActive().getTitle());
         primaryStage.setScene(m.activeScene());
 
+        /**
+         * This is under normal conditions not necessary,
+         * but to increase platform support it is added to
+         * help window managers on obscure platforms...
+         */
         primaryStage.setMaxHeight(m.getActive().getHeight());
         primaryStage.setMaxWidth(m.getActive().getWidth());
         primaryStage.setMinHeight(m.getActive().getHeight());

@@ -89,16 +89,27 @@ public final class Boat implements Comparable<Boat>, Serializable
         this.owner = b.member;
     }
 
+    /*
+        GETTERS
+     */
     public String getRegnr() { return regnr; }
+
     public String getType() { return type; }
+
     public String getColor() { return color; }
+
     public int getYear() { return year; }
+
     public double getLength() { return length; }
+
     public double getPower() { return power; }
 
     // Mutable data ...
     public Member getOwner() { return owner; }
 
+    /*
+        SETTERS
+     */
     public void setRegnr(String regnr)
     {
         this.regnr = regnr;

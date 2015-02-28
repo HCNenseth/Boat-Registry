@@ -27,8 +27,9 @@ public class WidgetSignal<Item> implements Command
         signalType = s;
     }
 
-    public void execute() {}
-
+    /*
+        GETTERS
+     */
     @Override
     public Item getPayload()
     {
@@ -52,4 +53,7 @@ public class WidgetSignal<Item> implements Command
     {
         return dataType;
     }
+
+    @Override
+    public void execute() {}
 }

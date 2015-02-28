@@ -83,6 +83,10 @@ public final class Deque<Item extends Comparable>
         count++;
     }
 
+    /**
+     *
+     * @return
+     */
     public Item removeFirst()
     {
         if (isEmpty())
@@ -141,6 +145,7 @@ public final class Deque<Item extends Comparable>
     {
         if (isEmpty())
             throw new NoSuchElementException("Empty list!");
+
         if (i > size())
             throw new NoSuchElementException("Out of bounds!");
 
@@ -189,12 +194,6 @@ public final class Deque<Item extends Comparable>
     }
 
     @Override
-    public int compare(Item i1, Item i2)
-    {
-        return i1.compareTo(i2);
-    }
-
-    @Override
     public int compareTo(Deque d)
     {
         if (d == null)
@@ -210,16 +209,17 @@ public final class Deque<Item extends Comparable>
         return 0;
     }
 
+    @Override
+    public int compare(Item i1, Item i2) { return i1.compareTo(i2); }
+
+    @Override
     public Iterator<Item> iterator() {
         return new ListIterator<Item>()
         {
             private Node current = first;
 
             @Override
-            public boolean hasNext()
-            {
-                return current != null;
-            }
+            public boolean hasNext() { return current != null; }
 
             @Override
             public Item next()
@@ -233,28 +233,16 @@ public final class Deque<Item extends Comparable>
             }
 
             @Override
-            public boolean hasPrevious()
-            {
-                return false;
-            }
+            public boolean hasPrevious() { return false;}
 
             @Override
-            public Item previous()
-            {
-                return null;
-            }
+            public Item previous() { return null; }
 
             @Override
-            public int nextIndex()
-            {
-                return count;
-            }
+            public int nextIndex() { return count; }
 
             @Override
-            public int previousIndex()
-            {
-                return 0;
-            }
+            public int previousIndex() { return 0; }
 
             @Override
             public void remove()
@@ -263,16 +251,10 @@ public final class Deque<Item extends Comparable>
             }
 
             @Override
-            public void set(Item item)
-            {
-
-            }
+            public void set(Item item) { }
 
             @Override
-            public void add(Item item)
-            {
-
-            }
+            public void add(Item item) { }
         };
     }
 }

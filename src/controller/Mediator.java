@@ -1,7 +1,7 @@
 package controller;
 
 import share.Command;
-import data.Data;
+import storage.Data;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +14,7 @@ import java.util.Observer;
 /**
  * Created by alex on 2/21/15.
  *
- * This apps "God object".
+ * This apps central object.
  * This class grows bigger and bigger and have therefore been
  * assigned a colleague to help with the heavy lifting.
  * This pattern should possibly be refactored in the future.
@@ -66,11 +66,11 @@ public class Mediator implements Observer
     }
 
     /**
+     * Receive signals from the controllers, and delegate
+     * them in the right direction.
+     *
      * @param obj the caller object.
      * @param arg the caller data.
-     *
-     * This method needs refactoring, and should push some
-     * of its responsibilities to the colleague class.
      */
     @Override
     public void update(Observable obj, Object arg)
@@ -110,10 +110,17 @@ public class Mediator implements Observer
         try {
             secondaryStage.setTitle(active.getTitle());
             secondaryStage.setScene(activeScene());
+
+            /**
+             * This is under normal conditions not necessary,
+             * but to increase platform support it is added to
+             * help window managers on obscure platforms...
+             */
             secondaryStage.setMaxHeight(getActive().getHeight());
             secondaryStage.setMaxWidth(getActive().getWidth());
             secondaryStage.setMinHeight(getActive().getHeight());
             secondaryStage.setMinWidth(getActive().getWidth());
+
             secondaryStage.toFront();
             secondaryStage.show();
         } catch (IOException ioe) {

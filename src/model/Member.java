@@ -4,7 +4,6 @@
 
 package model;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import storage.Deque;
 
 import java.io.Serializable;
@@ -54,10 +53,18 @@ public final class Member implements Comparable<Member>, Serializable
         return boats.removeFirst();
     }
 
+    /*
+        GETTERS
+     */
+    public int getId() { return id; }
+
     public String getFirstname() { return firstname; }
 
     public String getLastname() { return lastname; }
 
+    /*
+        SETTERS
+     */
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
@@ -66,10 +73,15 @@ public final class Member implements Comparable<Member>, Serializable
         this.lastname = lastname;
     }
 
-    public int getId() { return id; }
-
-    // OBS: this makes boats list mutable! (should return a copy)
+    /**
+     * Makes boats list mutable...
+     */
     public Deque<Boat> getBoats() { return boats; }
+
+    public boolean hasBoats()
+    {
+        return getBoats() == null;
+    }
 
     public String getBoatsString()
     {
@@ -81,15 +93,15 @@ public final class Member implements Comparable<Member>, Serializable
         return sb.toString();
     }
 
-    @Override
-    public String toString()  { return firstname + " " +lastname; }
-
+    /**
+     * Set the static member counter. This helps the
+     * import (load from file) method.
+     * @param val
+     */
     public static void setMemberCount(int val) { memberCount = val; }
 
-    public boolean hasBoats()
-    {
-        return getBoats() == null;
-    }
+    @Override
+    public String toString()  { return firstname + " " +lastname; }
 
     @Override
     public int compareTo(Member test)

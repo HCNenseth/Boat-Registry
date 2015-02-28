@@ -6,7 +6,7 @@ import share.SignalType;
 import controller.widget.boat.Boat;
 import controller.widget.member.Member;
 import controller.window.Base;
-import data.Data;
+import storage.Data;
 
 /**
  * Created by alex on 2/22/15.
@@ -45,7 +45,7 @@ public class Colleague
     }
 
     /*
-        BASE CONTROLLER
+       BASE CONTROLLER
      */
 
     private void setBaseController()
@@ -122,6 +122,9 @@ public class Colleague
         getBaseController().focusOnMembers();
     }
 
+    /**
+     * @param c
+     */
     private void processMemberSignal(Command c)
     {
         switch (c.getSignalType()) {
@@ -130,24 +133,36 @@ public class Colleague
                 mediator.switchScene(Configuration.MEMBER_EDIT);
                 break;
             case DELETE:
-                model.Member member = (model.Member) c.getPayload();
-                mediator.switchScene(Configuration.DIALOG);
-                if (member.getBoats().size() > 0) {
-                    getDialogController().setMessageLabel(
-                            "Cannot delete a member with connected boats!");
-                } else {
-                    model.Member deleted = Data.getInstance().getMembers().remove(member);
-                    getDialogController().setMessageLabel(
-                            String.format("%s %s successfully deleted",
-                                    member.getFirstname(),
-                                    member.getLastname()));
-                    getDialogController().setIcon(Dialog.Icons.SUCCESS);
-                    getBaseController().updateMembers();
+                try {
+                    model.Member tmp = deleteMemberProcess(c);
+                    showMessage(String.format("Deleted member: %s %s",
+                                    tmp.getFirstname(), tmp.getLastname()),
+                            Dialog.Icons.SUCCESS);
+                } catch (IllegalStateException ise) {
+                    showMessage(ise.getMessage(), Dialog.Icons.ERROR);
                 }
+                getBaseController().updateMembers();
                 break;
             case NEW:
                 mediator.switchScene(Configuration.MEMBER_NEW);
                 break;
+        }
+    }
+
+    /**
+     * Delete member process. Makes sure not to delete
+     * members with connected boats.
+     * @param c
+     * @return
+     */
+    private model.Member deleteMemberProcess(Command c)
+    {
+        model.Member member = (model.Member) c.getPayload();
+        if (member.getBoats().size() > 0) {
+            throw new IllegalStateException(
+                    "Cannot delete a member with connected boats");
+        } else {
+            return Data.getInstance().getMembers().remove(member);
         }
     }
 
@@ -172,6 +187,9 @@ public class Colleague
         getBaseController().focusOnBoats();
     }
 
+    /**
+     * @param c
+     */
     private void processBoatSignal(Command c)
     {
         switch (c.getSignalType()) {
@@ -180,27 +198,30 @@ public class Colleague
                 mediator.switchScene(Configuration.BOAT_EDIT);
                 break;
             case DELETE:
-                model.Boat boat = (model.Boat) c.getPayload();
-
-                if (boat.getOwner() != null)
-                    Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
-
-                Data.getInstance().getBoats().remove(boat);
-
-                mediator.switchScene(Configuration.DIALOG);
-                getDialogController().setMessageLabel(
-                        String.format("%s successfully deleted",
-                                boat.getRegnr()));
-                getDialogController().setIcon(Dialog.Icons.SUCCESS);
-
+                model.Boat removedBoat = deleteBoatProcess(c);
+                showMessage(String.format("Deleted boat: %s", removedBoat.getRegnr()),
+                        Dialog.Icons.SUCCESS);
                 getBaseController().updateMembers();
                 getBaseController().updateBoats();
-
                 break;
             case NEW:
                 mediator.switchScene(Configuration.BOAT_NEW);
                 break;
         }
+    }
+
+    /**
+     * Delete boat process method. Makes sure to disconnect any
+     * member and boats connection that might be apparent.
+     * @param c
+     * @return
+     */
+    private model.Boat deleteBoatProcess(Command c)
+    {
+        model.Boat boat = (model.Boat) c.getPayload();
+        if (boat.getOwner() != null)
+            Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
+        return Data.getInstance().getBoats().remove(boat);
     }
 
     /*
@@ -215,5 +236,17 @@ public class Colleague
     public Dialog getDialogController()
     {
         return dialogController;
+    }
+
+    /**
+     * Simple generic show message method.
+     * @param string
+     * @param icon
+     */
+    public void showMessage(String string, Dialog.Icons icon)
+    {
+        mediator.switchScene(Configuration.DIALOG);
+        getDialogController().setMessageLabel(string);
+        getDialogController().setIcon(icon);
     }
 }

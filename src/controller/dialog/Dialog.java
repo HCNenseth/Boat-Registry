@@ -19,12 +19,9 @@ import java.util.ResourceBundle;
  */
 public final class Dialog extends Observable implements Initializable
 {
-    @FXML
-    private Label messageLabel;
-    @FXML
-    private Button confirmButton;
-    @FXML
-    private ImageView mainIcon;
+    @FXML private Label messageLabel;
+    @FXML private Button confirmButton;
+    @FXML private ImageView mainIcon;
 
     public enum Icons
     {
@@ -55,6 +52,9 @@ public final class Dialog extends Observable implements Initializable
         confirmButton.setOnAction(e -> onConfirmButton());
     }
 
+    /**
+     * Uses WidgetSignal for now. Refactoring should be considered.
+     */
     private void onConfirmButton()
     {
         setChanged();

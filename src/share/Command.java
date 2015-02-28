@@ -9,9 +9,9 @@ public interface Command<Item>
 
     public SignalOrigin getSignalOrigin();
 
-    public abstract void execute();
-
     public SignalType getSignalType();
 
     public DataType getDataType();
+
+    public abstract void execute();
 }

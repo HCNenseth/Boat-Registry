@@ -4,7 +4,7 @@ import share.DataType;
 import share.WidgetSignal;
 import share.SignalType;
 import controller.Mediator;
-import data.Data;
+import storage.Data;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -21,15 +21,13 @@ import java.util.ResourceBundle;
  */
 public final class Member extends Observable implements Initializable
 {
-    @FXML
-    private TextField firstNameField, lastNameField;
-    @FXML
-    private Label firstNameError, lastNameError;
-    @FXML
-    private Button closeButton, saveButton;
+    @FXML private TextField firstNameField, lastNameField;
+    @FXML private Label firstNameError, lastNameError;
+    @FXML private Button closeButton, saveButton;
 
     private model.Member member;
     private Mode mode = Mode.CREATE;
+
     private enum Mode {CREATE, UPDATE};
 
     private model.Member.Builder payload;
@@ -66,6 +64,8 @@ public final class Member extends Observable implements Initializable
     @FXML
     private void closeButtonAction()
     {
+        setCreateMode();
+        resetFields();
         setChanged();
         notifyObservers(new WidgetSignal<>(SignalType.CLOSE));
     }
@@ -115,6 +115,8 @@ public final class Member extends Observable implements Initializable
                     setCreateMode();
                     break;
             }
+
+            resetFields();
         }
     }
 
@@ -127,6 +129,13 @@ public final class Member extends Observable implements Initializable
     }
 
     private void setCreateMode() { mode = Mode.CREATE; }
+
     private void setUpdateMode() { mode = Mode.UPDATE; }
+
+    private void resetFields()
+    {
+        firstNameField.setText("");
+        lastNameField.setText("");
+    }
 }
 

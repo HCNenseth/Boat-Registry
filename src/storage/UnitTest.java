@@ -1,6 +1,5 @@
 package storage;
 
-import data.Data;
 import model.Member;
 import model.Boat;
 import org.junit.Test;
@@ -185,7 +184,6 @@ public class UnitTest
 
         Data.getInstance().loadData();
 
-        // Risky risky...
         Deque<Member> fileMembers = Data.getInstance().getMembers();
         Deque<Boat> fileBoats = Data.getInstance().getBoats();
 
@@ -198,7 +196,7 @@ public class UnitTest
         // test boat for each member
         for (Member m : members) {
             for (Boat b: m.getBoats()) {
-                //assertTrue(b.getRegnr().equals(regNrs[j++])); // <- ?
+                assertTrue(b.getRegnr().equals(regNrs[j++]));
                 assertTrue(b.getOwner().equals(m));
             }
         }

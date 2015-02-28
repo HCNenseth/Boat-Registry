@@ -1,9 +1,7 @@
-package data;
+package storage;
 
 import model.Boat;
 import model.Member;
-import storage.Deque;
-import storage.DequeStorage;
 
 import java.io.IOException;
 
@@ -54,9 +52,10 @@ public class Data
     }
 
     public Deque<Boat> getBoats() { return boats;}
+
     public Deque<Member> getMembers() { return members; }
 
     public void setBoats(Deque<Boat> boats) { this.boats = boats; }
-    public void setMembers(Deque<Member> members) { this.members = members; }
 
+    public void setMembers(Deque<Member> members) { this.members = members; }
 }

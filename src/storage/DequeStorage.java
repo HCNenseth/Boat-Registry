@@ -40,8 +40,8 @@ public class DequeStorage
     public void write(Deque<?> d) throws IOException
     {
         ObjectOutputStream handle = new ObjectOutputStream(
-                new FileOutputStream(filename)
-        );
+                new FileOutputStream(filename));
+
         handle.writeObject(d);
         handle.close();
     }
@@ -57,8 +57,8 @@ public class DequeStorage
     public Deque<?> read() throws IOException, ClassNotFoundException
     {
         ObjectInputStream handle = new ObjectInputStream(
-                new FileInputStream(filename)
-        );
+                new FileInputStream(filename));
+
         Deque<?> tmp = (Deque<?>) handle.readObject();
         handle.close();
         return tmp;

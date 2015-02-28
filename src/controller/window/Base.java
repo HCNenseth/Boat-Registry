@@ -4,14 +4,13 @@ import share.DataType;
 import share.SignalType;
 import share.Action;
 import controller.Mediator;
-import data.Data;
+import storage.Data;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
@@ -25,21 +24,13 @@ import java.util.ResourceBundle;
 
 public class Base extends Observable implements Initializable
 {
-    @FXML
-    private TableView<Member> tableViewMembers = new TableView<>();
-    @FXML
-    private TableView<Boat> tableViewBoats = new TableView<>();
-    @FXML
-    private TabPane tabs;
-    @FXML
-    private Tab boatsTab, membersTab;
-    @FXML
-    private ContextMenu membersContextMenu, boatsContextMenu;
-    @FXML
-    private MenuItem rightBoatEdit, rightBoatDelete,
+    @FXML private TableView<Member> tableViewMembers = new TableView<>();
+    @FXML private TableView<Boat> tableViewBoats = new TableView<>();
+    @FXML private TabPane tabs;
+    @FXML private Tab boatsTab, membersTab;
+    @FXML private ContextMenu membersContextMenu, boatsContextMenu;
+    @FXML private MenuItem rightBoatEdit, rightBoatDelete,
                      rightMemberEdit, rightMemberDelete;
-
-    private int activeMemberRow, activeBoatRow;
 
     private ObservableList<Boat> tableBoatsList;
     private ObservableList<Member> tableMemberList;
@@ -55,9 +46,7 @@ public class Base extends Observable implements Initializable
     {
         private Mediator mediator;
 
-        public Builder()
-        {
-        }
+        public Builder() {}
 
         public Builder observer(Mediator mediator)
         {
@@ -82,11 +71,9 @@ public class Base extends Observable implements Initializable
         rightBoatEdit.setOnAction(e -> boatEdit());
         rightMemberDelete.setOnAction(e -> memberDelete());
         rightMemberEdit.setOnAction(e -> memberEdit());
-
     }
 
     /**
-     *
      * This is not this methods final form.
      * Proof of concept ONLY!
      *
@@ -142,11 +129,6 @@ public class Base extends Observable implements Initializable
     {
         Member selectedMember = getSelectedMember();
 
-        if (selectedMember.hasBoats()) {
-            // nope ...
-            return;
-        }
-
         setChanged();
         notifyObservers(new Action<>(selectedMember,
                 SignalType.DELETE, DataType.MEMBER));
@@ -167,8 +149,6 @@ public class Base extends Observable implements Initializable
 
         tableViewMembers.setItems(tableMemberList);
     }
-
-    public int getActiveMemberRow() { return activeMemberRow; }
 
     public void focusOnMembers() { tabs.getSelectionModel().select(membersTab); }
 
@@ -222,8 +202,6 @@ public class Base extends Observable implements Initializable
 
         tableViewBoats.setItems(tableBoatsList);
     }
-
-    public int getActiveBoatRow() { return activeBoatRow; }
 
     public void focusOnBoats() { tabs.getSelectionModel().select(boatsTab); }
 
