@@ -158,8 +158,7 @@ public class UnitTest
     public void test_data() throws IOException, ClassNotFoundException
     {
         String tmpfile = "testfile.dat";
-        DequeStorage.setInstance(tmpfile);
-        DequeStorage f1 = DequeStorage.getInstance();
+        Data.setFilename(tmpfile);
 
         /**
          * Create some relations.

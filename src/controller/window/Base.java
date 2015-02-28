@@ -13,11 +13,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
-import javafx.stage.Window;
 
 import model.Member;
 import model.Boat;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
@@ -84,16 +85,42 @@ public class Base extends Observable implements Initializable
     {
         FileChooser fc = new FileChooser();
         fc.setTitle("Choose data file");
-        fc.showOpenDialog(new Window()
-        {
-        });
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Data files", "*.dat")
+        );
+        File file = fc.showOpenDialog(null);
+
+        if (file != null) {
+            try {
+                Data.setFilename(file.getPath()).loadData();
+                setChanged();
+                notifyObservers(new WindowSignal.Builder<>(SignalType.UPDATE)
+                        .build());
+            } catch (IOException | ClassNotFoundException ioe) {
+                System.out.println("File error!");
+            }
+        }
+    }
+
+    @FXML
+    private void saveFile(ActionEvent e)
+    {
+        try {
+            Data.getInstance().writeData();
+        } catch (IOException ioe) {
+            setChanged();
+            notifyObservers(new WindowSignal.Builder<>(SignalType.ERROR)
+                    .payload(ioe)
+                    .build());
+        }
     }
 
     @FXML
     private void close(ActionEvent e)
     {
         setChanged();
-        notifyObservers(new WindowSignal<>(SignalType.QUIT));
+        notifyObservers(new WindowSignal.Builder<>(SignalType.QUIT)
+                .build());
     }
 
     /************************
@@ -104,7 +131,9 @@ public class Base extends Observable implements Initializable
     private void newMember(ActionEvent e)
     {
         setChanged();
-        notifyObservers(new WindowSignal<>(SignalType.NEW, DataType.MEMBER));
+        notifyObservers(new WindowSignal.Builder<>(SignalType.NEW)
+                .dataType(DataType.MEMBER)
+                .build());
     }
 
     @FXML
@@ -113,16 +142,20 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             setChanged();
-            notifyObservers(new WindowSignal<>(getSelectedMember(),
-                    SignalType.EDIT, DataType.MEMBER));
+            notifyObservers(new WindowSignal.Builder<>(SignalType.EDIT)
+                    .payload(getSelectedMember())
+                    .dataType(DataType.MEMBER)
+                    .build());
         }
     }
 
     private void memberEdit()
     {
         setChanged();
-        notifyObservers(new WindowSignal<>(getSelectedMember(),
-                SignalType.EDIT, DataType.MEMBER));
+        notifyObservers(new WindowSignal.Builder<>(SignalType.EDIT)
+                .payload(getSelectedMember())
+                .dataType(DataType.MEMBER)
+                .build());
     }
 
     private void memberDelete()
@@ -130,9 +163,10 @@ public class Base extends Observable implements Initializable
         Member selectedMember = getSelectedMember();
 
         setChanged();
-        notifyObservers(new WindowSignal<>(selectedMember,
-                SignalType.DELETE, DataType.MEMBER));
-
+        notifyObservers(new WindowSignal.Builder<>(SignalType.EDIT)
+                .payload(selectedMember)
+                .dataType(DataType.MEMBER)
+                .build());
     }
 
     private Member getSelectedMember()
@@ -160,7 +194,9 @@ public class Base extends Observable implements Initializable
     private void newBoat(ActionEvent e)
     {
         setChanged();
-        notifyObservers(new WindowSignal<>(SignalType.NEW, DataType.BOAT));
+        notifyObservers(new WindowSignal.Builder<>(SignalType.NEW)
+                .dataType(DataType.BOAT)
+                .build());
     }
 
     @FXML
@@ -169,23 +205,29 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             setChanged();
-            notifyObservers(new WindowSignal<>(getSelectedBoat(),
-                    SignalType.EDIT, DataType.BOAT));
+            notifyObservers(new WindowSignal.Builder<>(SignalType.EDIT)
+                    .payload(getSelectedBoat())
+                    .dataType(DataType.BOAT)
+                    .build());
         }
     }
 
     private void boatDelete()
     {
         setChanged();
-        notifyObservers(new WindowSignal<>(getSelectedBoat(),
-                SignalType.DELETE, DataType.BOAT));
+        notifyObservers(new WindowSignal.Builder<>(SignalType.DELETE)
+                .payload(getSelectedBoat())
+                .dataType(DataType.BOAT)
+                .build());
     }
 
     private void boatEdit()
     {
         setChanged();
-        notifyObservers(new WindowSignal<>(getSelectedBoat(),
-                SignalType.EDIT, DataType.BOAT));
+        notifyObservers(new WindowSignal.Builder<>(SignalType.EDIT)
+                .payload(getSelectedBoat())
+                .dataType(DataType.BOAT)
+                .build());
     }
 
     private Boat getSelectedBoat()

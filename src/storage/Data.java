@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Data
 {
     private static final Data instance = new Data();
+    private String filename;
 
     private Deque<Member> members;
     private Deque<Boat> boats;
@@ -24,7 +25,7 @@ public class Data
 
     public void loadData() throws IOException, ClassNotFoundException
     {
-        Deque<?> fileList = DequeStorage.getInstance().read();
+        Deque<?> fileList = DequeStorage.getInstance().read(filename);
         members = (Deque<Member>) fileList.removeFirst();
         boats = (Deque<Boat>) fileList.removeFirst();
 
@@ -36,7 +37,7 @@ public class Data
         Deque<Deque> godList = new Deque<Deque>();
         godList.addLast(members);
         godList.addLast(boats);
-        DequeStorage.getInstance().write(godList);
+        DequeStorage.getInstance().write(godList, filename);
     }
 
     public void connectBoatAndMember(Boat boat, Member member)
@@ -58,4 +59,10 @@ public class Data
     public void setBoats(Deque<Boat> boats) { this.boats = boats; }
 
     public void setMembers(Deque<Member> members) { this.members = members; }
+
+    public static Data setFilename(String filename)
+    {
+        instance.filename = filename;
+        return instance;
+    }
 }

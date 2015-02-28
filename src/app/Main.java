@@ -4,18 +4,16 @@ import controller.Mediator;
 import storage.Data;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import storage.DequeStorage;
+
+import java.io.IOException;
 
 public class Main extends Application
 {
-    public static final String dataFile = "testfile.dat";
+    public static String dataFile = "testfile.dat";
 
     @Override
-    public void start(Stage primaryStage) throws Exception
+    public void start(Stage primaryStage) throws IOException
     {
-        DequeStorage.setInstance(dataFile);
-        Data.getInstance().loadData();
-
         Mediator m = Mediator.getInstance();
         primaryStage.setTitle(m.getActive().getTitle());
         primaryStage.setScene(m.activeScene());
@@ -33,7 +31,16 @@ public class Main extends Application
         primaryStage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception
+    {
+        try {
+            dataFile = args[0];
+        } catch(ArrayIndexOutOfBoundsException e) {
+            System.out.printf("Trying standard 'testfile.dat'");
+        }
+
+        Data.setFilename(dataFile).loadData();
+
         launch(args);
     }
 }

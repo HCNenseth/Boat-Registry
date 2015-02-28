@@ -8,24 +8,12 @@ import java.io.*;
  * Deque file storage class
  *
  */
-public class DequeStorage
+class DequeStorage
 {
     // Singleton
-    private static DequeStorage instance;
+    private static DequeStorage instance = new DequeStorage();
 
-    private String filename;
-
-    private DequeStorage(String filename)
-    {
-        this.filename = filename;
-    }
-
-    public static void setInstance(String filename)
-    {
-        if (instance == null) { instance = new DequeStorage(filename); }
-
-        return;
-    }
+    private DequeStorage() { }
 
     public static DequeStorage getInstance()
     {
@@ -37,7 +25,7 @@ public class DequeStorage
      * @param d Deque with 'any' Generic type.
      * @throws IOException
      */
-    public void write(Deque<?> d) throws IOException
+    public void write(Deque<?> d, String filename) throws IOException
     {
         ObjectOutputStream handle = new ObjectOutputStream(
                 new FileOutputStream(filename));
@@ -54,7 +42,7 @@ public class DequeStorage
      * This method has some weakness in that the generic type is
      * lost on retrieval (on write actually). Try to solve this!
      */
-    public Deque<?> read() throws IOException, ClassNotFoundException
+    public Deque<?> read(String filename) throws IOException, ClassNotFoundException
     {
         ObjectInputStream handle = new ObjectInputStream(
                 new FileInputStream(filename));

@@ -7,6 +7,7 @@ public enum SignalType
 {
     CLOSE,
     QUIT,
+    ERROR,
 
     CREATE, // post
     UPDATE, // put

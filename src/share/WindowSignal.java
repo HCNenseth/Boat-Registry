@@ -1,5 +1,7 @@
 package share;
 
+import sun.misc.Signal;
+
 /**
  * Created by alex on 2/26/15.
  */
@@ -11,25 +13,41 @@ public class WindowSignal<Item> implements Command<Item>
 
     private final SignalOrigin signalOrigin = SignalOrigin.WINDOW;
 
-    /*
-        Ugly telescoping, consider refactoring.
-     */
-    public WindowSignal(Item i, SignalType s, DataType d)
+    private WindowSignal(Builder<Item> b)
     {
-        item = i;
-        signalType = s;
-        dataType = d;
+        this.item = b.payload;
+        this.dataType = b.dataType;
+        this.signalType = b.signalType;
+
     }
 
-    public WindowSignal(SignalType s, DataType d)
+    public static class Builder<Item> implements share.Builder
     {
-        signalType = s;
-        dataType = d;
-    }
+        private SignalType signalType;
+        private Item payload = null;
+        private DataType dataType = null;
 
-    public WindowSignal(SignalType s)
-    {
-        signalType = s;
+        public Builder(SignalType s)
+        {
+            signalType = s;
+        }
+
+        public Builder payload(Item payload)
+        {
+            this.payload = payload;
+            return this;
+        }
+
+        public Builder dataType(DataType dataType)
+        {
+            this.dataType = dataType;
+            return this;
+        }
+
+        public WindowSignal build()
+        {
+            return new WindowSignal(this);
+        }
     }
 
     /*

@@ -8,6 +8,8 @@ import controller.widget.member.Member;
 import controller.window.Base;
 import storage.Data;
 
+import java.io.IOException;
+
 /**
  * Created by alex on 2/22/15.
  *
@@ -64,18 +66,25 @@ public class Colleague
 
     public void processWindowSignal(Command c)
     {
-        if (c.getSignalType() == SignalType.QUIT) {
-            mediator.endRoutine();
-            return;
+        switch (c.getSignalType()) {
+            case UPDATE:
+                getBaseController().updateBoats();
+                getBaseController().updateMembers();
+                return;
+            case ERROR:
+                try {
+                    String msg = ((Exception) c.getPayload()).getMessage();
+                    showMessage(msg, Dialog.Icons.ERROR);
+                } catch (ClassCastException cce) {
+                    System.out.println("=> Exception cast error...");
+                }
+                break;
+            case QUIT: mediator.endRoutine(); return;
         }
 
         switch (c.getDataType()) {
-            case BOAT:
-                processBoatSignal(c);
-                return;
-            case MEMBER:
-                processMemberSignal(c);
-                return;
+            case BOAT: processBoatSignal(c); return;
+            case MEMBER: processMemberSignal(c); return;
         }
     }
 
