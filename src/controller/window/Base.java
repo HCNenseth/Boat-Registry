@@ -2,7 +2,7 @@ package controller.window;
 
 import share.DataType;
 import share.SignalType;
-import share.Action;
+import share.WindowSignal;
 import controller.Mediator;
 import storage.Data;
 import javafx.collections.FXCollections;
@@ -93,7 +93,7 @@ public class Base extends Observable implements Initializable
     private void close(ActionEvent e)
     {
         setChanged();
-        notifyObservers(new Action<>(SignalType.QUIT));
+        notifyObservers(new WindowSignal<>(SignalType.QUIT));
     }
 
     /************************
@@ -104,7 +104,7 @@ public class Base extends Observable implements Initializable
     private void newMember(ActionEvent e)
     {
         setChanged();
-        notifyObservers(new Action<>(SignalType.NEW, DataType.MEMBER));
+        notifyObservers(new WindowSignal<>(SignalType.NEW, DataType.MEMBER));
     }
 
     @FXML
@@ -113,7 +113,7 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             setChanged();
-            notifyObservers(new Action<>(getSelectedMember(),
+            notifyObservers(new WindowSignal<>(getSelectedMember(),
                     SignalType.EDIT, DataType.MEMBER));
         }
     }
@@ -121,7 +121,7 @@ public class Base extends Observable implements Initializable
     private void memberEdit()
     {
         setChanged();
-        notifyObservers(new Action<>(getSelectedMember(),
+        notifyObservers(new WindowSignal<>(getSelectedMember(),
                 SignalType.EDIT, DataType.MEMBER));
     }
 
@@ -130,7 +130,7 @@ public class Base extends Observable implements Initializable
         Member selectedMember = getSelectedMember();
 
         setChanged();
-        notifyObservers(new Action<>(selectedMember,
+        notifyObservers(new WindowSignal<>(selectedMember,
                 SignalType.DELETE, DataType.MEMBER));
 
     }
@@ -160,7 +160,7 @@ public class Base extends Observable implements Initializable
     private void newBoat(ActionEvent e)
     {
         setChanged();
-        notifyObservers(new Action<>(SignalType.NEW, DataType.BOAT));
+        notifyObservers(new WindowSignal<>(SignalType.NEW, DataType.BOAT));
     }
 
     @FXML
@@ -169,7 +169,7 @@ public class Base extends Observable implements Initializable
         // double click only
         if (e.getClickCount() == 2) {
             setChanged();
-            notifyObservers(new Action<>(getSelectedBoat(),
+            notifyObservers(new WindowSignal<>(getSelectedBoat(),
                     SignalType.EDIT, DataType.BOAT));
         }
     }
@@ -177,14 +177,14 @@ public class Base extends Observable implements Initializable
     private void boatDelete()
     {
         setChanged();
-        notifyObservers(new Action<>(getSelectedBoat(),
+        notifyObservers(new WindowSignal<>(getSelectedBoat(),
                 SignalType.DELETE, DataType.BOAT));
     }
 
     private void boatEdit()
     {
         setChanged();
-        notifyObservers(new Action<>(getSelectedBoat(),
+        notifyObservers(new WindowSignal<>(getSelectedBoat(),
                 SignalType.EDIT, DataType.BOAT));
     }
 
