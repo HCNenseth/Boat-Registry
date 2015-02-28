@@ -1,5 +1,6 @@
 package controller;
 
+import controller.dialog.Dialog;
 import share.Command;
 import share.SignalType;
 import controller.widget.boat.Boat;
@@ -26,6 +27,7 @@ public class Colleague
     private Base baseController;
     private Member memberController;
     private Boat boatController;
+    private Dialog dialogController;
 
     private Colleague(Mediator mediator)
     {
@@ -33,6 +35,7 @@ public class Colleague
         setBaseController();
         setMemberController();
         setBoatController();
+        setDialogController();
     }
 
     public static Colleague getInstance(Mediator mediator)
@@ -127,7 +130,20 @@ public class Colleague
                 mediator.switchScene(Configuration.MEMBER_EDIT);
                 break;
             case DELETE:
-                System.out.println("delete member");
+                model.Member member = (model.Member) c.getPayload();
+                mediator.switchScene(Configuration.DIALOG);
+                if (member.getBoats().size() > 0) {
+                    getDialogController().setMessageLabel(
+                            "Cannot delete a member with connected boats!");
+                } else {
+                    model.Member deleted = Data.getInstance().getMembers().remove(member);
+                    getDialogController().setMessageLabel(
+                            String.format("%s %s successfully deleted",
+                                    member.getFirstname(),
+                                    member.getLastname()));
+                    getDialogController().setIcon(Dialog.Icons.SUCCESS);
+                    getBaseController().updateMembers();
+                }
                 break;
             case NEW:
                 mediator.switchScene(Configuration.MEMBER_NEW);
@@ -164,19 +180,40 @@ public class Colleague
                 mediator.switchScene(Configuration.BOAT_EDIT);
                 break;
             case DELETE:
-                /**
-                 * Push a query widget to verify
-                 * - Fetch data on payload.
-                 * - Check if connected owners
-                 * - Remove from boat list.
-                 * - Remove from member list.
-                 */
+                model.Boat boat = (model.Boat) c.getPayload();
 
-                System.out.println("delete boat");
+                if (boat.getOwner() != null)
+                    Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
+
+                Data.getInstance().getBoats().remove(boat);
+
+                mediator.switchScene(Configuration.DIALOG);
+                getDialogController().setMessageLabel(
+                        String.format("%s successfully deleted",
+                                boat.getRegnr()));
+                getDialogController().setIcon(Dialog.Icons.SUCCESS);
+
+                getBaseController().updateMembers();
+                getBaseController().updateBoats();
+
                 break;
             case NEW:
                 mediator.switchScene(Configuration.BOAT_NEW);
                 break;
         }
+    }
+
+    /*
+        DIALOG LOGIC
+     */
+
+    private void setDialogController()
+    {
+        dialogController = new Dialog(mediator);
+    }
+
+    public Dialog getDialogController()
+    {
+        return dialogController;
     }
 }

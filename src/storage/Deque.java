@@ -167,12 +167,12 @@ public final class Deque<Item extends Comparable>
         Node tmp = first;
 
         while (tmp.next != null) {
-            if (tmp.item.compareTo(item) < 0) { return false; }
+            if (tmp.item.compareTo(item) >= 0) { return true; }
 
             tmp = tmp.next;
         }
 
-        return true;
+        return false;
     }
 
     /**

@@ -94,10 +94,14 @@ public final class Member implements Comparable<Member>, Serializable
     @Override
     public int compareTo(Member test)
     {
-        final int NOT_EQUAL = 1;
+        if (test == null)
+            throw new NullPointerException("Cannot test against null object!");
+
+        final int NOT_EQUAL = -1;
         final int EQUAL = 0;
 
         if (id != test.getId()) { return NOT_EQUAL; }
+
         if (! firstname.equals(test.getFirstname())) { return NOT_EQUAL; }
         if (! lastname.equals(test.getLastname())) { return NOT_EQUAL; }
 

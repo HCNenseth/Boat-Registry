@@ -12,7 +12,9 @@ public enum Configuration
     MEMBER_NEW("widget/member/new.fxml", "New Member", 300, 200),
     MEMBER_EDIT("widget/member/edit.fxml", "Edit Member", 300, 200),
     BOAT_NEW("widget/boat/new.fxml", "New Boat", 300, 400),
-    BOAT_EDIT("widget/boat/edit.fxml", "Edit Boat", 300, 400);
+    BOAT_EDIT("widget/boat/edit.fxml", "Edit Boat", 300, 400),
+    DIALOG("dialog/message.fxml", "Alert", 340, 140);
+
 
     private int width;
     private int height;

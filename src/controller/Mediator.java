@@ -56,12 +56,14 @@ public class Mediator implements Observer
             case MEMBER_EDIT:
                 loader.setController(colleague.getMemberController());
                 break;
+            case DIALOG:
+                loader.setController(colleague.getDialogController());
+                break;
             default:
                 loader.setController(colleague.getBaseController());
         }
         return new Scene(loader.load(), active.getWidth(), active.getHeight());
     }
-
 
     /**
      * @param obj the caller object.

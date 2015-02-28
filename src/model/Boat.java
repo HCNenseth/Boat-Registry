@@ -134,9 +134,17 @@ public final class Boat implements Comparable<Boat>, Serializable
         this.owner = member;
     }
 
+    public boolean hasOwner()
+    {
+        return this.owner != null;
+    }
+
     @Override
     public int compareTo(Boat test)
     {
+        if (test == null)
+            throw new NullPointerException("Cannot test against null object!");
+
         final int NOT_EQUAL = -1;
         final int EQUAL = 0;
 
@@ -149,7 +157,15 @@ public final class Boat implements Comparable<Boat>, Serializable
         if (Double.compare(length, test.getLength()) < EQUAL) { return NOT_EQUAL; }
         if (Double.compare(power, test.getLength()) < EQUAL) { return NOT_EQUAL; }
 
-        if (owner.compareTo(test.getOwner()) < EQUAL) { return NOT_EQUAL; }
+        // if both has owners, test them.
+        if (this.hasOwner() && test.hasOwner()) {
+            if (owner.compareTo(test.getOwner()) < EQUAL)
+                return NOT_EQUAL;
+        }
+
+        if (this.hasOwner() != test.hasOwner()) {
+            return NOT_EQUAL;
+        }
 
         return EQUAL;
     }
