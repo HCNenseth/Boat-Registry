@@ -14,8 +14,8 @@ public class StringMatcher
     private final static String regnr  = "\\w{2,6}";
     private final static String type = "\\w{2,20}";
     private final static String year = "\\d{4}";
-    private final static String length = "\\d+\\.\\d+";
-    private final static String power = "\\d+\\.\\d+";
+    private final static String length = "[0-9]+([\\\\,\\\\.][0-9]+)?";
+    private final static String power = "[0-9]+([\\\\,\\\\.][0-9]+)?";
     private final static String color = "\\w{2,20}";
 
     // not to be initiated
