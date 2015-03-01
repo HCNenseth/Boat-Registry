@@ -70,6 +70,7 @@ public class Colleague
             case UPDATE:
                 getBaseController().updateBoats();
                 getBaseController().updateMembers();
+                mediator.setPrimaryStageTitle();
                 return;
             case ERROR:
                 try {

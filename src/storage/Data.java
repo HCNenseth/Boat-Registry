@@ -11,7 +11,7 @@ import java.io.IOException;
 public class Data
 {
     private static final Data instance = new Data();
-    private String filename;
+    private String filename = "";
 
     private Deque<Member> members;
     private Deque<Boat> boats;
@@ -79,4 +79,6 @@ public class Data
         instance.filename = filename;
         return instance;
     }
+
+    public String getFilename() { return filename; }
 }

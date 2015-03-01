@@ -24,7 +24,9 @@ public class Mediator implements Observer
     // Singleton
     private static Mediator INSTANCE = new Mediator();
 
+    protected Stage primaryStage;
     protected Stage secondaryStage;
+
     private Configuration active = Configuration.BASE;
 
     private Colleague colleague;
@@ -108,34 +110,70 @@ public class Mediator implements Observer
      * Set a scene on the secondary stage. This is
      * for displaying widget boxes etc.
      */
-    private void setScene()
+    private void setSceneOnSecondaryStage()
     {
         try {
             secondaryStage.setTitle(active.getTitle());
             secondaryStage.setScene(activeScene());
 
-            /**
-             * This is under normal conditions not necessary,
-             * but to increase platform support it is added to
-             * help window managers on obscure platforms...
-             */
-            secondaryStage.setMaxHeight(getActive().getHeight());
-            secondaryStage.setMaxWidth(getActive().getWidth());
-            secondaryStage.setMinHeight(getActive().getHeight());
-            secondaryStage.setMinWidth(getActive().getWidth());
+            limitSceneSize(secondaryStage);
 
             secondaryStage.toFront();
             secondaryStage.show();
         } catch (IOException ioe) {
-            System.out.println("=> Mediator.setScene");
+            System.out.println("=> Mediator.setSceneOnSecondaryStage");
             System.out.println(ioe);
         }
+    }
+
+    public void setPrimaryStage(Stage s)
+    {
+        this.primaryStage = s;
+    }
+
+    /**
+     *
+     * @throws IOException
+     */
+    public void loadPrimaryStage() throws IOException
+    {
+        if (primaryStage.isShowing()) { return; }
+
+        setPrimaryStageTitle();
+        primaryStage.setScene(activeScene());
+
+        limitSceneSize(primaryStage);
+
+        primaryStage.show();
+    }
+
+    public void setPrimaryStageTitle()
+    {
+        primaryStage.setTitle(String.format("%s - %s",
+                Configuration.BASE.getTitle(),
+                Data.getInstance().getFilename()));
+    }
+
+    /**
+     *
+     * @param stage
+     *
+     * This is under normal conditions not necessary,
+     * but to increase platform support it is added to
+     * help window managers on obscure platforms...
+     */
+    private void limitSceneSize(Stage stage)
+    {
+        stage.setMaxHeight(getActive().getHeight());
+        stage.setMaxWidth(getActive().getWidth());
+        stage.setMinHeight(getActive().getHeight());
+        stage.setMinWidth(getActive().getWidth());
     }
 
     public Configuration getActive() { return active; }
 
     protected void switchScene(Configuration w) {
         active = w;
-        setScene();
+        setSceneOnSecondaryStage();
     }
 }
