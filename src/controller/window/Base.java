@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import model.Member;
 import model.Boat;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -86,18 +87,22 @@ public class Base extends Observable implements Initializable
         FileChooser fc = new FileChooser();
         fc.setTitle("Choose data file");
         fc.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Data files", "*.dat")
+                new FileChooser.ExtensionFilter("Data files (*.dat)", "*.dat")
         );
         File file = fc.showOpenDialog(null);
+
+        setChanged();
 
         if (file != null) {
             try {
                 Data.setFilename(file.getPath()).loadData();
-                setChanged();
                 notifyObservers(new WindowSignal.Builder<>(SignalType.UPDATE)
                         .build());
             } catch (IOException | ClassNotFoundException ioe) {
-                System.out.println("File error!");
+                notifyObservers(new WindowSignal.Builder<>(SignalType.ERROR)
+                        // the default exception does not give much description...
+                        .payload(new IOException("Unable to open file!"))
+                        .build());
             }
         }
     }
@@ -113,6 +118,38 @@ public class Base extends Observable implements Initializable
                     .payload(ioe)
                     .build());
         }
+    }
+
+    @FXML
+    private void saveAsFile(ActionEvent e)
+    {
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save to data file");
+        fc.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Data file (*.dat)", "*.dat")
+        );
+        File file = fc.showSaveDialog(null);
+
+        if (file != null) {
+
+            // if extension is omitted from filename
+            if (! file.getName().contains(".")) {
+                file = new File(file.getAbsolutePath() + ".dat");
+            }
+
+            setChanged();
+            // try to save to file
+            try {
+                Data.setFilename(file.getPath()).writeData();
+                notifyObservers(new WindowSignal.Builder<>(SignalType.UPDATE)
+                        .build());
+            } catch (IOException ioe) {
+                notifyObservers(new WindowSignal.Builder<>(SignalType.ERROR)
+                        .payload(ioe)
+                        .build());
+            }
+        }
+
     }
 
     @FXML
@@ -172,7 +209,7 @@ public class Base extends Observable implements Initializable
         Member selectedMember = getSelectedMember();
 
         setChanged();
-        notifyObservers(new WindowSignal.Builder<>(SignalType.EDIT)
+        notifyObservers(new WindowSignal.Builder<>(SignalType.DELETE)
                 .payload(selectedMember)
                 .dataType(DataType.MEMBER)
                 .build());

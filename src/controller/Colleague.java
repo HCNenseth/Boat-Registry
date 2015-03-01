@@ -78,7 +78,7 @@ public class Colleague
                 } catch (ClassCastException cce) {
                     System.out.println("=> Exception cast error...");
                 }
-                break;
+                return;
             case QUIT: mediator.endRoutine(); return;
         }
 
