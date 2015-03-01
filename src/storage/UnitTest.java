@@ -1,7 +1,8 @@
 package storage;
 
-import model.Member;
-import model.Boat;
+import model.boat.BoatType;
+import model.member.Member;
+import model.boat.BoatSkeleton;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
  */
 public class UnitTest
 {
-    private Deque<Boat> boats;
+    private Deque<BoatSkeleton> boats;
     private Deque<Member> members;
 
     private String[] regNrs = {"A123", "A234", "A456",
@@ -36,12 +37,12 @@ public class UnitTest
 
     public UnitTest()
     {
-        boats = new Deque<Boat>();
+        boats = new Deque<BoatSkeleton>();
         members = new Deque<Member>();
 
         // Populate data
         for (String r : regNrs)
-            boats.addLast(new Boat.Builder(r, "Sailboat").build());
+            boats.addLast(new BoatSkeleton.Builder(BoatType.SAILBOAT, r).build());
 
         for (String n[] : names)
             members.addLast(new Member.Builder(n[0], n[1]).build());
@@ -52,9 +53,9 @@ public class UnitTest
     {
         // Iterate
         for (String r : regNrs) {
-            Boat pop = boats.removeFirst();
+            BoatSkeleton pop = boats.removeFirst();
             assertTrue(pop.getRegnr().equals(r));
-            assertTrue(pop.getType().equals("Sailboat"));
+            assertTrue(pop.getType().equals(BoatType.SAILBOAT));
         }
 
         for (String n[] : names) {
@@ -69,7 +70,7 @@ public class UnitTest
     {
         // Iterate
         int i = 0;
-        for (Boat b : boats)
+        for (BoatSkeleton b : boats)
             assertTrue(b.getRegnr().equals(regNrs[i++]));
 
         i = 0;
@@ -184,24 +185,24 @@ public class UnitTest
         Data.getInstance().loadData();
 
         Deque<Member> fileMembers = Data.getInstance().getMembers();
-        Deque<Boat> fileBoats = Data.getInstance().getBoats();
+        Deque<BoatSkeleton> fileBoats = Data.getInstance().getBoats();
 
         relations_helper(fileMembers, fileBoats);
     }
 
-    private void relations_helper(Deque<Member> members, Deque<Boat> boats)
+    private void relations_helper(Deque<Member> members, Deque<BoatSkeleton> boats)
     {
         int j = 0;
         // test boat for each member
         for (Member m : members) {
-            for (Boat b: m.getBoats()) {
+            for (BoatSkeleton b: m.getBoats()) {
                 assertTrue(b.getRegnr().equals(regNrs[j++]));
                 assertTrue(b.getOwner().equals(m));
             }
         }
         // test the orphan boats
         j = 0;
-        for (Boat b : boats)
+        for (BoatSkeleton b : boats)
             assertTrue(b.getRegnr().equals(regNrs[j++]));
     }
 }

@@ -25,12 +25,12 @@ public final class Member extends Observable implements Initializable
     @FXML private Label firstNameError, lastNameError;
     @FXML private Button closeButton, saveButton;
 
-    private model.Member member;
+    private model.member.Member member;
     private Mode mode = Mode.CREATE;
 
     private enum Mode {CREATE, UPDATE};
 
-    private model.Member.Builder payload;
+    private model.member.Member.Builder payload;
 
     private Member(Builder b)
     {
@@ -105,7 +105,7 @@ public final class Member extends Observable implements Initializable
             switch (mode) {
                 case CREATE:
                     Data.getInstance()
-                            .addMember(new model.Member.Builder(firstname, lastname).build());
+                            .addMember(new model.member.Member.Builder(firstname, lastname).build());
                     notifyObservers(new WidgetSignal<>(SignalType.CREATE, DataType.MEMBER));
                     break;
                 case UPDATE:
@@ -120,9 +120,9 @@ public final class Member extends Observable implements Initializable
         }
     }
 
-    public model.Member.Builder getPayload() { return payload; }
+    public model.member.Member.Builder getPayload() { return payload; }
 
-    public void setMember(model.Member member)
+    public void setMember(model.member.Member member)
     {
         this.member = member;
         setUpdateMode();

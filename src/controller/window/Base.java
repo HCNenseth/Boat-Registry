@@ -2,7 +2,6 @@ package controller.window;
 
 import share.DataType;
 import share.SignalType;
-import share.WidgetSignal;
 import share.WindowSignal;
 import controller.Mediator;
 import storage.Data;
@@ -15,10 +14,9 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-import model.Member;
-import model.Boat;
+import model.member.Member;
+import model.boat.BoatSkeleton;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +26,7 @@ import java.util.ResourceBundle;
 public class Base extends Observable implements Initializable
 {
     @FXML private TableView<Member> tableViewMembers = new TableView<>();
-    @FXML private TableView<Boat> tableViewBoats = new TableView<>();
+    @FXML private TableView<BoatSkeleton> tableViewBoats = new TableView<>();
     @FXML private TabPane tabs;
     @FXML private Tab boatsTab, membersTab;
     @FXML private ContextMenu membersContextMenu, boatsContextMenu;
@@ -36,7 +34,7 @@ public class Base extends Observable implements Initializable
                      rightMemberEdit, rightMemberDelete,
                      newRegistry;
 
-    private ObservableList<Boat> tableBoatsList;
+    private ObservableList<BoatSkeleton> tableBoatsList;
     private ObservableList<Member> tableMemberList;
 
     private Base(Builder b)
@@ -292,7 +290,7 @@ public class Base extends Observable implements Initializable
                 .build());
     }
 
-    private Boat getSelectedBoat()
+    private BoatSkeleton getSelectedBoat()
     {
         return tableViewBoats.getSelectionModel().getSelectedItem();
     }
@@ -301,7 +299,7 @@ public class Base extends Observable implements Initializable
     {
         tableBoatsList.removeAll(tableBoatsList);
 
-        for (Boat b : Data.getInstance().getBoats())
+        for (BoatSkeleton b : Data.getInstance().getBoats())
             tableBoatsList.add(b);
 
         tableViewBoats.setItems(tableBoatsList);

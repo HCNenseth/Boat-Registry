@@ -2,8 +2,9 @@
  * Created by alex on 2/17/15.
  */
 
-package model;
+package model.member;
 
+import model.boat.BoatSkeleton;
 import storage.Deque;
 
 import java.io.Serializable;
@@ -17,7 +18,7 @@ public final class Member implements Comparable<Member>, Serializable
     private int id;
     private static int memberCount = START_NR;
     private String firstname, lastname;
-    private Deque<Boat> boats;
+    private Deque<BoatSkeleton> boats;
 
     public static class Builder implements share.Builder
     {
@@ -41,16 +42,16 @@ public final class Member implements Comparable<Member>, Serializable
         this.firstname = b.firstname;
         this.lastname = b.lastname;
         id = memberCount++;
-        boats = new Deque<Boat>();
+        boats = new Deque<BoatSkeleton>();
     }
 
-    public void push(Boat b)
+    public void push(BoatSkeleton b)
     {
         b.setOwner(this); // side effect...
         boats.addLast(b);
     }
 
-    public Boat pop()
+    public BoatSkeleton pop()
     {
         return boats.removeFirst();
     }
@@ -78,7 +79,7 @@ public final class Member implements Comparable<Member>, Serializable
     /**
      * Makes boats list mutable...
      */
-    public Deque<Boat> getBoats() { return boats; }
+    public Deque<BoatSkeleton> getBoats() { return boats; }
 
     public boolean hasBoats()
     {
@@ -89,7 +90,7 @@ public final class Member implements Comparable<Member>, Serializable
     {
         StringBuilder sb = new StringBuilder();
 
-        for (Boat b : boats)
+        for (BoatSkeleton b : boats)
             sb.append(b.getRegnr()).append(", ");
 
         return sb.toString();

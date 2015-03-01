@@ -2,6 +2,7 @@ package controller;
 
 import controller.dialog.Dialog;
 import controller.widget.about.About;
+import model.boat.BoatSkeleton;
 import share.Command;
 import controller.widget.boat.Boat;
 import controller.widget.member.Member;
@@ -140,12 +141,12 @@ public class Colleague
     {
         switch (c.getSignalType()) {
             case EDIT:
-                getMemberController().setMember((model.Member) c.getPayload());
+                getMemberController().setMember((model.member.Member) c.getPayload());
                 mediator.switchScene(Configuration.MEMBER_EDIT);
                 break;
             case DELETE:
                 try {
-                    model.Member tmp = deleteMemberProcess(c);
+                    model.member.Member tmp = deleteMemberProcess(c);
                     showMessage(String.format("Deleted member: %s %s",
                                     tmp.getFirstname(), tmp.getLastname()),
                             Dialog.Icons.SUCCESS);
@@ -166,9 +167,9 @@ public class Colleague
      * @param c
      * @return
      */
-    private model.Member deleteMemberProcess(Command c)
+    private model.member.Member deleteMemberProcess(Command c)
     {
-        model.Member member = (model.Member) c.getPayload();
+        model.member.Member member = (model.member.Member) c.getPayload();
         if (member.getBoats().size() > 0) {
             throw new IllegalStateException(
                     "Cannot delete a member with connected boats");
@@ -183,8 +184,7 @@ public class Colleague
 
     private void setBoatController()
     {
-        boatController = new Boat.Builder(Data.getInstance().getMembers())
-                .observer(mediator).build();
+        boatController = new Boat.Builder().observer(mediator).build();
     }
 
     public Boat getBoatController()
@@ -205,11 +205,11 @@ public class Colleague
     {
         switch (c.getSignalType()) {
             case EDIT:
-                getBoatController().setBoat((model.Boat) c.getPayload());
+                getBoatController().setBoat((BoatSkeleton) c.getPayload());
                 mediator.switchScene(Configuration.BOAT_EDIT);
                 break;
             case DELETE:
-                model.Boat removedBoat = deleteBoatProcess(c);
+                BoatSkeleton removedBoat = deleteBoatProcess(c);
                 showMessage(String.format("Deleted boat: %s", removedBoat.getRegnr()),
                         Dialog.Icons.SUCCESS);
                 getBaseController().updateMembers();
@@ -227,9 +227,9 @@ public class Colleague
      * @param c
      * @return
      */
-    private model.Boat deleteBoatProcess(Command c)
+    private BoatSkeleton deleteBoatProcess(Command c)
     {
-        model.Boat boat = (model.Boat) c.getPayload();
+        BoatSkeleton boat = (BoatSkeleton) c.getPayload();
         if (boat.getOwner() != null)
             Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
         return Data.getInstance().removeBoat(boat);

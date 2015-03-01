@@ -1,5 +1,8 @@
 package model;
 
+import model.boat.BoatSkeleton;
+import model.boat.BoatType;
+import model.member.Member;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,13 +27,13 @@ public class UnitTest
     public void test_boat()
     {
         String regNr = "A123";
-        String type = "SpeedBoat";
+        BoatType type = BoatType.SAILBOAT;
         String color = "Purple";
         int year = 1998;
         double length = 10.3;
         double power = 200.3;
 
-        Boat b = new Boat.Builder(regNr, type)
+        BoatSkeleton b = new BoatSkeleton.Builder(type, regNr)
                             .color(color)
                             .year(year)
                             .power(power)

@@ -1,7 +1,7 @@
 package storage;
 
-import model.Boat;
-import model.Member;
+import model.boat.BoatSkeleton;
+import model.member.Member;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ public class Data
     private String filename = "";
 
     private Deque<Member> members;
-    private Deque<Boat> boats;
+    private Deque<BoatSkeleton> boats;
 
     private Data()
     {
@@ -52,7 +52,7 @@ public class Data
 
         Deque<?> fileList = DequeStorage.getInstance().read(filename);
         members = (Deque<Member>) fileList.removeFirst();
-        boats = (Deque<Boat>) fileList.removeFirst();
+        boats = (Deque<BoatSkeleton>) fileList.removeFirst();
         Member.setMemberCount(members.size() + 1);
     }
 
@@ -70,11 +70,11 @@ public class Data
         BOATS METHODS
      */
 
-    public Deque<Boat> getBoats() { return boats; }
+    public Deque<BoatSkeleton> getBoats() { return boats; }
 
-    public void addBoat(Boat boat) { boats.addLast(boat); }
+    public void addBoat(BoatSkeleton boat) { boats.addLast(boat); }
 
-    public Boat removeBoat(Boat boat) { return boats.remove(boat); }
+    public BoatSkeleton removeBoat(BoatSkeleton boat) { return boats.remove(boat); }
 
     /*
         MEMBERS METHODS
@@ -90,13 +90,13 @@ public class Data
         SHARED METHODS
      */
 
-    public void connectBoatAndMember(Boat boat, Member member)
+    public void connectBoatAndMember(BoatSkeleton boat, Member member)
     {
         boat.setOwner(member);
         member.push(boat);
     }
 
-    public void disconnectBoatAndMember(Boat boat, Member member)
+    public void disconnectBoatAndMember(BoatSkeleton boat, Member member)
     {
         member.getBoats().remove(boat);
         boat.setOwner(null);
@@ -106,5 +106,5 @@ public class Data
      * Methods used for the unit testers.
      */
     protected void setMembers(Deque<Member> members) { this.members = members; }
-    protected void setBoats(Deque<Boat> boats) { this.boats = boats; }
+    protected void setBoats(Deque<BoatSkeleton> boats) { this.boats = boats; }
 }

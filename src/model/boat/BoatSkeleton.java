@@ -2,27 +2,30 @@
  * Created by alex on 2/17/15.
  */
 
-package model;
+package model.boat;
+
+import model.member.Member;
 
 import java.io.Serializable;
 
-public final class Boat implements Comparable<Boat>, Serializable
+public abstract class BoatSkeleton implements Comparable<BoatSkeleton>, Serializable, Boat
 {
     private static final long serialVersionUID = 1000L;
 
-    private String regnr;
-    private String type;
-    private int year;
-    private double length;
-    private double power;
-    private String color;
-    private Member owner;
+    protected String regnr;
+    protected BoatType type;
+    protected int year;
+    protected double length;
+    protected double power;
+    protected String color;
+    protected Member owner;
 
     public static class Builder implements share.Builder
     {
         // Required parameters
         private final String regnr;
-        private final String type;
+        private final BoatType type;
+
         // Optional parameter
         private int year = 2000;
         private double length = 20;
@@ -30,10 +33,10 @@ public final class Boat implements Comparable<Boat>, Serializable
         private String color = "Blue";
         private Member member = null;
 
-        public Builder(String regnr, String type)
+        public Builder(BoatType type, String regnr)
         {
-            this.regnr = regnr;
             this.type = type;
+            this.regnr = regnr;
         }
 
         public Builder year(int val)
@@ -71,14 +74,19 @@ public final class Boat implements Comparable<Boat>, Serializable
 
         public Member getMember() { return member; }
 
-        public Boat build()
+        public BoatSkeleton build()
         {
-            return new Boat(this);
+            switch (type) {
+                case SAILBOAT: return new SailBoat(this);
+                case MOTORBOAT: return new MotorBoat(this);
+                default:
+                    throw new IllegalStateException("Unknown boat type");
+            }
         }
 
     }
 
-    private Boat(Builder b)
+    protected BoatSkeleton(Builder b)
     {
         this.regnr = b.regnr;
         this.type = b.type;
@@ -94,7 +102,7 @@ public final class Boat implements Comparable<Boat>, Serializable
      */
     public String getRegnr() { return regnr; }
 
-    public String getType() { return type; }
+    public BoatType getType() { return type; }
 
     public String getColor() { return color; }
 
@@ -115,7 +123,7 @@ public final class Boat implements Comparable<Boat>, Serializable
         this.regnr = regnr;
     }
 
-    public void setType(String type)
+    public void setType(BoatType type)
     {
         this.type = type;
     }
@@ -150,34 +158,12 @@ public final class Boat implements Comparable<Boat>, Serializable
         return this.owner != null;
     }
 
-    @Override
-    public int compareTo(Boat test)
-    {
-        if (test == null)
-            throw new NullPointerException("Cannot test against null object!");
-
-        final int NOT_EQUAL = -1;
-        final int EQUAL = 0;
-
-        if (! regnr.equals(test.getRegnr())) { return NOT_EQUAL; }
-        if (! type.equals(test.getType())) { return NOT_EQUAL; }
-        if (! color.equals(test.getColor())) { return NOT_EQUAL; }
-
-        if (year != test.getYear()) { return NOT_EQUAL; }
-
-        if (Double.compare(length, test.getLength()) < EQUAL) { return NOT_EQUAL; }
-        if (Double.compare(power, test.getLength()) < EQUAL) { return NOT_EQUAL; }
-
-        // if both has owners, test them.
-        if (this.hasOwner() && test.hasOwner()) {
-            if (owner.compareTo(test.getOwner()) < EQUAL)
-                return NOT_EQUAL;
-        }
-
-        if (this.hasOwner() != test.hasOwner()) {
-            return NOT_EQUAL;
-        }
-
-        return EQUAL;
-    }
+    /**
+     * The inherited classes has to define this method
+     * themselves. This because of optional test specific
+     * to that boat.
+     * @param test
+     * @return
+     */
+    public abstract int compareTo(BoatSkeleton test);
 }

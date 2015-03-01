@@ -29,12 +29,12 @@
       <ColumnConstraints hgrow="ALWAYS" maxWidth="194.0" minWidth="160.0" prefWidth="160.0" />
    </columnConstraints>
    <children>
-      <TextField fx:id="regnrField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS">
+      <TextField fx:id="regnrField" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </TextField>
-      <Label text="RegNr">
+      <Label text="RegNr" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
@@ -49,11 +49,6 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </Button>
-      <TextField fx:id="typeField" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-         </GridPane.margin>
-      </TextField>
       <TextField fx:id="yearField" GridPane.columnIndex="1" GridPane.rowIndex="4">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
@@ -69,7 +64,7 @@
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </TextField>
-      <Label text="Type" GridPane.rowIndex="2">
+      <Label text="Type">
          <GridPane.margin>
             <Insets left="10.0" />
          </GridPane.margin>
@@ -104,12 +99,12 @@
             <Insets left="10.0" />
          </GridPane.margin>
       </Label>
-      <ChoiceBox fx:id="ownerSelector" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
+      <ChoiceBox fx:id="ownerChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="12">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
       </ChoiceBox>
-      <Label fx:id="regNrError" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <Label fx:id="typeError" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
@@ -117,7 +112,7 @@
             <Font size="10.0" />
          </font>
       </Label>
-      <Label fx:id="typeError" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <Label fx:id="regNrError" textFill="RED" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
          </GridPane.margin>
@@ -157,6 +152,11 @@
             <Font size="10.0" />
          </font>
       </Label>
+      <ChoiceBox fx:id="boatTypeChoiceBox" prefWidth="150.0" GridPane.columnIndex="1">
+         <GridPane.margin>
+            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+         </GridPane.margin>
+      </ChoiceBox>
    </children>
    <padding>
       <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />

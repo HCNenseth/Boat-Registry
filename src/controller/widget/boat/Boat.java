@@ -1,5 +1,7 @@
 package controller.widget.boat;
 
+import model.boat.BoatSkeleton;
+import model.boat.BoatType;
 import share.DataType;
 import share.WidgetSignal;
 import share.SignalType;
@@ -13,8 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import model.Member;
-import storage.Deque;
+import model.member.Member;
 import share.validator.StringMatcher;
 
 import java.net.URL;
@@ -26,36 +27,32 @@ import java.util.ResourceBundle;
  */
 public final class Boat extends Observable implements Initializable
 {
-    private Deque<model.Member> members;
-
     @FXML private Button closeButton, saveButton;
-    @FXML private Label regNrError, typeError, yearError,
-                  lengthError, powerError, colorError;
-    @FXML private TextField regnrField, typeField, yearField,
+    @FXML private Label typeError, regNrError, yearError,
+            lengthError, powerError, colorError;
+    @FXML private TextField regnrField, yearField,
                       lengthField, powerField, colorField;
-    @FXML private ChoiceBox<model.Member> ownerSelector;
 
-    private ObservableList<model.Member> choiceBoxMembers;
-    private model.Boat boat;
+    @FXML private ChoiceBox<BoatType> boatTypeChoiceBox;
+    @FXML private ChoiceBox<Member> ownerChoiceBox = new ChoiceBox<>();
+
+    private ObservableList<Member> choiceBoxMembers;
+    private BoatSkeleton boat;
     private Mode mode = Mode.CREATE;
 
     private enum Mode {CREATE, UPDATE};
 
     private Boat(Builder b)
     {
-        this.members = b.members;
         addObserver(b.mediator);
+        choiceBoxMembers = FXCollections.observableArrayList();
     }
 
     public static class Builder implements share.Builder
     {
         private Mediator mediator;
-        private Deque<model.Member> members;
 
-        public Builder(Deque<model.Member> members)
-        {
-            this.members = members;
-        }
+        public Builder() {}
 
         public Builder observer(Mediator mediator)
         {
@@ -72,16 +69,23 @@ public final class Boat extends Observable implements Initializable
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
-        insertMembers();
+        insertMembers(); insertBoatTypes();
         if (mode == Mode.UPDATE) { populateFields(); }
     }
 
-    public void insertMembers()
+    private void insertMembers()
     {
-        choiceBoxMembers = FXCollections.observableArrayList();
-        for (model.Member m : members)
+        choiceBoxMembers.removeAll(choiceBoxMembers);
+
+        for (Member m : Data.getInstance().getMembers())
             choiceBoxMembers.add(m);
-        ownerSelector.setItems(choiceBoxMembers);
+
+        ownerChoiceBox.setItems(choiceBoxMembers);
+    }
+
+    private void insertBoatTypes()
+    {
+        boatTypeChoiceBox.getItems().setAll(BoatType.values());
     }
 
     @FXML
@@ -101,56 +105,57 @@ public final class Boat extends Observable implements Initializable
     {
         boolean valid = true;
 
+        BoatType type = boatTypeChoiceBox.getValue();
+
         // fetch all the values.
         String regNr = regnrField.getText();
-        String type = typeField.getText();
         String year = yearField.getText();
         String length = lengthField.getText();
         String power = powerField.getText();
         String color = colorField.getText();
 
-        Member member = ownerSelector.getValue();
+        Member member = ownerChoiceBox.getValue();
 
         // reset all the error messages.
-        regNrError.setText("");
         typeError.setText("");
+        regNrError.setText("");
         yearError.setText("");
         lengthError.setText("");
         powerError.setText("");
         colorError.setText("");
 
-        if (!StringMatcher.regnr(regNr)) {
-            regNrError.setText("Error value");
-            regNrError.setVisible(true);
-            valid = false;
-        }
-
-        if (!StringMatcher.type(type)) {
-            typeError.setText("Error value");
+        if (type == null) {
+            typeError.setText("Type must be set");
             typeError.setVisible(true);
             valid = false;
         }
 
+        if (!StringMatcher.regnr(regNr)) {
+            regNrError.setText("Error in regnr value");
+            regNrError.setVisible(true);
+            valid = false;
+        }
+
         if (!StringMatcher.year(year)) {
-            yearError.setText("Error value");
+            yearError.setText("Year must be four digits");
             yearError.setVisible(true);
             valid = false;
         }
 
         if (!StringMatcher.length(length)) {
-            lengthError.setText("Error value");
+            lengthError.setText("Can only contain digits");
             lengthError.setVisible(true);
             valid = false;
         }
 
         if (!StringMatcher.power(power)) {
-            powerError.setText("Error value");
+            powerError.setText("Can only contain digits");
             powerError.setVisible(true);
             valid = false;
         }
 
         if (!StringMatcher.color(color)) {
-            colorError.setText("Error value");
+            colorError.setText("Color must be set");
             colorError.setVisible(true);
             valid = false;
         }
@@ -160,12 +165,13 @@ public final class Boat extends Observable implements Initializable
 
             switch (mode) {
                 case CREATE:
-                    model.Boat.Builder payload = new model.Boat.Builder(regNr, type)
+                    BoatSkeleton.Builder payload = new
+                            BoatSkeleton.Builder(type, regNr)
                             .year(Integer.parseInt(year))
                             .length(Double.parseDouble(length))
                             .power(Double.parseDouble(power))
                             .color(color);
-                    model.Boat b = payload.build();
+                    BoatSkeleton b = payload.build();
 
                     if (member != null)
                         Data.getInstance().connectBoatAndMember(b, member);
@@ -183,7 +189,7 @@ public final class Boat extends Observable implements Initializable
         }
     }
 
-    public void setBoat(model.Boat boat) {
+    public void setBoat(BoatSkeleton boat) {
         this.boat = boat;
         setUpdateMode();
     }
@@ -195,15 +201,15 @@ public final class Boat extends Observable implements Initializable
     private void populateFields()
     {
         if (boat != null) {
+            boatTypeChoiceBox.setValue(boat.getType());
             regnrField.setText(boat.getRegnr());
-            typeField.setText(boat.getType());
             yearField.setText(Integer.toString(boat.getYear()));
             lengthField.setText(Double.toString(boat.getLength()));
             powerField.setText(Double.toString(boat.getPower()));
             colorField.setText(boat.getColor());
 
             if (boat.getOwner() != null) {
-                ownerSelector.setValue(boat.getOwner());
+                ownerChoiceBox.setValue(boat.getOwner());
             }
 
         }
@@ -213,16 +219,16 @@ public final class Boat extends Observable implements Initializable
     {
         if (boat != null) {
             boat.setRegnr(regnrField.getText());
-            boat.setType(typeField.getText());
+            boat.setType(boatTypeChoiceBox.getValue());
             boat.setYear(Integer.parseInt(yearField.getText()));
             boat.setLength(Double.parseDouble(lengthField.getText()));
             boat.setPower(Double.parseDouble(powerField.getText()));
             boat.setColor(colorField.getText());
 
-            if (! ownerSelector.getValue().equals(boat.getOwner())) {
+            if (! ownerChoiceBox.getValue().equals(boat.getOwner())) {
                 if (boat.getOwner() != null)
                     Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
-                Data.getInstance().connectBoatAndMember(boat, ownerSelector.getValue());
+                Data.getInstance().connectBoatAndMember(boat, ownerChoiceBox.getValue());
             }
         }
     }
@@ -230,7 +236,6 @@ public final class Boat extends Observable implements Initializable
     private void resetFields()
     {
         regnrField.setText("");
-        typeField.setText("");
         yearField.setText("");
         lengthField.setText("");
         powerField.setText("");
