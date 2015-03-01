@@ -16,7 +16,18 @@ public class Data
     private Deque<Member> members;
     private Deque<Boat> boats;
 
-    private Data() { }
+    private Data()
+    {
+        emptyLists();
+    }
+
+    public void emptyLists()
+    {
+        filename = "";
+        members = new Deque<>();
+        boats = new Deque<>();
+        Member.setMemberCount(Member.START_NR);
+    }
 
     public static Data getInstance()
     {
@@ -25,19 +36,22 @@ public class Data
 
     public void loadData() throws IOException, ClassNotFoundException
     {
-        Deque<?> fileList = DequeStorage.getInstance().read(filename);
-        members = (Deque<Member>) fileList.removeFirst();
-        boats = (Deque<Boat>) fileList.removeFirst();
-
-        model.Member.setMemberCount(members.size() + 1);
+        if (filename != "") {
+            Deque<?> fileList = DequeStorage.getInstance().read(filename);
+            members = (Deque<Member>) fileList.removeFirst();
+            boats = (Deque<Boat>) fileList.removeFirst();
+            Member.setMemberCount(members.size() + 1);
+        }
     }
 
     public void writeData() throws IOException
     {
-        Deque<Deque> godList = new Deque<Deque>();
-        godList.addLast(members);
-        godList.addLast(boats);
-        DequeStorage.getInstance().write(godList, filename);
+        if (filename != "") {
+            Deque<Deque> godList = new Deque<Deque>();
+            godList.addLast(members);
+            godList.addLast(boats);
+            DequeStorage.getInstance().write(godList, filename);
+        }
     }
 
     public void connectBoatAndMember(Boat boat, Member member)
@@ -60,7 +74,7 @@ public class Data
 
     public void setMembers(Deque<Member> members) { this.members = members; }
 
-    public static Data setFilename(String filename)
+    public Data setFilename(String filename)
     {
         instance.filename = filename;
         return instance;

@@ -2,6 +2,7 @@ package controller.window;
 
 import share.DataType;
 import share.SignalType;
+import share.WidgetSignal;
 import share.WindowSignal;
 import controller.Mediator;
 import storage.Data;
@@ -32,7 +33,8 @@ public class Base extends Observable implements Initializable
     @FXML private Tab boatsTab, membersTab;
     @FXML private ContextMenu membersContextMenu, boatsContextMenu;
     @FXML private MenuItem rightBoatEdit, rightBoatDelete,
-                     rightMemberEdit, rightMemberDelete;
+                     rightMemberEdit, rightMemberDelete,
+                     newRegistry;
 
     private ObservableList<Boat> tableBoatsList;
     private ObservableList<Member> tableMemberList;
@@ -73,6 +75,12 @@ public class Base extends Observable implements Initializable
         rightBoatEdit.setOnAction(e -> boatEdit());
         rightMemberDelete.setOnAction(e -> memberDelete());
         rightMemberEdit.setOnAction(e -> memberEdit());
+
+        newRegistry.setOnAction(e -> newRegistry());
+
+        String helper = "Empty registry!\nStart creating objects or open datafile from menu.";
+        tableViewBoats.setPlaceholder(new Label(helper));
+        tableViewMembers.setPlaceholder(new Label(helper));
     }
 
     /**
@@ -95,7 +103,7 @@ public class Base extends Observable implements Initializable
 
         if (file != null) {
             try {
-                Data.setFilename(file.getPath()).loadData();
+                Data.getInstance().setFilename(file.getPath()).loadData();
                 notifyObservers(new WindowSignal.Builder<>(SignalType.UPDATE)
                         .build());
             } catch (IOException | ClassNotFoundException ioe) {
@@ -140,7 +148,7 @@ public class Base extends Observable implements Initializable
             setChanged();
             // try to save to file
             try {
-                Data.setFilename(file.getPath()).writeData();
+                Data.getInstance().setFilename(file.getPath()).writeData();
                 notifyObservers(new WindowSignal.Builder<>(SignalType.UPDATE)
                         .build());
             } catch (IOException ioe) {
@@ -150,6 +158,14 @@ public class Base extends Observable implements Initializable
             }
         }
 
+    }
+
+    @FXML
+    private void newRegistry()
+    {
+        Data.getInstance().emptyLists();
+        setChanged();
+        notifyObservers(new WindowSignal.Builder<>(SignalType.UPDATE).build());
     }
 
     @FXML

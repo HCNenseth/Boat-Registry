@@ -12,8 +12,10 @@ public final class Member implements Comparable<Member>, Serializable
 {
     private static final long serialVersionUID = 2000L;
 
+    public static final short START_NR = 1;
+
     private int id;
-    private static int memberCount = 0;
+    private static int memberCount = START_NR;
     private String firstname, lastname;
     private Deque<Boat> boats;
 

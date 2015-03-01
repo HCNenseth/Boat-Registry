@@ -158,7 +158,7 @@ public class UnitTest
     public void test_data() throws IOException, ClassNotFoundException
     {
         String tmpfile = "testfile.dat";
-        Data.setFilename(tmpfile);
+        Data.getInstance().setFilename(tmpfile);
 
         /**
          * Create some relations.
