@@ -25,7 +25,7 @@ public class Main extends Application
             String dataFile = args[0];
             Data.getInstance().setFilename(dataFile).loadData();
         } catch(ArrayIndexOutOfBoundsException e) {
-            System.out.printf("No file is selected!");
+            System.out.println("=> No file arg!");
         }
 
         launch(args);

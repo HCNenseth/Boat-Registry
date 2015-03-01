@@ -170,7 +170,7 @@ public final class Boat extends Observable implements Initializable
                     if (member != null)
                         Data.getInstance().connectBoatAndMember(b, member);
 
-                    Data.getInstance().getBoats().addLast(b);
+                    Data.getInstance().addBoat(b);
 
                     notifyObservers(new WidgetSignal<>(SignalType.CREATE, DataType.BOAT));
                     break;

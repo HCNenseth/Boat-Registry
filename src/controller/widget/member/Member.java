@@ -104,8 +104,8 @@ public final class Member extends Observable implements Initializable
 
             switch (mode) {
                 case CREATE:
-                    Data.getInstance().getMembers()
-                            .addLast(new model.Member.Builder(firstname, lastname).build());
+                    Data.getInstance()
+                            .addMember(new model.Member.Builder(firstname, lastname).build());
                     notifyObservers(new WidgetSignal<>(SignalType.CREATE, DataType.MEMBER));
                     break;
                 case UPDATE:

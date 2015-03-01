@@ -46,7 +46,7 @@ public class Mediator implements Observer
      * This method has got some of its responsibilities moved
      * over to the helper colleague class.
      */
-    public Scene activeScene() throws IOException
+    private Scene activeScene() throws IOException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(active.getLayout()));
         switch (active) {
@@ -68,6 +68,7 @@ public class Mediator implements Observer
                 loader.setController(colleague.getBaseController());
         }
         return new Scene(loader.load(), active.getWidth(), active.getHeight());
+
     }
 
     /**

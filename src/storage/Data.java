@@ -34,25 +34,61 @@ public class Data
         return instance;
     }
 
+    public Data setFilename(String filename)
+    {
+        instance.filename = filename;
+        return instance;
+    }
+
+    public String getFilename() { return filename; }
+
+    /*
+        READ AND WRITE DATA METHODS
+     */
+
     public void loadData() throws IOException, ClassNotFoundException
     {
-        if (filename != "") {
-            Deque<?> fileList = DequeStorage.getInstance().read(filename);
-            members = (Deque<Member>) fileList.removeFirst();
-            boats = (Deque<Boat>) fileList.removeFirst();
-            Member.setMemberCount(members.size() + 1);
-        }
+        if (filename.equals("")) return; // guard
+
+        Deque<?> fileList = DequeStorage.getInstance().read(filename);
+        members = (Deque<Member>) fileList.removeFirst();
+        boats = (Deque<Boat>) fileList.removeFirst();
+        Member.setMemberCount(members.size() + 1);
     }
 
     public void writeData() throws IOException
     {
-        if (filename != "") {
-            Deque<Deque> godList = new Deque<Deque>();
-            godList.addLast(members);
-            godList.addLast(boats);
-            DequeStorage.getInstance().write(godList, filename);
-        }
+        if (filename.equals("")) return; // guard
+
+        Deque<Deque> godList = new Deque<Deque>();
+        godList.addLast(members);
+        godList.addLast(boats);
+        DequeStorage.getInstance().write(godList, filename);
     }
+
+    /*
+        BOATS METHODS
+     */
+
+    public Deque<Boat> getBoats() { return boats; }
+
+    public void addBoat(Boat boat) { boats.addLast(boat); }
+
+    public Boat removeBoat(Boat boat) { return boats.remove(boat); }
+
+    /*
+        MEMBERS METHODS
+     */
+
+    public Deque<Member> getMembers() { return members; }
+
+    public void addMember(Member member) { members.addLast(member); }
+
+    public Member removeMember(Member member) { return members.remove(member); }
+
+    /*
+        SHARED METHODS
+     */
 
     public void connectBoatAndMember(Boat boat, Member member)
     {
@@ -66,19 +102,9 @@ public class Data
         boat.setOwner(null);
     }
 
-    public Deque<Boat> getBoats() { return boats;}
-
-    public Deque<Member> getMembers() { return members; }
-
-    public void setBoats(Deque<Boat> boats) { this.boats = boats; }
-
-    public void setMembers(Deque<Member> members) { this.members = members; }
-
-    public Data setFilename(String filename)
-    {
-        instance.filename = filename;
-        return instance;
-    }
-
-    public String getFilename() { return filename; }
+    /**
+     * Methods used for the unit testers.
+     */
+    protected void setMembers(Deque<Member> members) { this.members = members; }
+    protected void setBoats(Deque<Boat> boats) { this.boats = boats; }
 }

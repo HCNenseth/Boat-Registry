@@ -173,7 +173,7 @@ public class Colleague
             throw new IllegalStateException(
                     "Cannot delete a member with connected boats");
         } else {
-            return Data.getInstance().getMembers().remove(member);
+            return Data.getInstance().removeMember(member);
         }
     }
 
@@ -232,7 +232,7 @@ public class Colleague
         model.Boat boat = (model.Boat) c.getPayload();
         if (boat.getOwner() != null)
             Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
-        return Data.getInstance().getBoats().remove(boat);
+        return Data.getInstance().removeBoat(boat);
     }
 
     /*
