@@ -123,6 +123,15 @@ public class Base extends Observable implements Initializable
                 .build());
     }
 
+    @FXML
+    private void about(ActionEvent e)
+    {
+        setChanged();
+        notifyObservers(new WindowSignal.Builder<>(SignalType.NEW)
+                .dataType(DataType.ABOUT)
+                .build());
+    }
+
     /************************
      * MEMBER LOGIC BE HERE *
      ************************/

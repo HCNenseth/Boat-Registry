@@ -5,5 +5,5 @@ package share;
  */
 public enum DataType
 {
-    MEMBER, BOAT
+    ABOUT, MEMBER, BOAT
 }

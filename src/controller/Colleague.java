@@ -1,14 +1,12 @@
 package controller;
 
 import controller.dialog.Dialog;
+import controller.widget.about.About;
 import share.Command;
-import share.SignalType;
 import controller.widget.boat.Boat;
 import controller.widget.member.Member;
 import controller.window.Base;
 import storage.Data;
-
-import java.io.IOException;
 
 /**
  * Created by alex on 2/22/15.
@@ -29,6 +27,7 @@ public class Colleague
     private Base baseController;
     private Member memberController;
     private Boat boatController;
+    private About aboutController;
     private Dialog dialogController;
 
     private Colleague(Mediator mediator)
@@ -37,6 +36,7 @@ public class Colleague
         setBaseController();
         setMemberController();
         setBoatController();
+        setAboutController();
         setDialogController();
     }
 
@@ -83,6 +83,7 @@ public class Colleague
         }
 
         switch (c.getDataType()) {
+            case ABOUT: processAboutSignal(c); return;
             case BOAT: processBoatSignal(c); return;
             case MEMBER: processMemberSignal(c); return;
         }
@@ -231,6 +232,29 @@ public class Colleague
         if (boat.getOwner() != null)
             Data.getInstance().disconnectBoatAndMember(boat, boat.getOwner());
         return Data.getInstance().getBoats().remove(boat);
+    }
+
+    /*
+        ABOUT LOGIC
+     */
+
+    private void setAboutController()
+    {
+        aboutController = new About(mediator);
+    }
+
+    public About getAboutController()
+    {
+        return aboutController;
+    }
+
+    private void processAboutSignal(Command c)
+    {
+        switch (c.getSignalType()) {
+            case NEW:
+                mediator.switchScene(Configuration.ABOUT);
+                break;
+        }
     }
 
     /*
