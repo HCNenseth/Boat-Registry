@@ -15,6 +15,8 @@ public class UnitTest
         assertTrue(StringMatcher.email("test.best@example.com"));
         assertTrue(StringMatcher.email("test.best@love.example.com"));
 
+        assertFalse(StringMatcher.email("user@example"));
+        assertFalse(StringMatcher.email("user.false@example"));
         assertFalse(StringMatcher.email("@example.com"));
         assertFalse(StringMatcher.email("@example"));
         assertFalse(StringMatcher.email("horse@"));
@@ -23,14 +25,21 @@ public class UnitTest
     @Test public void test_firstname()
     {
         assertTrue(StringMatcher.firstname("John"));
-        //assertTrue(StringMatcher.firstname("John Carl"));
+        assertTrue(StringMatcher.firstname("John Carl"));
+        assertTrue(StringMatcher.firstname("John-Carl"));
+
+        // Some special chars
+        assertTrue(StringMatcher.firstname("Jørn"));
     }
 
     @Test public void test_lastname()
     {
         assertTrue(StringMatcher.lastname("Doe"));
-        //assertTrue(StringMatcher.lastname("Doe-Smith"));
-        //assertTrue(StringMatcher.lastname("Doe-Smith"));
+        assertTrue(StringMatcher.lastname("Doe Smith"));
+        assertTrue(StringMatcher.lastname("Doe-Smith"));
+
+        // Some special chars
+        assertTrue(StringMatcher.lastname("Jørnson"));
     }
 
     @Test public void test_regnr()
@@ -46,12 +55,16 @@ public class UnitTest
     @Test public void test_color()
     {
         assertTrue(StringMatcher.color("Purple"));
+
+        // Some special chars
+        assertTrue(StringMatcher.color("Rød"));
     }
 
     @Test public void test_year()
     {
         assertTrue(StringMatcher.year("1999"));
 
+        assertFalse(StringMatcher.year("20O0"));
         assertFalse(StringMatcher.year("100"));
         assertFalse(StringMatcher.year("10000"));
         assertFalse(StringMatcher.year("Horse"));

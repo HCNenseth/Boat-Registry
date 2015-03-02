@@ -3,20 +3,24 @@ package share.validator;
 /**
  * Created by alex on 2/22/15.
  */
-public class StringMatcher
+public abstract class StringMatcher
 {
     /**
      * Some simple rules. Edit here!
      */
+    private final static String baseString = "[\\w\\s\\-æøåØÆÅ].{2,20}";
+    private final static String baseFloat = "[0-9]+([\\\\,\\\\.][0-9]+)?";
+
     private final static String email = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.\\w{2,4}";
-    private final static String firstname = "\\w{2,20}";
-    private final static String lastname = "\\w{2,20}";
+    private final static String firstname = baseString;
+    private final static String lastname = baseString;
+    private final static String color = baseString;
+
     private final static String regnr  = "\\w{2,6}";
     private final static String type = "\\w{2,20}";
     private final static String year = "\\d{4}";
-    private final static String length = "[0-9]+([\\\\,\\\\.][0-9]+)?";
-    private final static String power = "[0-9]+([\\\\,\\\\.][0-9]+)?";
-    private final static String color = "\\w{2,20}";
+    private final static String length = baseFloat;
+    private final static String power = baseFloat;
 
     // not to be initiated
     private StringMatcher() {}
