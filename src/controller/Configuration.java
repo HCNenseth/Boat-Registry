@@ -13,9 +13,8 @@ public enum Configuration
     MEMBER_EDIT("widget/member/edit.fxml", "Edit Member", 300, 200),
     BOAT_NEW("widget/boat/new.fxml", "New Boat", 300, 400),
     BOAT_EDIT("widget/boat/edit.fxml", "Edit Boat", 300, 400),
-    ABOUT("widget/about/about.fxml", "Alert", 400, 250),
+    ABOUT("widget/about/about.fxml", "About", 400, 250),
     DIALOG("dialog/message.fxml", "Alert", 340, 140);
-
 
     private final String layout;
     private final String title;
