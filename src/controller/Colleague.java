@@ -131,7 +131,7 @@ public class Colleague
     public void reloadMembers()
     {
         getBaseController().updateMembers();
-        getBaseController().focusOnMembers();
+        //getBaseController().focusOnMembers();
     }
 
     /**
@@ -195,7 +195,7 @@ public class Colleague
     public void reloadBoats()
     {
         getBaseController().updateBoats();
-        getBaseController().focusOnBoats();
+        //getBaseController().focusOnBoats();
     }
 
     /**
