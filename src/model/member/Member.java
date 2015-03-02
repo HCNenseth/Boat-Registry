@@ -91,7 +91,7 @@ public final class Member implements Comparable<Member>, Serializable
         StringBuilder sb = new StringBuilder();
 
         for (BoatSkeleton b : boats)
-            sb.append(b.getRegnr()).append(", ");
+            sb.append(b.getRegnr()).append(" ");
 
         return sb.toString();
     }

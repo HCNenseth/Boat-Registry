@@ -79,6 +79,10 @@ public abstract class BoatSkeleton implements Comparable<BoatSkeleton>, Serializ
             switch (type) {
                 case SAILBOAT: return new SailBoat(this);
                 case MOTORBOAT: return new MotorBoat(this);
+                case SPEEDBOAT: return new SpeedBoat(this);
+                case CANOE: return new Canoe(this);
+                case CATAMARAN: return new Catamaran(this);
+                case LIFEBOAT: return new LifeBoat(this);
                 default:
                     throw new IllegalStateException("Unknown boat type");
             }

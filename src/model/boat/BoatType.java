@@ -6,7 +6,13 @@ package model.boat;
 public enum BoatType
 {
     SAILBOAT("Sailboat"),
-    MOTORBOAT("Motorboat");
+    MOTORBOAT("Motorboat"),
+    SPEEDBOAT("Speedboat"),
+    CANOE("Canoe"),
+    CATAMARAN("Catamaran"),
+    LIFEBOAT("Lifeboat"),
+    ;
+
 
     private String str;
 
