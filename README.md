@@ -1,2 +1,1 @@
-# Boat-Registry
-Boat Registry ( School assignment - only temporary )
+README.no.md

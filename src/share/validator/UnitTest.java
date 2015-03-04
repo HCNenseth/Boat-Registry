@@ -55,9 +55,11 @@ public class UnitTest
     @Test public void test_color()
     {
         assertTrue(StringMatcher.color("Purple"));
+        assertTrue(StringMatcher.color("Purplish yellow"));
 
         // Some special chars
         assertTrue(StringMatcher.color("Rød"));
+        assertTrue(StringMatcher.color("Rød grønn"));
     }
 
     @Test public void test_year()
