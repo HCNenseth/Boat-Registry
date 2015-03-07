@@ -1,3 +1,12 @@
+/**
+ *
+ * @filename Main.java
+ *
+ * @date 2015-02-17
+ *
+ * Boat Registry Main launcher.
+ */
+
 package app;
 
 import controller.Mediator;
