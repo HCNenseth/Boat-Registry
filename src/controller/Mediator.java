@@ -1,3 +1,14 @@
+/**
+ *
+ * @filename Mediator.java
+ *
+ * @date 2015-02-21
+ *
+ * This apps central object.
+ * This class grows bigger and bigger and have therefore been
+ * assigned a colleague to help with the heavy lifting.
+ * This pattern should possibly be refactored in the future.
+ */
 package controller;
 
 import share.Command;
@@ -11,14 +22,6 @@ import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * Created by alex on 2/21/15.
- *
- * This apps central object.
- * This class grows bigger and bigger and have therefore been
- * assigned a colleague to help with the heavy lifting.
- * This pattern should possibly be refactored in the future.
- */
 public class Mediator implements Observer
 {
     // Singleton
@@ -171,10 +174,11 @@ public class Mediator implements Observer
         stage.setMinWidth(getActive().getWidth());
     }
 
-    public Configuration getActive() { return active; }
-
     protected void switchScene(Configuration w) {
         active = w;
         setSceneOnSecondaryStage();
     }
+
+    public Configuration getActive() { return active; }
+
 }

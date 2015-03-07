@@ -1,3 +1,11 @@
+/**
+ *
+ * @filename About.java
+ *
+ * @date 2015-03-01
+ *
+ */
+
 package controller.widget.about;
 
 import controller.Mediator;
@@ -11,9 +19,6 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
-/**
- * Created by alex on 3/1/15.
- */
 public final class About extends Observable implements Initializable
 {
     @FXML private Button confirmButton;

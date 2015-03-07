@@ -1,3 +1,11 @@
+/**
+ *
+ * @filename Member.java
+ *
+ * @date 2015-02-17
+ *
+ */
+
 package controller.widget.member;
 
 import share.DataType;
@@ -16,9 +24,6 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
-/**
- * Created by alex on 2/17/15.
- */
 public final class Member extends Observable implements Initializable
 {
     @FXML private TextField firstNameField, lastNameField;
@@ -71,7 +76,12 @@ public final class Member extends Observable implements Initializable
     }
 
     /**
-     * THIS HORRIBLE ABOMINATION NEEDS REFACTORING!
+     * This method takes care of gathering inputs from the
+     * fields in this widget. Then checking them against
+     * the shared validator, after which it creates a Member
+     * (or not). All this responsibility for one method.
+     *
+     * This horrible mess needs refactoring.
      */
     @FXML
     private void saveButtonAction()

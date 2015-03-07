@@ -1,3 +1,16 @@
+/**
+ *
+ * @filename Colleague.java
+ *
+ * @date 2015-02-22
+ *
+ * This class is meant to act as a helper "colleague" to the busy
+ * Mediator. This might not be 100% correct to the pattern.
+ * As of now this class holds and manages all the controllers,
+ * and will be first support line to the controller instances in
+ * the future.
+ */
+
 package controller;
 
 import controller.dialog.Dialog;
@@ -9,15 +22,6 @@ import controller.widget.member.Member;
 import controller.window.Base;
 import storage.Data;
 
-/**
- * Created by alex on 2/22/15.
- *
- * This class is meant to act as a helper "colleague" to the busy
- * Mediator. This might not be 100% correct to the pattern.
- * As of now this class holds and manages all the controllers,
- * and will be first support line to the controller instances in
- * the future.
- */
 public class Colleague
 {
     // Singleton

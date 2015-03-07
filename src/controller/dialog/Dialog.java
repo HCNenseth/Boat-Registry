@@ -1,3 +1,11 @@
+/**
+ *
+ * @filename Dialog.java
+ *
+ * @date 2015-02-28
+ *
+ */
+
 package controller.dialog;
 
 import controller.Mediator;
@@ -14,9 +22,6 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
-/**
- * Created by alex on 2/28/15.
- */
 public final class Dialog extends Observable implements Initializable
 {
     @FXML private Label messageLabel;

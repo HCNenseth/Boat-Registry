@@ -1,3 +1,11 @@
+/**
+ *
+ * @filename Boat.java
+ *
+ * @date 2015-02-17
+ *
+ */
+
 package controller.widget.boat;
 
 import model.boat.BoatSkeleton;
@@ -22,9 +30,6 @@ import java.net.URL;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
-/**
- * Created by alex on 2/17/15.
- */
 public final class Boat extends Observable implements Initializable
 {
     @FXML private Button closeButton, saveButton;
@@ -98,7 +103,14 @@ public final class Boat extends Observable implements Initializable
     }
 
     /**
-     * THIS HORRIBLE ABOMINATION NEEDS REFACTORING!
+     * This method takes care of gathering input values
+     * and validating them against the shared validator.
+     * This process is all to manual and should be made
+     * slimmer and more effective. After all that it
+     * creates (or not) a Boat object and passes signals
+     * to the Mediator.
+     *
+     * This horrible abomination needs refactoring.
      */
     @FXML
     private void saveButtonAction()

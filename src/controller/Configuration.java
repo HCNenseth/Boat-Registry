@@ -1,8 +1,14 @@
+/**
+ *
+ * @filename Configurator
+ *
+ * @date 2015-02-22
+ *
+ * Configurator enum for setting template path, windows sizes etc.
+ */
+
 package controller;
 
-/**
- * Created by alex on 2/22/15.
- */
 public enum Configuration
 {
     /**
