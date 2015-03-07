@@ -1,22 +1,24 @@
+/**
+ *
+ * @filename SpeedBoat.java
+ *
+ * @date 2015-03-01
+ *
+ * DISCLAIMER
+ *
+ * This boat class add no special abilities or
+ * properties to boat. It is just here as a proof
+ * of concept. (hence the class accessor)
+ */
+
 package model.boat;
 
-/**
- * Created by alex on 3/1/15.
- */
 class SpeedBoat extends BoatSkeleton
 {
     SpeedBoat(Builder b)
     {
         super(b);
     }
-
-    /**
-     * DISCLAIMER
-     *
-     * This boat class add no special abilities or
-     * properties to boat. It is just here as a proof
-     * of concept. (hence the class accessor)
-     */
 
     @Override
     public int compareTo(BoatSkeleton test)

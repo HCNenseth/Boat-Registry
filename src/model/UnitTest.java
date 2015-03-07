@@ -1,3 +1,12 @@
+/**
+ *
+ * @filename UnitTest.java
+ *
+ * @date 2015-02-15
+ *
+ * Cheap unit test for the two types (member and boat)
+ */
+
 package model;
 
 import model.boat.BoatSkeleton;
@@ -6,9 +15,6 @@ import model.member.Member;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- * Created by alex on 2/21/15.
- */
 public class UnitTest
 {
     @Test

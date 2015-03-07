@@ -1,5 +1,10 @@
 /**
- * Created by alex on 2/17/15.
+ *
+ * @filename BoatSkeleton
+ *
+ * @date 2015-02-17
+ *
+ * Boat skeleton as a 'typeless' boat all boats have to extend.
  */
 
 package model.boat;
@@ -122,45 +127,21 @@ public abstract class BoatSkeleton implements Comparable<BoatSkeleton>, Serializ
     /*
         SETTERS
      */
-    public void setRegnr(String regnr)
-    {
-        this.regnr = regnr;
-    }
+    public void setRegnr(String regnr) { this.regnr = regnr; }
 
-    public void setType(BoatType type)
-    {
-        this.type = type;
-    }
+    public void setType(BoatType type) { this.type = type; }
 
-    public void setColor(String color)
-    {
-        this.color = color;
-    }
+    public void setColor(String color) { this.color = color; }
 
-    public void setYear(int year)
-    {
-        this.year = year;
-    }
+    public void setYear(int year) { this.year = year; }
 
-    public void setLength(double length)
-    {
-        this.length = length;
-    }
+    public void setLength(double length) { this.length = length; }
 
-    public void setPower(double power)
-    {
-        this.power = power;
-    }
+    public void setPower(double power) { this.power = power; }
 
-    public void setOwner(Member member)
-    {
-        this.owner = member;
-    }
+    public void setOwner(Member member) { this.owner = member; }
 
-    public boolean hasOwner()
-    {
-        return this.owner != null;
-    }
+    public boolean hasOwner() { return this.owner != null; }
 
     /**
      * The inherited classes has to define this method

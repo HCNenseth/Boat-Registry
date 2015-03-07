@@ -1,5 +1,10 @@
 /**
- * Created by alex on 2/17/15.
+ *
+ * @filename Member.java
+ *
+ * @date 2015-02-17
+ *
+ * Member type.
  */
 
 package model.member;
@@ -76,9 +81,6 @@ public final class Member implements Comparable<Member>, Serializable
         this.lastname = lastname;
     }
 
-    /**
-     * Makes boats list mutable...
-     */
     public Deque<BoatSkeleton> getBoats() { return boats; }
 
     public boolean hasBoats()

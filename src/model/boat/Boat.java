@@ -1,11 +1,15 @@
-package model.boat;
+/**
+ *
+ * @filename Boat.java
+ *
+ * @date 2015-03-01
+ *
+ */
 
+package model.boat;
 
 import model.member.Member;
 
-/**
- * Created by alex on 3/1/15.
- */
 public interface Boat
 {
     /*
