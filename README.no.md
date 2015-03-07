@@ -14,3 +14,10 @@ av prosjektet er derfor minst smertefult gjennom dette IDE miljøet.
 # Testing
 Mange av classemetodene har testkode skrevet med JUnit 4.12. Dette for av åpenbare grunner.
 
+# Kjøring
+Som nevnt over kan kompilering av applikasjonen utenfor IDEA miljøet by på utfordinger. Det er derfor
+en jar fil vedlagt. Denne kan kjøres som normal med "java -jar BoatRegistry.jar", eller med fil som
+"java -jar BoatRegistry.jar demo.dat"
+
+# JDK
+Denne applikasjonen krever JDK > 1.8 grunnet bruk av lambda setninger og JavaFX.
