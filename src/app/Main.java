@@ -25,7 +25,6 @@ public class Main extends Application
 
         m.setPrimaryStage(primaryStage);
         m.loadPrimaryStage();
-
     }
 
     public static void main(String[] args) throws Exception

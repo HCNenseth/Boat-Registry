@@ -13,22 +13,12 @@ public enum BoatType
     LIFEBOAT("Lifeboat"),
     ;
 
-
     private String str;
 
-    private BoatType(String str)
-    {
-        this.str = str;
-    }
+    private BoatType(String str) { this.str = str; }
 
-    public String getStr()
-    {
-        return str;
-    }
+    public String getStr() { return str; }
 
     @Override
-    public String toString()
-    {
-        return str;
-    }
+    public String toString() { return getStr(); }
 }

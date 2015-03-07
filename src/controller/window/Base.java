@@ -1,3 +1,11 @@
+/**
+ *
+ * @filename Base.java
+ *
+ * @date 2015-02-17
+ *
+ */
+
 package controller.window;
 
 import share.DataType;
@@ -62,7 +70,6 @@ public class Base extends Observable implements Initializable
         }
     }
 
-
     @FXML
     public void initialize(URL fxmlFileLocation, ResourceBundle res)
     {
@@ -76,15 +83,14 @@ public class Base extends Observable implements Initializable
 
         newRegistry.setOnAction(e -> newRegistry());
 
-        String helper = "Empty registry!\nStart creating objects or open datafile from menu.";
+        String helper = "Empty registry!\nStart creating objects " +
+                "or open datafile from menu.";
         tableViewBoats.setPlaceholder(new Label(helper));
         tableViewMembers.setPlaceholder(new Label(helper));
     }
 
     /**
-     * This is not this methods final form.
-     * Proof of concept ONLY!
-     *
+     * File chooser for open files dialog.
      * @param e
      */
     @FXML
@@ -113,6 +119,10 @@ public class Base extends Observable implements Initializable
         }
     }
 
+    /**
+     * Save file action when user presses 'save' in file menu.
+     * @param e
+     */
     @FXML
     private void saveFile(ActionEvent e)
     {
@@ -126,6 +136,10 @@ public class Base extends Observable implements Initializable
         }
     }
 
+    /**
+     * File chooser for save as file.
+     * @param e
+     */
     @FXML
     private void saveAsFile(ActionEvent e)
     {
@@ -158,6 +172,9 @@ public class Base extends Observable implements Initializable
 
     }
 
+    /**
+     * New registry menu item method.
+     */
     @FXML
     private void newRegistry()
     {
@@ -166,6 +183,10 @@ public class Base extends Observable implements Initializable
         notifyObservers(new WindowSignal.Builder<>(SignalType.UPDATE).build());
     }
 
+    /**
+     * Close/Quit application menu item method.
+     * @param e
+     */
     @FXML
     private void close(ActionEvent e)
     {
@@ -174,6 +195,10 @@ public class Base extends Observable implements Initializable
                 .build());
     }
 
+    /**
+     * About menu item method.
+     * @param e
+     */
     @FXML
     private void about(ActionEvent e)
     {
