@@ -1,8 +1,14 @@
+/**
+ *
+ * @filename WidgetSignal.java
+ *
+ * @date 2015-02-26
+ *
+ * Used for signaling between widgets and the Mediator -> Colleague
+ */
+
 package share;
 
-/**
- * Created by alex on 2/26/15.
- */
 public class WidgetSignal<Item> implements Command
 {
     private Item payload;

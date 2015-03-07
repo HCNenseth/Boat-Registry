@@ -1,8 +1,14 @@
+/**
+ *
+ * @filename Builder.java
+ *
+ * @date 2015-02-23
+ *
+ * Interface for builder pattern used all over this application.
+ */
+
 package share;
 
-/**
- * Created by alex on 2/23/15.
- */
 public interface Builder<T>
 {
     public T build();

@@ -1,8 +1,14 @@
+/**
+ *
+ * @filename Command.java
+ *
+ * @date 2015-02-25
+ *
+ * Interface used mainly for signal classes found in this package.
+ */
+
 package share;
 
-/**
- * Created by alex on 2/25/15.
- */
 public interface Command<Item>
 {
     public Item getPayload();

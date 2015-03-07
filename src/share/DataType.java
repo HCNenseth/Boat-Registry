@@ -1,8 +1,13 @@
+/**
+ *
+ * @filename DataType.java
+ *
+ * @date 2015-02-26
+ *
+ */
+
 package share;
 
-/**
- * Created by alex on 2/26/15.
- */
 public enum DataType
 {
     ABOUT, MEMBER, BOAT

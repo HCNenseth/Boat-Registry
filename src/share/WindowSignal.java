@@ -1,10 +1,14 @@
+/**
+ *
+ * @filename WindowSignal.java
+ *
+ * @date 2015-02-26
+ *
+ * Used for signaling between main window and the Mediator -> Colleague
+ */
+
 package share;
 
-import sun.misc.Signal;
-
-/**
- * Created by alex on 2/26/15.
- */
 public class WindowSignal<Item> implements Command<Item>
 {
     private Item item;
