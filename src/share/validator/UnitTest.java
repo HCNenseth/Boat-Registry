@@ -1,8 +1,13 @@
-package share.validator;
-
 /**
- * Created by alex on 3/1/15.
+ *
+ * @filename UnitTest.java
+ *
+ * @date 2015-03-01
+ *
+ * Unittests for the validator package.
  */
+
+package share.validator;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
