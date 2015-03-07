@@ -1,3 +1,13 @@
+/**
+ *
+ * @filename UnitTest.java
+ *
+ * @date 2015-02-19
+ *
+ * Unit tests for this package (storage). Tests some but not all
+ * methods. (Requires JUnit in class path for compiling)
+ */
+
 package storage;
 
 import model.boat.BoatType;
@@ -9,9 +19,6 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by alex on 2/19/15.
- */
 public class UnitTest
 {
     private Deque<BoatSkeleton> boats;

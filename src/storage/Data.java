@@ -1,3 +1,13 @@
+/**
+ *
+ * @filename Data.java
+ *
+ * @date 2015-02-26
+ *
+ * Main interface for member and boat lists. No other class
+ * should (or can) write to these lists.
+ */
+
 package storage;
 
 import model.boat.BoatSkeleton;
@@ -5,9 +15,6 @@ import model.member.Member;
 
 import java.io.IOException;
 
-/**
- * Created by alex on 2/26/15.
- */
 public class Data
 {
     private static final Data instance = new Data();

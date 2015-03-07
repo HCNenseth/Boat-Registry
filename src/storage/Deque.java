@@ -1,3 +1,13 @@
+/**
+ *
+ * @filename Deque.java
+ *
+ * @date 2015-02-17
+ *
+ * Generic single linked list class (Deque being a stack and Queue
+ * implementation)
+ */
+
 package storage;
 
 import java.io.Serializable;
@@ -6,9 +16,6 @@ import java.util.Iterator;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
-/**
- * Created by alex on 2/17/15.
- */
 public final class Deque<Item extends Comparable>
         implements Iterable<Item>, Comparable<Deque>, Comparator<Item>, Serializable
 {

@@ -1,13 +1,16 @@
+/**
+ *
+ * @filename DequeStorage.java
+ *
+ * @date 2015-02-18
+ *
+ * Deque file storage class
+ */
+
 package storage;
 
 import java.io.*;
 
-/**
- * Created by alex on 2/18/15.
- *
- * Deque file storage class
- *
- */
 class DequeStorage
 {
     // Singleton
