@@ -1,10 +1,18 @@
+/**
+ *
+ * @filename StringMatcher.java
+ *
+ * @date 2015-02-22
+ *
+ * Simple regex rules class (enum for singleton)
+ */
+
 package share.validator;
 
-/**
- * Created by alex on 2/22/15.
- */
-public abstract class StringMatcher
+public enum StringMatcher
 {
+    INSTANCE;
+
     /**
      * Some simple rules. Edit here!
      */
@@ -21,9 +29,6 @@ public abstract class StringMatcher
     private final static String year = "\\d{4}";
     private final static String length = baseFloat;
     private final static String power = baseFloat;
-
-    // not to be initiated
-    private StringMatcher() {}
 
     public static boolean email(String val) { return val.matches(email); }
 
